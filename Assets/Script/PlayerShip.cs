@@ -8,6 +8,8 @@ public class PlayerShip : Ship
     Slider RightGunReloadingBar;
     Slider LeftGunReloadingBar;
     HealthBar HealthBar;
+    float localReloadTimeR;
+    float localReloadTimeL;
 
     protected override void Start()
     {
@@ -16,6 +18,7 @@ public class PlayerShip : Ship
         LeftGunReloadingBar = GameObject.Find("LeftReloading").GetComponent<Slider>();
         HealthBar = GameObject.Find("HealthBar").GetComponent<HealthBar>();
         GetComponentInChildren<Camera>().enabled = isLocalPlayer;
+        GetComponentInChildren<AudioListener>().enabled = isLocalPlayer;
     }
 
     protected override void UpdateClient()
@@ -23,12 +26,29 @@ public class PlayerShip : Ship
         base.UpdateClient();
         if (isLocalPlayer)
         {
-            RightGunReloadingBar.value = 1 - GetReloadTimeR() / ReloadingTime;
-            LeftGunReloadingBar.value = 1 - GetReloadTimeL() / ReloadingTime;
+            if (localReloadTimeR > 0)
+            {
+                localReloadTimeR -= Time.deltaTime;
+            }
+            if (localReloadTimeL > 0)
+            {
+                localReloadTimeL -= Time.deltaTime;
+            }
+
+            RightGunReloadingBar.value = 1 - localReloadTimeR / ReloadingTime;
+            LeftGunReloadingBar.value = 1 - localReloadTimeL / ReloadingTime;
 
             var fireSide = CnInputManager.GetAxisRaw("Horizontal1");
             if (Mathf.Abs(fireSide) > 0.2f)
             {
+                if (fireSide > 0 && localReloadTimeR <= 0)
+                {
+                    localReloadTimeR = ReloadingTime;
+                }
+                else if (fireSide < 0 && localReloadTimeL <= 0)
+                {
+                    localReloadTimeL = ReloadingTime;
+                }
                 CmdFire(fireSide);
             }
             float horizontal = CnInputManager.GetAxis("Horizontal");

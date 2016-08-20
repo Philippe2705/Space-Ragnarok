@@ -5,35 +5,29 @@ public class Bullet : NetworkBehaviour
 {
     public GameObject ExplosionMobile;
 
-    float speed;
+    float speed = 3;
     float autoDestruct;
 
 
     // Use this for initialization
     void Start()
     {
-        if (!isServer)
-        {
-            return;
-        }
         autoDestruct = 25;
         transform.Rotate(0, Random.Range(-10f, 10f), 0);
-        speed = Random.Range(0.9f, 1.1f) * 3;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!isServer)
+        if (isServer)
         {
-            return;
+            autoDestruct -= Time.deltaTime;
+            if (autoDestruct <= 0)
+            {
+                NetworkServer.Destroy(gameObject);
+            }
         }
-        autoDestruct -= Time.deltaTime;
-        transform.Translate(Vector3.forward * Time.deltaTime * speed);
-        if (autoDestruct <= 0)
-        {
-            NetworkServer.Destroy(gameObject);
-        }
+        transform.Translate(transform.forward * Time.deltaTime * speed);
     }
 
     void OnTriggerEnter2D(Collider2D other)

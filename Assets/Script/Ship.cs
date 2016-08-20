@@ -8,8 +8,6 @@ public class Ship : NetworkBehaviour
     public GameObject explosionSound;
     public GameObject smallExplosionSound;
     public GameObject bigExplosionSound;
-    public Transform rightGun;
-    public Transform leftGun;
     public GameObject bulletPrefab;
 
     public const float MinPosX = -80f, MaxPosX = 80f, MinPosY = -30f, MaxPosY = 30f;
@@ -32,6 +30,8 @@ public class Ship : NetworkBehaviour
     protected virtual void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
+        var rightGun = transform.FindChild("RightGuns");
+        var leftGun = transform.FindChild("LeftGuns");
         for (int i = 0; i < 7; i++)
         {
             rightGuns[i] = rightGun.transform.GetChild(i).gameObject;
@@ -76,6 +76,7 @@ public class Ship : NetworkBehaviour
             if (explosionTimer <= 0)
             {
                 RpcBigExplosion();
+                RpcEndSmallExplosions();
                 NetworkServer.Destroy(gameObject);
             }
         }
@@ -93,11 +94,6 @@ public class Ship : NetworkBehaviour
     [Command]
     protected void CmdMove(float vertical, float horizontal)
     {
-        if (!isLocalPlayer)
-        {
-            return;
-        }
-
         vertical = Mathf.Max(0, vertical);
 
         if (rigidbody2D.velocity.magnitude <= VitesseMaximum)
@@ -160,6 +156,12 @@ public class Ship : NetworkBehaviour
         InvokeRepeating("SmallExplosion", 0, 0.1f);
     }
 
+    [ClientRpc]
+    void RpcEndSmallExplosions()
+    {
+        CancelInvoke("SmallExplosion");
+    }
+
     void SmallExplosion()
     {
         Vector3 randomPos = new Vector3(transform.position.x + Random.Range(-1f, 1f), transform.position.y + Random.Range(-1f, 1f), -1);
@@ -178,15 +180,6 @@ public class Ship : NetworkBehaviour
     /*
      * Gets
      */
-    protected float GetReloadTimeR()
-    {
-        return reloadTimeR;
-    }
-    protected float GetReloadTimeL()
-    {
-        return reloadTimeL;
-    }
-
     protected float GetVie()
     {
         return vie;
