@@ -1,20 +1,17 @@
 ﻿using UnityEngine;
-using System.Collections;
+using UnityEngine.Networking;
 
-public class AutoDestruct : MonoBehaviour {
+public class AutoDestruct : NetworkBehaviour
+{
 
-	public float timer = 5;
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		timer -= Time.deltaTime;
-		if (timer <= 0)
-		{
-			Network.Destroy(gameObject);
-		}
-	}
+    public float timer = 5;
+
+    void Update()
+    {
+        timer -= Time.deltaTime;
+        if (timer <= 0)
+        {
+            NetworkServer.Destroy(gameObject);
+        }
+    }
 }

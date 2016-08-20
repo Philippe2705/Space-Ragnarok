@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Space-Ragnarok.CSharp.Plugins", "Space-Ragnarok.CSharp.Plugins.csproj", "{96CC5492-3FDA-FCDE-4E2E-9B1974654FC1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Space-Ragnarok.CSharp", "Space-Ragnarok.CSharp.csproj", "{9B9690DE-CDA3-EF64-9523-B79790BED839}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Space-Ragnarok.CSharp.Editor.Plugins", "Space-Ragnarok.CSharp.Editor.Plugins.csproj", "{B08A83BC-9B29-A335-7E49-018FB2EF3854}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{96CC5492-3FDA-FCDE-4E2E-9B1974654FC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96CC5492-3FDA-FCDE-4E2E-9B1974654FC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96CC5492-3FDA-FCDE-4E2E-9B1974654FC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96CC5492-3FDA-FCDE-4E2E-9B1974654FC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B9690DE-CDA3-EF64-9523-B79790BED839}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B9690DE-CDA3-EF64-9523-B79790BED839}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B9690DE-CDA3-EF64-9523-B79790BED839}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B9690DE-CDA3-EF64-9523-B79790BED839}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B08A83BC-9B29-A335-7E49-018FB2EF3854}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B08A83BC-9B29-A335-7E49-018FB2EF3854}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B08A83BC-9B29-A335-7E49-018FB2EF3854}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B08A83BC-9B29-A335-7E49-018FB2EF3854}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

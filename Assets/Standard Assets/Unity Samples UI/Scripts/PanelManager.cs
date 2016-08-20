@@ -2,8 +2,6 @@
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.Networking;
 
 public class PanelManager : MonoBehaviour {
 
