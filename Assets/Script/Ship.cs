@@ -115,6 +115,8 @@ public class Ship : NetworkBehaviour
             for (int i = 0; i <= 6; i++)
             {
                 var bullet = Instantiate(bulletPrefab, rightGuns[i].transform.position, rightGuns[i].transform.rotation) as GameObject;
+                bullet.GetComponent<Bullet>().speed = Random.Range(2.7f, 3.3f);
+                bullet.GetComponent<Bullet>().direction = rightGuns[i].transform.rotation * Quaternion.Euler(0, Random.Range(-10f, 10f), 0);
                 NetworkServer.Spawn(bullet);
             }
             reloadTimeR = ReloadingTime;
@@ -124,6 +126,8 @@ public class Ship : NetworkBehaviour
             for (int i = 0; i <= 6; i++)
             {
                 var bullet = Instantiate(bulletPrefab, leftGuns[i].transform.position, leftGuns[i].transform.rotation) as GameObject;
+                bullet.GetComponent<Bullet>().speed = Random.Range(2.7f, 3.3f);
+                bullet.GetComponent<Bullet>().direction = leftGuns[i].transform.rotation * Quaternion.Euler(0, Random.Range(-10f, 10f), 0);
                 NetworkServer.Spawn(bullet);
             }
             reloadTimeL = ReloadingTime;
