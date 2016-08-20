@@ -1,150 +1,157 @@
-﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.Networking;
-using System.Collections.Generic;
+﻿//using UnityEngine;
+//using UnityEngine.Networking;
+//using System.Collections.Generic;
 
-public class Player_SyncRotation : NetworkBehaviour {
 
-	[SyncVar (hook = "OnPlayerRotSynced")] private float syncPlayerRotation;
-	[SyncVar (hook = "OnCamRotSynced")] private float syncCamRotation;
+//public class Player_SyncRotation : NetworkBehaviour
+//{
 
-	[SerializeField] private Transform playerTransform;
-	[SerializeField] private Transform camTransform;
-	private float lerpRate = 20;
+//    [SyncVar(hook = "OnPlayerRotSynced")]
+//    private float syncPlayerRotation;
+//    [SyncVar(hook = "OnCamRotSynced")]
+//    private float syncCamRotation;
 
-	private float lastPlayerRot;
-	private float lastCamRot;
-	private float threshold = 0.3f;
+//    [SerializeField]
+//    private Transform playerTransform;
+//    [SerializeField]
+//    private Transform camTransform;
+//    private float lerpRate = 20;
 
-	private List<float> syncPlayerRotList = new List<float>();
-	private List<float> syncCamRotList = new List<float>();
-	private float closeEnough = 0.4f;
-	[SerializeField] private bool useHistoricalInterpolation;
+//    private float lastPlayerRot;
+//    private float lastCamRot;
+//    private float threshold = 0.3f;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
+//    private List<float> syncPlayerRotList = new List<float>();
+//    private List<float> syncCamRotList = new List<float>();
+//    private float closeEnough = 0.4f;
+//    [SerializeField]
+//    private bool useHistoricalInterpolation;
 
-	void Update ()
-	{
-		LerpRotations();
-	}
-	
-	// Update is called once per frame
-	void FixedUpdate () 
-	{
-		TransmitRotations();
+//    // Use this for initialization
+//    void Start()
+//    {
 
-	}
+//    }
 
-	void LerpRotations ()
-	{
-		if(!isLocalPlayer)
-		{
-			if(useHistoricalInterpolation)
-			{
-				HistoricalInterpolation();
-			}
-			else
-			{
-				OrdinaryLerping();
-			}
-		}
-	}
+//    void Update()
+//    {
+//        LerpRotations();
+//    }
 
-	void HistoricalInterpolation()
-	{
-		if(syncPlayerRotList.Count > 0)
-		{
-			LerpPlayerRotation(syncPlayerRotList[0]);
+//    // Update is called once per frame
+//    void FixedUpdate()
+//    {
+//        TransmitRotations();
 
-			if(Mathf.Abs(playerTransform.localEulerAngles.y - syncPlayerRotList[0]) < closeEnough)
-			{
-				syncPlayerRotList.RemoveAt(0);
-			}
+//    }
 
-			//Debug.Log(syncPlayerRotList.Count.ToString() + " syncPlayerRotList Count");
-		}
+//    void LerpRotations()
+//    {
+//        if (!isLocalPlayer)
+//        {
+//            if (useHistoricalInterpolation)
+//            {
+//                HistoricalInterpolation();
+//            }
+//            else
+//            {
+//                OrdinaryLerping();
+//            }
+//        }
+//    }
 
-		if(syncCamRotList.Count > 0)
-		{
-			LerpCamRot(syncCamRotList[0]);
+//    void HistoricalInterpolation()
+//    {
+//        if (syncPlayerRotList.Count > 0)
+//        {
+//            LerpPlayerRotation(syncPlayerRotList[0]);
 
-			if(Mathf.Abs(camTransform.localEulerAngles.x - syncCamRotList[0]) < closeEnough)
-			{
-				syncCamRotList.RemoveAt(0);
-			}
+//            if (Mathf.Abs(playerTransform.localEulerAngles.y - syncPlayerRotList[0]) < closeEnough)
+//            {
+//                syncPlayerRotList.RemoveAt(0);
+//            }
 
-			//Debug.Log(syncCamRotList.Count.ToString() + " syncCamRotList Count");
-		}
-	}
+//            //Debug.Log(syncPlayerRotList.Count.ToString() + " syncPlayerRotList Count");
+//        }
 
-	void OrdinaryLerping ()
-	{
-		LerpPlayerRotation(syncPlayerRotation);
-		LerpCamRot(syncCamRotation);
-	}
+//        if (syncCamRotList.Count > 0)
+//        {
+//            LerpCamRot(syncCamRotList[0]);
 
-	void LerpPlayerRotation(float rotAngle)
-	{
-		Vector3 playerNewRot = new Vector3(0, rotAngle, 0);
-		playerTransform.rotation = Quaternion.Lerp(playerTransform.rotation, Quaternion.Euler(playerNewRot), lerpRate * Time.deltaTime);
-	}
+//            if (Mathf.Abs(camTransform.localEulerAngles.x - syncCamRotList[0]) < closeEnough)
+//            {
+//                syncCamRotList.RemoveAt(0);
+//            }
 
-	void LerpCamRot (float rotAngle)
-	{
-		Vector3 camNewRot = new Vector3(rotAngle, 0, 0);
-		camTransform.localRotation = Quaternion.Lerp(camTransform.localRotation, Quaternion.Euler(camNewRot), lerpRate * Time.deltaTime);
-	}
+//            //Debug.Log(syncCamRotList.Count.ToString() + " syncCamRotList Count");
+//        }
+//    }
 
-	[Command]
-	void CmdProvideRotationsToServer (float playerRot, float camRot)
-	{
-		syncPlayerRotation = playerRot;
-		syncCamRotation = camRot;
-	}
+//    void OrdinaryLerping()
+//    {
+//        LerpPlayerRotation(syncPlayerRotation);
+//        LerpCamRot(syncCamRotation);
+//    }
 
-	[Client]
-	void TransmitRotations()
-	{
-		if(isLocalPlayer)
-		{
-			if(CheckIfBeyondThreshold(playerTransform.localEulerAngles.y, lastPlayerRot) || CheckIfBeyondThreshold(camTransform.localEulerAngles.x, lastCamRot))
-			{
-				lastPlayerRot = playerTransform.localEulerAngles.y;
-				lastCamRot = camTransform.localEulerAngles.x;
-				CmdProvideRotationsToServer(lastPlayerRot, lastCamRot);
-			}
-		}
-	}
+//    void LerpPlayerRotation(float rotAngle)
+//    {
+//        Vector3 playerNewRot = new Vector3(0, rotAngle, 0);
+//        playerTransform.rotation = Quaternion.Lerp(playerTransform.rotation, Quaternion.Euler(playerNewRot), lerpRate * Time.deltaTime);
+//    }
 
-	bool CheckIfBeyondThreshold (float rot1, float rot2)
-	{
-		if(Mathf.Abs(rot1-rot2) > threshold)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
+//    void LerpCamRot(float rotAngle)
+//    {
+//        Vector3 camNewRot = new Vector3(rotAngle, 0, 0);
+//        camTransform.localRotation = Quaternion.Lerp(camTransform.localRotation, Quaternion.Euler(camNewRot), lerpRate * Time.deltaTime);
+//    }
 
-	[Client]
-	void OnPlayerRotSynced (float latestPlayerRot)
-	{
-		syncPlayerRotation = latestPlayerRot;
-		syncPlayerRotList.Add(syncPlayerRotation);
-	}
+//    [Command]
+//    void CmdProvideRotationsToServer(float playerRot, float camRot)
+//    {
+//        syncPlayerRotation = playerRot;
+//        syncCamRotation = camRot;
+//    }
 
-	[Client]
-	void OnCamRotSynced (float latestCamRot)
-	{
-		syncCamRotation = latestCamRot;
-		syncCamRotList.Add(syncCamRotation);
-	}
-}
+//    [Client]
+//    void TransmitRotations()
+//    {
+//        if (isLocalPlayer)
+//        {
+//            if (CheckIfBeyondThreshold(playerTransform.localEulerAngles.y, lastPlayerRot) || CheckIfBeyondThreshold(camTransform.localEulerAngles.x, lastCamRot))
+//            {
+//                lastPlayerRot = playerTransform.localEulerAngles.y;
+//                lastCamRot = camTransform.localEulerAngles.x;
+//                CmdProvideRotationsToServer(lastPlayerRot, lastCamRot);
+//            }
+//        }
+//    }
+
+//    bool CheckIfBeyondThreshold(float rot1, float rot2)
+//    {
+//        if (Mathf.Abs(rot1 - rot2) > threshold)
+//        {
+//            return true;
+//        }
+//        else
+//        {
+//            return false;
+//        }
+//    }
+
+//    [Client]
+//    void OnPlayerRotSynced(float latestPlayerRot)
+//    {
+//        syncPlayerRotation = latestPlayerRot;
+//        syncPlayerRotList.Add(syncPlayerRotation);
+//    }
+
+//    [Client]
+//    void OnCamRotSynced(float latestCamRot)
+//    {
+//        syncCamRotation = latestCamRot;
+//        syncCamRotList.Add(syncCamRotation);
+//    }
+//}
 
 
 
