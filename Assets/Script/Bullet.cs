@@ -5,7 +5,11 @@ public class Bullet : NetworkBehaviour
 {
     public GameObject ExplosionMobile;
 
-    float speed = 3;
+    [SyncVar]
+    public float speed;
+    [SyncVar]
+    public Quaternion direction;
+
     float autoDestruct;
 
 
@@ -13,7 +17,7 @@ public class Bullet : NetworkBehaviour
     void Start()
     {
         autoDestruct = 25;
-        transform.Rotate(0, Random.Range(-10f, 10f), 0);
+        transform.rotation = direction;
     }
 
     // Update is called once per frame
@@ -27,7 +31,7 @@ public class Bullet : NetworkBehaviour
                 NetworkServer.Destroy(gameObject);
             }
         }
-        transform.Translate(transform.forward * Time.deltaTime * speed);
+        transform.Translate(-transform.up * Time.deltaTime * speed);
     }
 
     void OnTriggerEnter2D(Collider2D other)
