@@ -19,12 +19,13 @@ public class Ship : NetworkBehaviour
     float reloadTimeL;
     float explosionTimer = 2;
     bool isExploding = false;
-    GameObject[] rightGuns = new GameObject[7];
-    GameObject[] leftGuns = new GameObject[7];
+    GameObject[] rightGuns;
+    GameObject[] leftGuns;
 
     int vie = 100;
     float speed = 100f;
     new Rigidbody2D rigidbody2D;
+    ShipProperty shipSettings;
 
 
     protected virtual void Start()
@@ -32,6 +33,10 @@ public class Ship : NetworkBehaviour
         rigidbody2D = GetComponent<Rigidbody2D>();
         var rightGun = transform.FindChild("RightGuns");
         var leftGun = transform.FindChild("LeftGuns");
+        var gunCount = rightGun.childCount;
+        rightGuns = new GameObject[gunCount];
+        leftGuns = new GameObject[gunCount];
+
         for (int i = 0; i < rightGun.childCount; i++)
         {
             rightGuns[i] = rightGun.transform.GetChild(i).gameObject;
@@ -40,6 +45,7 @@ public class Ship : NetworkBehaviour
         {
             leftGuns[i] = leftGun.transform.GetChild(i).gameObject;
         }
+        shipSettings = GameObject.Find("NetworkSyncer").GetComponent<PlayerConf>().shipSettings;
     }
 
 
@@ -101,7 +107,7 @@ public class Ship : NetworkBehaviour
 
         if (rigidbody2D.velocity.magnitude <= VitesseMaximum)
         {
-            rigidbody2D.AddForce(transform.TransformDirection(0, 1, 0) * Time.deltaTime * Mathf.Max(vertical, VitesseMinimum) * speed);
+            rigidbody2D.AddForce(transform.TransformDirection(0, 1, 0) * Time.deltaTime * Mathf.Max(vertical, VitesseMinimum) * speed * shipSettings.speedFactor);
         }
 
         Vector3 rotation = new Vector3(0, 0, horizontal * 1.5f);
@@ -115,22 +121,22 @@ public class Ship : NetworkBehaviour
     {
         if (fireSide > 0 && reloadTimeR <= 0)
         {
-            for (int i = 0; i <= 6; i++)
+            foreach(var rightGun in rightGuns)
             {
-                var bullet = Instantiate(bulletPrefab, rightGuns[i].transform.position, rightGuns[i].transform.rotation) as GameObject;
+                var bullet = Instantiate(bulletPrefab, rightGun.transform.position, rightGun.transform.rotation) as GameObject;
                 bullet.GetComponent<Bullet>().speed = Random.Range(2.7f, 3.3f);
-                bullet.GetComponent<Bullet>().direction = rightGuns[i].transform.rotation * Quaternion.Euler(0, Random.Range(-10f, 10f), 0);
+                bullet.GetComponent<Bullet>().direction = rightGun.transform.rotation * Quaternion.Euler(0, Random.Range(-10f, 10f), 0);
                 NetworkServer.Spawn(bullet);
             }
             reloadTimeR = ReloadingTime;
         }
         else if (fireSide < 0 && reloadTimeL <= 0)
         {
-            for (int i = 0; i <= 6; i++)
+            foreach(var leftGun in leftGuns)
             {
-                var bullet = Instantiate(bulletPrefab, leftGuns[i].transform.position, leftGuns[i].transform.rotation) as GameObject;
+                var bullet = Instantiate(bulletPrefab, leftGun.transform.position, leftGun.transform.rotation) as GameObject;
                 bullet.GetComponent<Bullet>().speed = Random.Range(2.7f, 3.3f);
-                bullet.GetComponent<Bullet>().direction = leftGuns[i].transform.rotation * Quaternion.Euler(0, Random.Range(-10f, 10f), 0);
+                bullet.GetComponent<Bullet>().direction = leftGun.transform.rotation * Quaternion.Euler(0, Random.Range(-10f, 10f), 0);
                 NetworkServer.Spawn(bullet);
             }
             reloadTimeL = ReloadingTime;

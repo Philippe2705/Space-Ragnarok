@@ -13,7 +13,7 @@ public class PlayerConf : MonoBehaviour
 
 
     public GameObject shipPreview; // Image du vcx dans les profiles
-    public ShipPropriety shipSettings;
+    public ShipProperty shipSettings;
 
 
     void Start()
@@ -87,12 +87,13 @@ public class PlayerConf : MonoBehaviour
 
         GetComponent<NetworkManager>().playerPrefab = shipSettings.shipPrefab; // Joueur a spawn
     }
-    public struct ShipPropriety
-    {
-        public int shipID;
-        public GameObject shipPrefab;
-        public float speedFactor;
-        public float armor;
-        public int numberOfGunsOnEachSide;
-    }
 }
+public struct ShipProperty
+{
+    public int shipID;
+    public GameObject shipPrefab;
+    public float speedFactor;
+    public float armor;
+    public int numberOfGunsOnEachSide;
+}
+
