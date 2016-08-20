@@ -239,6 +239,6 @@ pip-log.txt
 .mr.developer.cfg
 
 #Unity
-/Library
-/Temp
+Library/
+Temp/
 >>>>>>> origin/master
