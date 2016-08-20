@@ -41,11 +41,14 @@ public class Ship : NetworkBehaviour
         {
             rightGuns[i] = rightGun.transform.GetChild(i).gameObject;
         }
-        for (int i = 0; i < leftGun.childCount; i++)
+        if (GameObject.Find("NetworkSyncer").GetComponent<PlayerConf>().shipSettings.shipID != 4)  //Les cannons du ragnarok ne se comporte pas pareil
         {
-            leftGuns[i] = leftGun.transform.GetChild(i).gameObject;
+            for (int i = 0; i < leftGun.childCount; i++)
+            {
+                leftGuns[i] = leftGun.transform.GetChild(i).gameObject;
+            }
         }
-        shipSettings = GameObject.Find("NetworkSyncer").GetComponent<PlayerConf>().shipSettings;
+            shipSettings = GameObject.Find("NetworkSyncer").GetComponent<PlayerConf>().shipSettings;
     }
 
 
@@ -200,5 +203,16 @@ public class Ship : NetworkBehaviour
     protected float GetVie()
     {
         return vie;
+    }
+    public void rotateGuns(Vector2 direction) //Used for ragnarok only
+    {
+        if (GameObject.Find("NetworkSyncer").GetComponent<PlayerConf>().shipSettings.shipID == 4)
+        {
+
+            foreach (var rightGun in rightGuns)
+            {
+                rightGun.transform.rotation = Quaternion.LookRotation(direction);
+            }
+        }
     }
 }
