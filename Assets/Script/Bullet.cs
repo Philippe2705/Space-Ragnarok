@@ -52,8 +52,13 @@ public class Bullet : NetworkBehaviour
             ship = bot;
         }
         ship.HitByBullet(transform.position, transform.rotation);
-        var explosion = Instantiate(ExplosionMobile, transform.position, transform.rotation) as GameObject;
-        NetworkServer.Spawn(explosion);
+        RpcSpawnExplosion();
         NetworkServer.Destroy(gameObject);
+    }
+
+    [ClientRpc]
+    void RpcSpawnExplosion()
+    {
+        Instantiate(ExplosionMobile, transform.position, transform.rotation);
     }
 }
