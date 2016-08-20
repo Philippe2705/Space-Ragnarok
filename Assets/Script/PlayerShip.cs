@@ -26,7 +26,7 @@ public class PlayerShip : Ship
         GetComponentInChildren<AudioListener>().enabled = isLocalPlayer;
 
         //TODO: Amélorier
-        if(isServer && NetworkManager.singleton.numPlayers == 1)
+        if (isServer && NetworkManager.singleton.numPlayers == 1)
         {
             var botGO = Instantiate(bot) as GameObject;
             NetworkServer.Spawn(botGO);
@@ -78,6 +78,9 @@ public class PlayerShip : Ship
     [ClientRpc]
     void RpcUpdateHealthUI(float vie)
     {
-        HealthBar.UpdateVie(vie);
+        if (isLocalPlayer)
+        {
+            HealthBar.UpdateVie(vie);
+        }
     }
 }
