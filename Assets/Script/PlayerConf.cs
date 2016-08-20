@@ -38,41 +38,46 @@ public class PlayerConf : MonoBehaviour
         {
             shipSettings.shipPrefab = smallShip;
             shipSettings.speedFactor = 1.6f;
-            shipSettings.armor = 0;
-            shipSettings.numberOfGunsOnEachSide = 8;
+            shipSettings.armor = 1;
+            shipSettings.numberOfGunsOnEachSide = 4;
             shipPreview.GetComponent<Image>().sprite = smallShipSprite;
+            shipPreview.GetComponent<Image>().SetNativeSize();
         }
         else if (shipIDChoose == 1)
         {
             shipSettings.shipPrefab = cruiser;
-            shipSettings.speedFactor = 1f;
-            shipSettings.armor = 0;
-            shipSettings.numberOfGunsOnEachSide = 8;
-            shipPreview.GetComponent<Image>().sprite = cruiserSprite;
+            shipSettings.speedFactor = 1.2f;
+            shipSettings.armor = 1.5f;
+            shipSettings.numberOfGunsOnEachSide = 6;
+            shipPreview.GetComponent<Image>().sprite = frigateSprite;
+            shipPreview.GetComponent<Image>().SetNativeSize();
         }
         else if (shipIDChoose == 2)
         {
             shipSettings.shipPrefab = frigate;
-            shipSettings.speedFactor = 0.9f;
-            shipSettings.armor = 0;
+            shipSettings.speedFactor = 1f;
+            shipSettings.armor = 2;
             shipSettings.numberOfGunsOnEachSide = 8;
-            shipPreview.GetComponent<Image>().sprite = frigateSprite;
+            shipPreview.GetComponent<Image>().sprite = cruiserSprite;
+            shipPreview.GetComponent<Image>().SetNativeSize();
         }
         else if (shipIDChoose == 3)
         {
             shipSettings.shipPrefab = battleShip;
             shipSettings.speedFactor = 0.7f;
-            shipSettings.armor = 0;
+            shipSettings.armor = 4;
             shipSettings.numberOfGunsOnEachSide = 8;
             shipPreview.GetComponent<Image>().sprite = battleShipSprite;
+            shipPreview.GetComponent<Image>().SetNativeSize();
         }
         else if (shipIDChoose == 4)
         {
             shipSettings.shipPrefab = ragnarok;
             shipSettings.speedFactor = 0.3f;
-            shipSettings.armor = 0;
+            shipSettings.armor = 10;
             shipSettings.numberOfGunsOnEachSide = 8;
             shipPreview.GetComponent<Image>().sprite = ragnarokSprite;
+            shipPreview.GetComponent<RectTransform>().sizeDelta = new Vector2(300, 300);
         }
         else { print("Incorect Ship ID"); return; }
 

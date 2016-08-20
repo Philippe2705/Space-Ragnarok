@@ -32,7 +32,7 @@ public class Ship : NetworkBehaviour
         rigidbody2D = GetComponent<Rigidbody2D>();
         var rightGun = transform.FindChild("RightGuns");
         var leftGun = transform.FindChild("LeftGuns");
-        for (int i = 0; i < 7; i++)
+        for (int i = 0; i < rightGun.childCount; i++)
         {
             rightGuns[i] = rightGun.transform.GetChild(i).gameObject;
             leftGuns[i] = leftGun.transform.GetChild(i).gameObject;

@@ -64,7 +64,7 @@ public class PlayerShip : Ship
                 CmdFire(fireSide);
             }
             float horizontal = CnInputManager.GetAxis("Horizontal");
-            float vertical = CnInputManager.GetAxis("Vertical");
+            float vertical = CnInputManager.GetAxis("Vertical") * GameObject.Find("NetworkSyncer").GetComponent<PlayerConf>().shipSettings.speedFactor;
             CmdMove(vertical, horizontal);
         }
     }
