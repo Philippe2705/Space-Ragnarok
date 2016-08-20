@@ -5,6 +5,8 @@ using CnControls;
 
 public class PlayerShip : Ship
 {
+    public GameObject bot;
+
     Slider RightGunReloadingBar;
     Slider LeftGunReloadingBar;
     HealthBar HealthBar;
@@ -19,6 +21,13 @@ public class PlayerShip : Ship
         HealthBar = GameObject.Find("HealthBar").GetComponent<HealthBar>();
         GetComponentInChildren<Camera>().enabled = isLocalPlayer;
         GetComponentInChildren<AudioListener>().enabled = isLocalPlayer;
+
+        //TODO: Amélorier
+        if(isServer && NetworkManager.singleton.numPlayers == 1)
+        {
+            var botGO = Instantiate(bot) as GameObject;
+            NetworkServer.Spawn(botGO);
+        }
     }
 
     protected override void UpdateClient()

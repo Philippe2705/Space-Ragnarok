@@ -9,6 +9,18 @@ public class SimpleMatchMaker : MonoBehaviour
         NetworkManager.singleton.StartMatchMaker();
     }
 
+    void Update()
+    {
+        if (Input.GetKey(KeyCode.J))
+        {
+            FindInternetMatch("Abcd");
+        }
+        if (Input.GetKey(KeyCode.C))
+        {
+            CreateInternetMatch("Abcd");
+        }
+    }
+
     //call this method to request a match to be created on the server
     public void CreateInternetMatch(string matchName)
     {
