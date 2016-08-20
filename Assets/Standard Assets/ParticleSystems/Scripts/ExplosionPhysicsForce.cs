@@ -38,7 +38,7 @@ namespace UnityStandardAssets.Effects
 			autoDestructTime -= Time.deltaTime;
 			if (autoDestructTime <= 0) 
 			{
-				Network.Destroy(gameObject);
+				Destroy(gameObject);
 			}
 		}
     }

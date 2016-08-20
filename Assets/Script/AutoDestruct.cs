@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
-public class AutoDestruct : NetworkBehaviour
+public class AutoDestruct : MonoBehaviour
 {
 
     public float timer = 5;
@@ -11,7 +11,7 @@ public class AutoDestruct : NetworkBehaviour
         timer -= Time.deltaTime;
         if (timer <= 0)
         {
-            NetworkServer.Destroy(gameObject);
+            Destroy(gameObject);
         }
     }
 }

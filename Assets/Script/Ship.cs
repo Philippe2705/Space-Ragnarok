@@ -144,16 +144,20 @@ public class Ship : NetworkBehaviour
         print("Touché");
         print("Vie restante : " + vie.ToString());
 
-        var expSnd = Instantiate(explosionSound, position, rotation) as GameObject;
-        var exp = Instantiate(explosion, position, rotation) as GameObject;
-        NetworkServer.Spawn(expSnd);
-        NetworkServer.Spawn(exp);
+        RpcHitByBullet(position, rotation);
     }
 
 
     /*
      * Explosions
      */
+    [ClientRpc]
+    void RpcHitByBullet(Vector3 position, Quaternion rotation)
+    {
+        Instantiate(explosionSound, position, rotation);
+        Instantiate(explosion, position, rotation);
+    }
+
     [ClientRpc]
     void RpcBeginSmallExplosions()
     {
