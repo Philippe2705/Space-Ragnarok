@@ -18,7 +18,10 @@ public class PlayerShip : Ship
         base.Start();
         RightGunReloadingBar = GameObject.Find("RightReloading").GetComponent<Slider>();
         LeftGunReloadingBar = GameObject.Find("LeftReloading").GetComponent<Slider>();
-        HealthBar = GameObject.Find("HealthBar").GetComponent<HealthBar>();
+        if (isLocalPlayer)
+        {
+            HealthBar = GameObject.Find("HealthBar").GetComponent<HealthBar>();
+        }
         GetComponentInChildren<Camera>().enabled = isLocalPlayer;
         GetComponentInChildren<AudioListener>().enabled = isLocalPlayer;
 
