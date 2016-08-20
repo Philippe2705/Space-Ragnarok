@@ -70,7 +70,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Script\AutoDestruct.cs" />
-    <Compile Include="Assets\Script\BackgroundSync.cs" />
     <Compile Include="Assets\Script\Bot.cs" />
     <Compile Include="Assets\Script\BotShip.cs" />
     <Compile Include="Assets\Script\Bullet.cs" />
@@ -78,6 +77,7 @@
     <Compile Include="Assets\Script\HealthBar.cs" />
     <Compile Include="Assets\Script\LocalPlayer.cs" />
     <Compile Include="Assets\Script\MainMenu.cs" />
+    <Compile Include="Assets\Script\MinimapSync.cs" />
     <Compile Include="Assets\Script\MyNetworkManager.cs" />
     <Compile Include="Assets\Script\NetworkSync.cs" />
     <Compile Include="Assets\Script\PlayerConf.cs" />

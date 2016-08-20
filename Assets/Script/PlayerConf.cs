@@ -79,7 +79,11 @@ public class PlayerConf : MonoBehaviour
             shipPreview.GetComponent<Image>().sprite = ragnarokSprite;
             shipPreview.GetComponent<RectTransform>().sizeDelta = new Vector2(300, 300);
         }
-        else { print("Incorect Ship ID"); return; }
+        else
+        {
+            print("Incorrect Ship ID");
+            return;
+        }
 
         GetComponent<NetworkManager>().playerPrefab = shipSettings.shipPrefab; // Joueur a spawn
     }

@@ -78,7 +78,7 @@ public class PlayerShip : Ship
     [ClientRpc]
     void RpcUpdateHealthUI(float vie)
     {
-        if (isLocalPlayer)
+        if (isLocalPlayer && HealthBar != null)
         {
             HealthBar.UpdateVie(vie);
         }

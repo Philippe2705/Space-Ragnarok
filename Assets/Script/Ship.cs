@@ -10,7 +10,7 @@ public class Ship : NetworkBehaviour
     public GameObject bigExplosionSound;
     public GameObject bulletPrefab;
 
-    public const float MinPosX = -80f, MaxPosX = 80f, MinPosY = -30f, MaxPosY = 30f;
+    public const float MinPosX = -60f, MaxPosX = 60f, MinPosY = -30f, MaxPosY = 30f;
     public const float VitesseMinimum = 0.1f;
     public const float VitesseMaximum = 2;
     public const float ReloadingTime = 3;
@@ -35,6 +35,9 @@ public class Ship : NetworkBehaviour
         for (int i = 0; i < rightGun.childCount; i++)
         {
             rightGuns[i] = rightGun.transform.GetChild(i).gameObject;
+        }
+        for (int i = 0; i < leftGun.childCount; i++)
+        {
             leftGuns[i] = leftGun.transform.GetChild(i).gameObject;
         }
     }
@@ -149,7 +152,7 @@ public class Ship : NetworkBehaviour
 
 
     /*
-     * Explosions
+     * Rpcs
      */
     [ClientRpc]
     void RpcHitByBullet(Vector3 position, Quaternion rotation)

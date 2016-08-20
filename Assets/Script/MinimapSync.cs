@@ -1,7 +1,7 @@
 ﻿//using UnityEngine;
 //using UnityEngine.SceneManagement;
 
-//public class BackgroundSync : MonoBehaviour
+//public class MinimapSync : MonoBehaviour
 //{
 //    public GameObject camera1;
 //    public GameObject joueur;
