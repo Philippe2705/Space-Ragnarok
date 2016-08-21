@@ -37,6 +37,12 @@ public static class Experience
         SaveData();
     }
 
+    public static int GetExperience()
+    {
+        LoadData();
+        return PlayerData.CurrentExperience;
+    }
+
 }
 
 [Serializable]

@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Script\AutoDestruct.cs" />
+    <Compile Include="Assets\Script\AvailableShip.cs" />
     <Compile Include="Assets\Script\Bot.cs" />
     <Compile Include="Assets\Script\BotShip.cs" />
     <Compile Include="Assets\Script\Bullet.cs" />
