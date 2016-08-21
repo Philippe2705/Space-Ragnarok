@@ -29,6 +29,7 @@ public class Ship : NetworkBehaviour
     bool isDead = false;
     GameObject[] rightGuns;
     GameObject[] leftGuns;
+    GameObject pseudoGO;
 
     new Rigidbody2D rigidbody2D;
 
@@ -38,6 +39,7 @@ public class Ship : NetworkBehaviour
 
     protected virtual void Start()
     {
+        pseudoGO = transform.FindChild("Player_name").gameObject;
         rigidbody2D = GetComponent<Rigidbody2D>();
         /*
          * Guns
@@ -127,7 +129,7 @@ public class Ship : NetworkBehaviour
 
     protected virtual void UpdateClient()
     {
-
+        pseudoGO.transform.rotation = Camera.main.transform.rotation;
     }
 
 
@@ -284,7 +286,8 @@ public class Ship : NetworkBehaviour
      */
     void UpdatePseudo(string value)
     {
-        transform.FindChild("Player_name").GetComponent<TextMesh>().text = value;
+        pseudoGO.GetComponent<TextMesh>().text = value;
+        pseudoGO.GetComponent<TextMesh>().characterSize = 0.01f;
     }
 
     void UpdateShipId(int value)

@@ -21,6 +21,7 @@ public class PlayerShip : Ship
             HealthBar = GameObject.Find("HealthBar").GetComponent<HealthBar>();
         }
         GetComponentInChildren<Camera>().enabled = isLocalPlayer;
+        GetComponentInChildren<Camera>().tag = isLocalPlayer ? "MainCamera" : "Untagged";
         GetComponentInChildren<AudioListener>().enabled = isLocalPlayer;
 
         //TODO: Amélorier
