@@ -9,6 +9,11 @@ public class Bullet : NetworkBehaviour
     public float speed;
     [SyncVar]
     public Quaternion direction;
+    [SyncVar]
+    public Color color;
+
+    //Server
+    public float damage;
 
     float autoDestruct;
 
@@ -18,6 +23,7 @@ public class Bullet : NetworkBehaviour
     {
         autoDestruct = 25;
         transform.rotation = direction;
+        GetComponent<TrailRenderer>().material.color = color;
     }
 
     // Update is called once per frame
@@ -51,7 +57,7 @@ public class Bullet : NetworkBehaviour
         {
             ship = bot;
         }
-        ship.HitByBullet(transform.position, transform.rotation);
+        ship.HitByBullet(transform.position, transform.rotation, damage);
         RpcSpawnExplosion();
         NetworkServer.Destroy(gameObject);
     }

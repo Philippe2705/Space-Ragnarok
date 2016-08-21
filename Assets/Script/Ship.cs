@@ -22,10 +22,13 @@ public class Ship : NetworkBehaviour
     GameObject[] rightGuns;
     GameObject[] leftGuns;
 
-    int vie = 100;
+    int playerId;
+    ShipProperty shipProperty;
+    string pseudo;
+
+    float vie = 100;
     float speed = 100f;
     new Rigidbody2D rigidbody2D;
-    ShipProperty shipSettings;
 
 
     protected virtual void Start()
@@ -33,22 +36,33 @@ public class Ship : NetworkBehaviour
         rigidbody2D = GetComponent<Rigidbody2D>();
         var rightGun = transform.FindChild("RightGuns");
         var leftGun = transform.FindChild("LeftGuns");
-        var gunCount = rightGun.childCount;
-        rightGuns = new GameObject[gunCount];
-        leftGuns = new GameObject[gunCount];
+        rightGuns = new GameObject[rightGun.childCount];
+        leftGuns = new GameObject[leftGun.childCount];
 
         for (int i = 0; i < rightGun.childCount; i++)
         {
             rightGuns[i] = rightGun.transform.GetChild(i).gameObject;
         }
-        if (GameObject.Find("NetworkSyncer").GetComponent<PlayerConf>().shipSettings.shipID != 4)  //Les cannons du ragnarok ne se comporte pas pareil
+        for (int i = 0; i < leftGun.childCount; i++)
         {
-            for (int i = 0; i < leftGun.childCount; i++)
-            {
-                leftGuns[i] = leftGun.transform.GetChild(i).gameObject;
-            }
+            leftGuns[i] = leftGun.transform.GetChild(i).gameObject;
         }
-            shipSettings = GameObject.Find("NetworkSyncer").GetComponent<PlayerConf>().shipSettings;
+
+        playerId = NetworkManager.singleton.numPlayers;
+        Debug.LogError("Player Id: " + playerId.ToString());
+
+        var nss = FindObjectOfType<NetworkStaticScript>();
+        if (playerId == 1)
+        {
+            shipProperty = ShipProperties.GetShip(nss.Player1ShipID);
+            pseudo = nss.Player1Pseudo;
+        }
+        else
+        {
+            shipProperty = ShipProperties.GetShip(nss.Player2ShipID);
+            pseudo = nss.Player2Pseudo;
+        }
+        transform.FindChild("Player_name").GetComponent<TextMesh>().text = pseudo;
     }
 
 
@@ -110,7 +124,7 @@ public class Ship : NetworkBehaviour
 
         if (rigidbody2D.velocity.magnitude <= VitesseMaximum)
         {
-            rigidbody2D.AddForce(transform.TransformDirection(0, 1, 0) * Time.deltaTime * Mathf.Max(vertical, VitesseMinimum) * speed * shipSettings.speedFactor);
+            rigidbody2D.AddForce(transform.TransformDirection(0, 1, 0) * Time.deltaTime * Mathf.Max(vertical, VitesseMinimum) * speed * shipProperty.SpeedFactor);
         }
 
         Vector3 rotation = new Vector3(0, 0, horizontal * 1.5f);
@@ -124,7 +138,7 @@ public class Ship : NetworkBehaviour
     {
         if (fireSide > 0 && reloadTimeR <= 0)
         {
-            foreach(var rightGun in rightGuns)
+            foreach (var rightGun in rightGuns)
             {
                 var bullet = Instantiate(bulletPrefab, rightGun.transform.position, rightGun.transform.rotation) as GameObject;
                 bullet.GetComponent<Bullet>().speed = Random.Range(2.7f, 3.3f);
@@ -135,7 +149,7 @@ public class Ship : NetworkBehaviour
         }
         else if (fireSide < 0 && reloadTimeL <= 0)
         {
-            foreach(var leftGun in leftGuns)
+            foreach (var leftGun in leftGuns)
             {
                 var bullet = Instantiate(bulletPrefab, leftGun.transform.position, leftGun.transform.rotation) as GameObject;
                 bullet.GetComponent<Bullet>().speed = Random.Range(2.7f, 3.3f);
@@ -150,9 +164,9 @@ public class Ship : NetworkBehaviour
      * Hit
      */
     [Server]
-    public void HitByBullet(Vector3 position, Quaternion rotation)
+    public void HitByBullet(Vector3 position, Quaternion rotation, float damage)
     {
-        vie -= 2 + Random.Range(0, 4);
+        vie -= damage * Random.Range(0.5f, 2) / shipProperty.Armor;
         print("Touché");
         print("Vie restante : " + vie.ToString());
 
@@ -203,16 +217,5 @@ public class Ship : NetworkBehaviour
     protected float GetVie()
     {
         return vie;
-    }
-    public void rotateGuns(Vector2 direction) //Used for ragnarok only
-    {
-        if (GameObject.Find("NetworkSyncer").GetComponent<PlayerConf>().shipSettings.shipID == 4)
-        {
-
-            foreach (var rightGun in rightGuns)
-            {
-                rightGun.transform.rotation = Quaternion.LookRotation(direction);
-            }
-        }
     }
 }
