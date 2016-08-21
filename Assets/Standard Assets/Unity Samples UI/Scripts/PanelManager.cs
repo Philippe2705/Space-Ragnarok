@@ -138,4 +138,37 @@ public class PanelManager : MonoBehaviour {
 			GameObject.Find("ErrorFieldJoin").GetComponent<Text>().text = "Le pseudo doit faire entre 3 et 14 caracteres";
 		}
 	}
+    public void savePlayerPrefIPAndUsernameHost() // With these 2 funct, we do not need anymore to re-type the IP and the pseudo
+    {
+        PlayerPrefs.SetString("LastUsername", GameObject.Find("PlayerNameWritten").GetComponent<Text>().text);
+    }
+    public void savePlayerPrefIPAndUsernameClient() // With these 2 funct, we do not need anymore to re-type the IP and the pseudo
+    {
+        if (ipToConnectField.GetComponent<Text>().text != "")
+        {
+            PlayerPrefs.SetString("LastIp", ipToConnectField.GetComponent<Text>().text);
+        }
+        PlayerPrefs.SetString("LastUsername", GameObject.Find("PlayerNameWrittenJoin").GetComponent<Text>().text);
+    }
+    public void LoadPlayerPrefIPAndUsername(int number)
+    {
+        if (PlayerPrefs.GetString("LastUsername") != "")
+        {
+            if (number == 1)
+            {
+                GameObject.Find("PlayerNameWrittenJoin").GetComponent<Text>().text = PlayerPrefs.GetString("LastUsername");
+            }
+            else if (number == 2)
+            {
+                GameObject.Find("PlayerNameWritten").GetComponent<Text>().text = PlayerPrefs.GetString("LastUsername");
+            }
+        }
+        if (PlayerPrefs.GetString("LastUsername") != "")
+        {
+            if (number == 1)
+            {
+                ipToConnectField.GetComponent<Text>().text = PlayerPrefs.GetString("LastUsername");
+            }
+        }
+    }
 }

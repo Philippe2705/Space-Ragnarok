@@ -60,6 +60,7 @@
      <Compile Include="Assets\Script\PlayerController.cs" />
      <Compile Include="Assets\Script\PlayerShip.cs" />
      <Compile Include="Assets\Script\Player_SyncRotation.cs" />
+     <Compile Include="Assets\Script\SavaLoad.cs" />
      <Compile Include="Assets\Script\Ship.cs" />
      <Compile Include="Assets\Script\SimpleMatchMaker.cs" />
      <None Include="Assets\Standard Assets\Unity Samples UI\Fonts\Jupiter\LICENSE.txt" />
