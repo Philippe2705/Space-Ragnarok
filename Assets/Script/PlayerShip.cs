@@ -5,8 +5,6 @@ using CnControls;
 
 public class PlayerShip : Ship
 {
-    public GameObject bot;
-
     Slider RightGunReloadingBar;
     Slider LeftGunReloadingBar;
     HealthBar HealthBar;
@@ -28,9 +26,19 @@ public class PlayerShip : Ship
         //TODO: Amélorier
         if (isServer && NetworkManager.singleton.numPlayers == 1)
         {
+            var bot = ShipProperties.GetShip(-1).ShipPrefab;
             var botGO = Instantiate(bot) as GameObject;
             NetworkServer.Spawn(botGO);
         }
+        if (isLocalPlayer)
+        {
+            var ss = FindObjectOfType<StaticScript>();
+            Pseudo = ss.pseudo;
+            ShipId = ss.shipId;
+            CmdUpdatePseudoAndShipId(ss.pseudo, ss.shipId);
+            //Update minimap
+        }
+        FindObjectOfType<MinimapSync>().SearchForPlayers();
     }
 
     protected override void UpdateClient()
@@ -38,6 +46,9 @@ public class PlayerShip : Ship
         base.UpdateClient();
         if (isLocalPlayer)
         {
+            /*
+             * Update reload sliders
+             */
             if (localReloadTimeR > 0)
             {
                 localReloadTimeR -= Time.deltaTime;
@@ -49,6 +60,10 @@ public class PlayerShip : Ship
 
             RightGunReloadingBar.value = 1 - localReloadTimeR / ReloadingTime;
             LeftGunReloadingBar.value = 1 - localReloadTimeL / ReloadingTime;
+
+            /*
+             * Fire
+             */
             var fireSide = CnInputManager.GetAxisRaw("Horizontal1");
             if (Mathf.Abs(fireSide) > 0.2f)
             {
@@ -62,6 +77,10 @@ public class PlayerShip : Ship
                 }
                 CmdFire(fireSide);
             }
+
+            /*
+             * Move
+             */
             float horizontal = CnInputManager.GetAxis("Horizontal");
             float vertical = CnInputManager.GetAxis("Vertical");
             CmdMove(vertical, horizontal);

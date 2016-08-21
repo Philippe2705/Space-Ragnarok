@@ -5,6 +5,8 @@ using UnityEngine.UI;
 public class StaticScript : MonoBehaviour
 {
     public Image shipPreview;
+    public InputField PlayerNameInputServer;
+    public InputField PlayerNameInputClient;
 
     public int shipId;
     public string pseudo;
@@ -21,7 +23,20 @@ public class StaticScript : MonoBehaviour
             shipId = 0;
         }
         SetShipID(shipId);
+        PlayerNameInputServer.text = PlayerPrefs.GetString("Pseudo");
+        PlayerNameInputClient.text = PlayerPrefs.GetString("Pseudo");
+        pseudo = PlayerPrefs.GetString("Pseudo");
     }
+
+
+    void OnLevelWasLoaded()
+    {
+        if (FindObjectsOfType<StaticScript>().Length == 2 && shipPreview == null)
+        {
+            Destroy(gameObject);
+        }
+    }
+
 
     public void SetShipID(int id)
     {
@@ -34,5 +49,6 @@ public class StaticScript : MonoBehaviour
     public void OnPseudoChange(string newPseudo)
     {
         pseudo = newPseudo;
+        PlayerPrefs.SetString("Pseudo", pseudo);
     }
 }

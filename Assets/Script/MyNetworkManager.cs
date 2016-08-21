@@ -12,12 +12,13 @@ public class MyNetworkManager : MonoBehaviour
     public InputField serverPortField;
     public InputField clientPortField;
 
-    string ip = "localhost";
+    string ip;
     int port = 4444;
     NetworkClient myClient;
 
     void Start()
     {
+        ip = PlayerPrefs.GetString("Ip", "localhost");
         ipField.text = ip;
         serverPortField.text = port.ToString();
         clientPortField.text = port.ToString();
@@ -26,6 +27,7 @@ public class MyNetworkManager : MonoBehaviour
 
     public void SetupLocalServer()
     {
+        PlayerPrefs.SetString("Ip", ip);
         NetworkManager.singleton.networkAddress = ip;
         NetworkManager.singleton.networkPort = port;
         NetworkManager.singleton.StartHost();
@@ -34,16 +36,10 @@ public class MyNetworkManager : MonoBehaviour
     // Create a client and connect to the server port
     public void SetupClient()
     {
+        PlayerPrefs.SetString("Ip", ip);
         NetworkManager.singleton.networkAddress = ip;
         NetworkManager.singleton.networkPort = port;
         NetworkManager.singleton.StartClient();
-    }
-
-    // client function
-    public void OnConnected(NetworkMessage netMsg)
-    {
-        Debug.Log("Connected to server");
-        ClientScene.Ready(netMsg.conn);
     }
 
     public string GetLocalIp()

@@ -23,7 +23,6 @@ public class Bullet : NetworkBehaviour
     {
         autoDestruct = 25;
         transform.rotation = direction;
-        GetComponent<TrailRenderer>().material.color = color;
     }
 
     // Update is called once per frame
@@ -38,16 +37,17 @@ public class Bullet : NetworkBehaviour
             }
         }
         transform.Translate(-transform.up * Time.deltaTime * speed);
+        transform.position -= Vector3.forward * transform.position.z;
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnCollisionEnter2D(Collision2D other)
     {
         if (!isServer)
         {
             return;
         }
-        var player = other.GetComponent<PlayerShip>();
-        var bot = other.GetComponent<BotShip>();
+        var player = other.gameObject.GetComponent<PlayerShip>();
+        var bot = other.gameObject.GetComponent<BotShip>();
         Ship ship;
         if (player != null)
         {

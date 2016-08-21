@@ -1,48 +1,49 @@
-﻿//using UnityEngine;
-//using UnityEngine.SceneManagement;
+﻿using UnityEngine;
+using UnityEngine.Networking;
+using UnityEngine.UI;
 
-//public class MinimapSync : MonoBehaviour
-//{
-//    public GameObject camera1;
-//    public GameObject joueur;
-//    public GameObject miniMapIcon;
-//    public GameObject botIcon;
-//    public GameObject bot;
-//    Vector2 pos1; //For background
-//    Vector2 pos2; //For minimap
+public class MinimapSync : MonoBehaviour
+{
+    public RectTransform playerIcon;
+    public RectTransform enemyIcon;
+    Transform player;
+    Transform enemy;
 
-//    // Use this for initialization
-//    void Start()
-//    {
-//        GameObject.Find("NetworkSyncer1").GetComponent<NetworkSync>().isAlive = false;
-//        GameObject.Find("NetworkSyncer1").GetComponent<NetworkSync>().GameInit();
-//    }
 
-//    // Update is called once per frame
-//    void FixedUpdate()
-//    {
-//        bot = GameObject.Find("ShipBot(Clone)");
-//        if (GameObject.Find("NetworkSyncer1").GetComponent<NetworkSync>().isAlive == true)
-//        {
-//            pos1.x = joueur.transform.position.x * -0.25f;
-//            pos1.y = joueur.transform.position.y * -0.25f;
-//            transform.position = pos1;
-//            camera1.transform.rotation = joueur.transform.rotation; // Sync la rotation y des deux caméras
+    public void SearchForPlayers()
+    {
+        foreach (var playerShip in FindObjectsOfType<PlayerShip>())
+        {
+            if (playerShip.isLocalPlayer)
+            {
+                player = playerShip.transform;
+                playerIcon.GetComponent<Image>().sprite = ShipProperties.GetShip(playerShip.ShipId).ShipSprite;
+            }
+            else
+            {
+                enemy = playerShip.transform;
+                enemyIcon.GetComponent<Image>().sprite = ShipProperties.GetShip(playerShip.ShipId).ShipSprite;
+            }
+        }
+        if (enemy == null)
+        {
+            enemy = FindObjectOfType<BotShip>().transform;
+            enemyIcon.GetComponent<Image>().sprite = ShipProperties.GetShip(-1).ShipSprite;
+        }
+    }
 
-//            //Minimap Sync
-//            pos2.x = ((joueur.transform.position.x * 120) / 60);
-//            pos2.y = ((joueur.transform.position.y * 60) / 30);
-//            miniMapIcon.GetComponent<RectTransform>().localPosition = pos2;
-//            miniMapIcon.GetComponent<RectTransform>().localRotation = joueur.transform.rotation;
 
-//            botIcon.GetComponent<RectTransform>().localPosition = new Vector2(((bot.transform.position.x * 120) / 60), ((bot.transform.position.y * 60) / 30));
-//            botIcon.GetComponent<RectTransform>().localRotation = bot.transform.rotation;
-//        }
-//    }
-
-//    public void Disconnect()
-//    {
-//        Network.Disconnect();
-//        SceneManager.LoadScene(0);
-//    }
-//}
+    void Update()
+    {
+        if (player != null)
+        {
+            playerIcon.localPosition = player.position * 2;
+            playerIcon.localRotation = player.rotation;
+        }
+        if (enemy != null)
+        {
+            enemyIcon.localPosition = enemy.position * 2;
+            enemyIcon.localRotation = enemy.rotation;
+        }
+    }
+}
