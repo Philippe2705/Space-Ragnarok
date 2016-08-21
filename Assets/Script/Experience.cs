@@ -2,31 +2,47 @@
 using System;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using System.Security.Cryptography;
 
 public static class Experience
 {
     public static PlayerDataStruct PlayerData;
 
 
+    static byte[] key = { 1, 2, 3, 4, 5, 6, 7, 8 }; // Where to store these keys is the tricky part, 
+                                                    // you may need to obfuscate them or get the user to input a password each time
+    static byte[] iv = { 1, 2, 3, 4, 5, 6, 7, 8 };
+    static string path = Application.persistentDataPath + "/playerData.dat";
+
     public static void SaveData()
     {
-        BinaryFormatter binFor = new BinaryFormatter();
-        FileStream dataFile = File.Create(Application.persistentDataPath + "/playerData.dat");
+        DESCryptoServiceProvider des = new DESCryptoServiceProvider();
 
-        binFor.Serialize(dataFile, PlayerData);
+        // Encryption
+        using (var fs = new FileStream(path, FileMode.Create, FileAccess.Write))
+        using (var cryptoStream = new CryptoStream(fs, des.CreateEncryptor(key, iv), CryptoStreamMode.Write))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
 
-        dataFile.Close();
+            // This is where you serialize the class
+            formatter.Serialize(cryptoStream, PlayerData);
+        }
     }
     public static void LoadData()
     {
         if (File.Exists(Application.persistentDataPath + "/playerData.dat"))
         {
-            BinaryFormatter binFor = new BinaryFormatter();
-            FileStream dataFile = File.Open(Application.persistentDataPath + "/playerData.dat", FileMode.Open);
+            DESCryptoServiceProvider des = new DESCryptoServiceProvider();
 
-            PlayerData = (PlayerDataStruct)binFor.Deserialize(dataFile);
+            // Decryption
+            using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read))
+            using (var cryptoStream = new CryptoStream(fs, des.CreateDecryptor(key, iv), CryptoStreamMode.Read))
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
 
-            dataFile.Close();
+                // This is where you deserialize the class
+                PlayerData = (PlayerDataStruct)formatter.Deserialize(cryptoStream);
+            }
         }
 
     }
