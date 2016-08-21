@@ -49,6 +49,8 @@
      <Compile Include="Assets\Script\Bot.cs" />
      <Compile Include="Assets\Script\BotShip.cs" />
      <Compile Include="Assets\Script\Bullet.cs" />
+     <Compile Include="Assets\Script\Disconnect.cs" />
+     <Compile Include="Assets\Script\Experience.cs" />
      <Compile Include="Assets\Script\FPSCounter.cs" />
      <Compile Include="Assets\Script\HealthBar.cs" />
      <Compile Include="Assets\Script\LocalPlayer.cs" />
@@ -60,9 +62,10 @@
      <Compile Include="Assets\Script\PlayerController.cs" />
      <Compile Include="Assets\Script\PlayerShip.cs" />
      <Compile Include="Assets\Script\Player_SyncRotation.cs" />
-     <Compile Include="Assets\Script\SavaLoad.cs" />
      <Compile Include="Assets\Script\Ship.cs" />
+     <Compile Include="Assets\Script\ShipProperties.cs" />
      <Compile Include="Assets\Script\SimpleMatchMaker.cs" />
+     <Compile Include="Assets\Script\StaticScript.cs" />
      <None Include="Assets\Standard Assets\Unity Samples UI\Fonts\Jupiter\LICENSE.txt" />
      <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAlpha.shader" />
      <None Include="Assets\Standard Assets\Unity Samples UI\Textures and Sprites\SF UI\Background\LICENSE.txt" />
