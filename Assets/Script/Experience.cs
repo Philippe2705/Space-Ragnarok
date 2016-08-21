@@ -9,9 +9,9 @@ public static class Experience
     public static PlayerDataStruct PlayerData;
 
 
-    static byte[] key = { 1, 2, 3, 4, 5, 6, 7, 8 }; // Where to store these keys is the tricky part, 
+    static byte[] key = { 5, 65, 25, 46, 21, 55, 76, 68 }; // Where to store these keys is the tricky part, 
                                                     // you may need to obfuscate them or get the user to input a password each time
-    static byte[] iv = { 1, 2, 3, 4, 5, 6, 7, 8 };
+    static byte[] iv = { 15, 22, 53, 64, 75, 86, 27, 18 };
     static string path = Application.persistentDataPath + "/playerData.dat";
 
     public static void SaveData()

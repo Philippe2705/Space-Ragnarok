@@ -144,8 +144,7 @@ public class Ship : NetworkBehaviour
         /*
          * Rotate along Z axis 
          */
-        Vector3 rotation = new Vector3(0, 0, horizontal * 1.5f);
-        transform.Rotate(rotation * Time.deltaTime * -15 * shipProperty.TurnRate);
+        rigidbody2D.angularVelocity = horizontal * -15 * shipProperty.TurnRate;
 
         /*
          * Move ship
@@ -265,6 +264,10 @@ public class Ship : NetworkBehaviour
         foreach (var s in GetComponentsInChildren<ParticleSystemRenderer>())
         {
             s.enabled = false;
+        }
+        if (!(isServer && GetType() != typeof(BotShip)) && !isLocalPlayer)
+        {
+            Experience.AddExperience(1);
         }
     }
 
