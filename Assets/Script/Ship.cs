@@ -191,15 +191,10 @@ public class Ship : NetworkBehaviour
     {
         Pseudo = pseudo;
         ShipId = shipId;
+
+        RpcUpdateMinimap();
     }
 
-
-    [Command]
-    void CmdUpdatePseudoAndShipIdForClient()
-    {
-        Pseudo = Pseudo + "";
-        ShipId = ShipId + 0;
-    }
     /*
      * Hit
      */
@@ -218,6 +213,12 @@ public class Ship : NetworkBehaviour
     /*
      * Rpcs
      */
+
+    [ClientRpc]
+    void RpcUpdateMinimap()
+    {
+        FindObjectOfType<MinimapSync>().SearchForPlayers();
+    }
 
     [ClientRpc]
     void RpcHitByBullet(Vector3 position, Quaternion rotation)

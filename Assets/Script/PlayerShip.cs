@@ -38,7 +38,6 @@ public class PlayerShip : Ship
             CmdUpdatePseudoAndShipId(ss.pseudo, ss.shipId);
             //Update minimap
         }
-        FindObjectOfType<MinimapSync>().SearchForPlayers();
     }
 
     protected override void UpdateClient()
