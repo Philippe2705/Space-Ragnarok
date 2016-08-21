@@ -90,6 +90,7 @@
     <Compile Include="Assets\Script\Ship.cs" />
     <Compile Include="Assets\Script\ShipProperties.cs" />
     <Compile Include="Assets\Script\SimpleMatchMaker.cs" />
+    <Compile Include="Assets\Script\SpawnPlayer.cs" />
     <Compile Include="Assets\Script\StaticScript.cs" />
   </ItemGroup>
   <ItemGroup>

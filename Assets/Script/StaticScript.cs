@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
@@ -44,7 +45,6 @@ public class StaticScript : MonoBehaviour
         PlayerPrefs.SetInt("ShipID", id);
         shipId = id;
         shipPreview.sprite = ShipProperties.GetShip(id).ShipSprite;
-        NetworkManager.singleton.playerPrefab = ShipProperties.GetShip(id).ShipPrefab;
     }
 
     public void OnPseudoChange(string newPseudo)

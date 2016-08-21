@@ -17,9 +17,9 @@ public class Ship : NetworkBehaviour
 
     public ShipProperty shipProperty;
 
-    [SyncVar]
+    [SyncVar(hook = "UpdateShipId")]
     public int ShipId;
-    [SyncVar]
+    [SyncVar(hook = "UpdatePseudo")]
     public string Pseudo;
 
 
@@ -129,7 +129,10 @@ public class Ship : NetworkBehaviour
 
     protected virtual void UpdateClient()
     {
-        pseudoGO.transform.rotation = Camera.main.transform.rotation;
+        if (pseudoGO != null && Camera.main != null)
+        {
+            pseudoGO.transform.rotation = Camera.main.transform.rotation;
+        }
     }
 
 
@@ -287,7 +290,7 @@ public class Ship : NetworkBehaviour
     void UpdatePseudo(string value)
     {
         pseudoGO.GetComponent<TextMesh>().text = value;
-        pseudoGO.GetComponent<TextMesh>().characterSize = 0.01f;
+        pseudoGO.GetComponent<TextMesh>().characterSize = isLocalPlayer ? 0f : 0.01f;
     }
 
     void UpdateShipId(int value)

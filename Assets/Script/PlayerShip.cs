@@ -16,10 +16,7 @@ public class PlayerShip : Ship
         base.Start();
         RightGunReloadingBar = GameObject.Find("RightReloading").GetComponent<Slider>();
         LeftGunReloadingBar = GameObject.Find("LeftReloading").GetComponent<Slider>();
-        if (isLocalPlayer)
-        {
-            HealthBar = GameObject.Find("HealthBar").GetComponent<HealthBar>();
-        }
+        HealthBar = FindObjectOfType<HealthBar>();
         GetComponentInChildren<Camera>().enabled = isLocalPlayer;
         GetComponentInChildren<Camera>().tag = isLocalPlayer ? "MainCamera" : "Untagged";
         GetComponentInChildren<AudioListener>().enabled = isLocalPlayer;
@@ -31,13 +28,16 @@ public class PlayerShip : Ship
             var botGO = Instantiate(bot) as GameObject;
             NetworkServer.Spawn(botGO);
         }
+        else if (isServer && NetworkManager.singleton.numPlayers == 2)
+        {
+            NetworkServer.Destroy(FindObjectOfType<BotShip>().gameObject);
+        }
         if (isLocalPlayer)
         {
             var ss = FindObjectOfType<StaticScript>();
             Pseudo = ss.pseudo;
             ShipId = ss.shipId;
             CmdUpdatePseudoAndShipId(ss.pseudo, ss.shipId);
-            //Update minimap
         }
     }
 
