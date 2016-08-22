@@ -3,25 +3,29 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 using System.Net;
 
-public class MyNetworkManager : MonoBehaviour
+public class CustomNetworkManager : MonoBehaviour
 {
-    public bool isAtStartup = true;
-    public InputField ipField;
-    public Text ipText;
-    public InputField serverPortField;
-    public InputField clientPortField;
+    public InputField IpField;
+    public Text IpText;
+    public InputField ServerPortField;
+    public InputField ClientPortField;
+    public Button SetupLocalServerButton;
+    public Button SetupClientButton;
 
     string ip;
     int port = 4444;
-    NetworkClient myClient;
 
     void Start()
     {
+        SetupLocalServerButton.onClick.AddListener(SetupLocalServer);
+        SetupClientButton.onClick.AddListener(SetupClient);
+
         ip = PlayerPrefs.GetString("Ip", "localhost");
-        ipField.text = ip;
-        serverPortField.text = port.ToString();
-        clientPortField.text = port.ToString();
-        ipText.text = GetLocalIp();
+
+        IpField.text = ip;
+        ServerPortField.text = port.ToString();
+        ClientPortField.text = port.ToString();
+        IpText.text = GetLocalIp();
     }
 
     public void SetupLocalServer()
@@ -32,7 +36,7 @@ public class MyNetworkManager : MonoBehaviour
         NetworkManager.singleton.StartHost();
     }
 
-    // Create a client and connect to the server port
+
     public void SetupClient()
     {
         PlayerPrefs.SetString("Ip", ip);

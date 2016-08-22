@@ -8,7 +8,7 @@ public class SpawnPlayer : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            CmdSpawnPlayer(FindObjectOfType<StaticScript>().shipId);
+            //CmdSpawnPlayer(FindObjectOfType<StaticScript>().shipId);
         }
     }
 

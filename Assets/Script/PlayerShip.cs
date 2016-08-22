@@ -21,10 +21,10 @@ public class PlayerShip : Ship
 
         if (isLocalPlayer)
         {
-            var ss = FindObjectOfType<StaticScript>();
-            Pseudo = ss.pseudo;
-            ShipId = ss.shipId;
-            CmdUpdatePseudoAndShipId(ss.pseudo, ss.shipId);
+            //var ss = FindObjectOfType<StaticScript>();
+            //Pseudo = ss.pseudo;
+            //ShipId = ss.shipId;
+            //CmdUpdatePseudoAndShipId(ss.pseudo, ss.shipId);
             GetComponentInChildren<Camera>().orthographicSize = ShipProperties.GetShip(ShipId).ViewDistance;
         }
     }

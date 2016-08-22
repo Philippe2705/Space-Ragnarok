@@ -61,24 +61,24 @@ public static class UserData
         return playerData.CurrentExperience;
     }
 
-    public static void SetLastShipId(int shipId)
+    public static void SetShipId(int shipId)
     {
         LoadData();
         if (shipId < 0 || shipId > 4) //If a correct value never init, set to default
         {
-            playerData.lastShipId = 0;
+            playerData.ShipId = 0;
         }
         else
         {
-            playerData.lastShipId = shipId;
+            playerData.ShipId = shipId;
         }
         SaveData();
     }
 
-    public static int GetLastShipId()
+    public static int GetShipId()
     {
         LoadData();
-        return playerData.lastShipId;
+        return playerData.ShipId;
     }
 
 }
@@ -87,5 +87,5 @@ public static class UserData
 public struct PlayerDataStruct
 {
     public int CurrentExperience;
-    public int lastShipId;
+    public int ShipId;
 }

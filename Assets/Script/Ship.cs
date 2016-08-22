@@ -208,7 +208,7 @@ public class Ship : NetworkBehaviour
     }
 
     [Command]
-    protected void UpdateMinimap()
+    protected void CmdUpdateMinimap()
     {
         RpcUpdateMinimap();
     }
