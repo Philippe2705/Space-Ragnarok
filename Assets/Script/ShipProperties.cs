@@ -11,7 +11,7 @@ public static class ShipProperties
             case -1:
                 return new ShipProperty(-1, "BotShip", 2, 1, 2, 1, 1, "Orange");
             case 0:
-                return new ShipProperty(0, "SmallShip", 5f, 3, 1, 10, 1, "Orange");
+                return new ShipProperty(0, "SmallShip", 5f, 3, 1, 10, 100, "Orange");
             case 1:
                 return new ShipProperty(1, "Frigate", 3f, 1.5f, 1.5f, 10, 1.2f, "Orange");
             case 2:
@@ -39,10 +39,10 @@ public struct ShipProperty
     public readonly float TurnRate;
     public readonly float Armor;
     public readonly float Damage;
-    public readonly float ViewDistanceFactor;
+    public readonly float ViewDistance;
     public readonly string MaterialColor;
 
-    public ShipProperty(int shipID, string shipName, float speedFactor, float turnRate, float armor, float damage, float viewDistanceFactor, string materialColor)
+    public ShipProperty(int shipID, string shipName, float speedFactor, float turnRate, float armor, float damage, float viewDistance, string materialColor)
     {
         ShipID = shipID;
         ShipName = shipName;
@@ -52,7 +52,7 @@ public struct ShipProperty
         TurnRate = turnRate;
         Armor = armor;
         Damage = damage;
-        ViewDistanceFactor = viewDistanceFactor;
+        ViewDistance = viewDistance;
         MaterialColor = materialColor;
     }
 }
