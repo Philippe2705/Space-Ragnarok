@@ -8,6 +8,9 @@ public class BotShip : Ship
     {
         base.Start();
         playerShip = FindObjectOfType<PlayerShip>();
+        Pseudo = "Bot";
+        GetComponentInChildren<Camera>().enabled = false;
+        GetComponentInChildren<AudioListener>().enabled = false;
     }
 
     protected override void UpdateServer()

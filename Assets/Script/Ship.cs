@@ -1,15 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
-using UnityEditor;
 
 public class Ship : NetworkBehaviour
 {
-    public GameObject explosion;
-    public GameObject bigExplosion;
-    public GameObject explosionSound;
-    public GameObject smallExplosionSound;
-    public GameObject bigExplosionSound;
-    public GameObject bulletPrefab;
 
     public const float MinPosX = -60f, MaxPosX = 60f, MinPosY = -30f, MaxPosY = 30f;
     public const float VitesseMinimum = 0.1f;
@@ -29,19 +22,35 @@ public class Ship : NetworkBehaviour
     float reloadTimeL;
     float explosionTimer = 5;
     bool isDead = false;
+    float vie = 100;
     GameObject[] rightGuns;
     GameObject[] leftGuns;
     GameObject pseudoGO;
 
 
+    GameObject smallExplosion;
+    GameObject bigExplosion;
+    GameObject explosionSound;
+    GameObject smallExplosionSound;
+    GameObject bigExplosionSound;
+    GameObject bulletPrefab;
 
-    float vie = 100;
+
 
 
     protected virtual void Start()
     {
         pseudoGO = transform.FindChild("Player_name").gameObject;
         rigidbody2D = GetComponent<Rigidbody2D>();
+        /*
+         * Prefabs
+         */
+        smallExplosion = Resources.Load<GameObject>("Prefabs/SmallExplosion");
+        bigExplosion = Resources.Load<GameObject>("Prefabs/BigExplosion");
+        explosionSound = Resources.Load<GameObject>("Prefabs/ExplosionSound");
+        smallExplosionSound = Resources.Load<GameObject>("Prefabs/SmallExplosionSound");
+        bigExplosionSound = Resources.Load<GameObject>("Prefabs/BigExplosionSound");
+        bulletPrefab = Resources.Load<GameObject>("Prefabs/Bullet");
         /*
          * Guns
          */
@@ -57,10 +66,6 @@ public class Ship : NetworkBehaviour
         for (int i = 0; i < leftGun.childCount; i++)
         {
             leftGuns[i] = leftGun.transform.GetChild(i).gameObject;
-        }
-        if (isServer && GetType() == typeof(BotShip))
-        {
-            CmdUpdatePseudoAndShipId("Bot", -1);
         }
     }
 
@@ -153,12 +158,12 @@ public class Ship : NetworkBehaviour
         /*
          * Rotate along Z axis 
          */
-        rigidbody2D.angularVelocity = horizontal * shipProperty.TurnRate;
+        rigidbody2D.angularVelocity = horizontal * shipProperty.TurnRate * (GetType() == typeof(BotShip) ? 4 : 1);
 
         /*
          * Move ship
          */
-        rigidbody2D.velocity = transform.up * Mathf.Max(vertical, VitesseMinimum) * shipProperty.SpeedFactor;
+        rigidbody2D.velocity = transform.up * Mathf.Max(vertical, VitesseMinimum) * shipProperty.SpeedFactor * (GetType() == typeof(BotShip) ? 2 : 1);
     }
 
 
@@ -232,7 +237,7 @@ public class Ship : NetworkBehaviour
     void RpcHitByBullet(Vector3 position, Quaternion rotation)
     {
         Instantiate(explosionSound, position, rotation);
-        Instantiate(explosion, position, rotation);
+        Instantiate(smallExplosion, position, rotation);
     }
 
     [ClientRpc]
@@ -250,7 +255,7 @@ public class Ship : NetworkBehaviour
     void SmallExplosion()
     {
         Vector3 randomPos = new Vector3(transform.position.x + Random.Range(-0.5f, 0.5f), transform.position.y + Random.Range(-0.5f, 0.5f), -1);
-        Instantiate(explosion, randomPos, transform.rotation);
+        Instantiate(smallExplosion, randomPos, transform.rotation);
         Instantiate(smallExplosionSound, randomPos, transform.rotation);
     }
 

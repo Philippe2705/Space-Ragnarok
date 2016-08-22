@@ -28,7 +28,7 @@ public class MinimapSync : MonoBehaviour
         if (enemy == null)
         {
             enemy = FindObjectOfType<BotShip>().transform;
-            enemyIcon.GetComponent<Image>().sprite = ShipProperties.GetShip(-1).ShipSprite;
+            enemyIcon.GetComponent<Image>().sprite = ShipProperties.GetShip(FindObjectOfType<BotShip>().ShipId).ShipSprite;
         }
     }
 

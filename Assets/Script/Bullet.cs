@@ -23,6 +23,7 @@ public class Bullet : NetworkBehaviour
     {
         autoDestruct = 25;
         transform.rotation = direction;
+        GetComponent<TrailRenderer>().material = Resources.Load<Material>("Materials/Bullet" + color);
     }
 
     // Update is called once per frame
@@ -36,9 +37,8 @@ public class Bullet : NetworkBehaviour
                 NetworkServer.Destroy(gameObject);
             }
         }
-        transform.Translate(-transform.up * Time.deltaTime * speed);
+        transform.Translate(-transform.up * Time.deltaTime * speed - Vector3.forward * transform.position.z);
         transform.position -= Vector3.forward * transform.position.z;
-        GetComponent<TrailRenderer>().material = Resources.Load<Material>("Materials/Bullet" + color);
     }
 
     void OnCollisionEnter2D(Collision2D other)

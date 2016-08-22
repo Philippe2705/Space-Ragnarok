@@ -16,6 +16,7 @@ public class SpawnPlayer : NetworkBehaviour
     void CmdSpawnPlayer(int shipId)
     {
         var player = Instantiate(ShipProperties.GetShip(shipId).ShipPrefab, new Vector3(Random.Range(-60, 60), Random.Range(-30, 30), 0), Quaternion.identity) as GameObject;
+        player.AddComponent<PlayerShip>();
         NetworkServer.ReplacePlayerForConnection(NetworkServer.connections[NetworkServer.connections.Count - 1], player, 0);
     }
 }

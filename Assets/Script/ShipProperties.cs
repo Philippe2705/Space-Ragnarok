@@ -9,7 +9,7 @@ public static class ShipProperties
         switch (shipId)
         {
             case -1:
-                return new ShipProperty(-1, "BotShip", 10, 70, 2, 10, 1, "Orange");
+                return new ShipProperty(-1, "BotShip", 3, 45, 2, 10, 1, "Orange");
             case 0:
                 return new ShipProperty(0, "SmallShip", 5f, 45, 1, 10, 10, "Orange");
             case 1:

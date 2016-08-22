@@ -21,17 +21,6 @@ public class PlayerShip : Ship
         GetComponentInChildren<Camera>().tag = isLocalPlayer ? "MainCamera" : "Untagged";
         GetComponentInChildren<AudioListener>().enabled = isLocalPlayer;
 
-        //TODO: Amélorier
-        if (isServer && NetworkManager.singleton.numPlayers == 1)
-        {
-            var bot = ShipProperties.GetShip(-1).ShipPrefab;
-            var botGO = Instantiate(bot) as GameObject;
-            NetworkServer.Spawn(botGO);
-        }
-        else if (isServer && NetworkManager.singleton.numPlayers == 2)
-        {
-            NetworkServer.Destroy(FindObjectOfType<BotShip>().gameObject);
-        }
         if (isLocalPlayer)
         {
             var ss = FindObjectOfType<StaticScript>();
@@ -39,6 +28,19 @@ public class PlayerShip : Ship
             ShipId = ss.shipId;
             CmdUpdatePseudoAndShipId(ss.pseudo, ss.shipId);
             GetComponentInChildren<Camera>().orthographicSize = ShipProperties.GetShip(ShipId).ViewDistance;
+        }
+
+        if (isServer && NetworkManager.singleton.numPlayers == 1)
+        {
+            var bot = ShipProperties.GetShip(ShipId).ShipPrefab;
+            var botGO = Instantiate(bot, new Vector3(Random.Range(-60, 60), Random.Range(-30, 30), 0), Quaternion.identity) as GameObject;
+            botGO.AddComponent<BotShip>();
+            botGO.GetComponent<BotShip>().ShipId = ShipId;
+            NetworkServer.Spawn(botGO);
+        }
+        else if (isServer && NetworkManager.singleton.numPlayers == 2)
+        {
+            NetworkServer.Destroy(FindObjectOfType<BotShip>().gameObject);
         }
     }
 
