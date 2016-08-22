@@ -17,6 +17,7 @@ public class Ship : NetworkBehaviour
     public const float ReloadingTime = 3;
 
     public ShipProperty shipProperty;
+    public new Rigidbody2D rigidbody2D;
 
     [SyncVar(hook = "UpdateShipId")]
     public int ShipId;
@@ -32,7 +33,6 @@ public class Ship : NetworkBehaviour
     GameObject[] leftGuns;
     GameObject pseudoGO;
 
-    new Rigidbody2D rigidbody2D;
 
 
     float vie = 100;
@@ -147,6 +147,9 @@ public class Ship : NetworkBehaviour
         {
             return;
         }
+
+        horizontal = Mathf.Clamp(horizontal, -1, 1);
+        vertical = Mathf.Clamp(vertical, -1, 1);
         /*
          * Rotate along Z axis 
          */
