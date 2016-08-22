@@ -87,6 +87,9 @@
  <Reference Include="UnityEditor.WindowsStandalone.Extensions">
  <HintPath>C:/Program Files/Unity5/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
  </Reference>
+ <Reference Include="Sdkbox">
+ <HintPath>C:/Users/X-Gaming/Documents/Unity Projects/Project - Space Ragnarok/Assets/SDKBOX/sdkbox/Editor/Sdkbox.dll</HintPath>
+ </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">

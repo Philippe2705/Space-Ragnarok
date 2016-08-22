@@ -45,18 +45,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\SDKBOX\iap\Assets\IAP.cs" />
+     <Compile Include="Assets\SDKBOX\iap\Sample\PurchaseHandler.cs" />
+     <Compile Include="Assets\SDKBOX\sdkbox\Assets\Json.cs" />
+     <Compile Include="Assets\SDKBOX\sdkbox\Assets\PluginBase.cs" />
+     <Compile Include="Assets\SDKBOX\sdkbox\Assets\SDKBOX.cs" />
      <Compile Include="Assets\Script\AutoDestruct.cs" />
-     <Compile Include="Assets\Script\AvailableShip.cs" />
-     <Compile Include="Assets\Script\BotShip.cs" />
      <Compile Include="Assets\Script\Bullet.cs" />
      <Compile Include="Assets\Script\Disconnect.cs" />
      <Compile Include="Assets\Script\FPSCounter.cs" />
      <Compile Include="Assets\Script\HealthBar.cs" />
+     <Compile Include="Assets\Script\MainMenu\AvailableShip.cs" />
+     <Compile Include="Assets\Script\MainMenu\CustomNetworkManager.cs" />
+     <Compile Include="Assets\Script\MainMenu\PseudoSave.cs" />
+     <Compile Include="Assets\Script\MainMenu\ServerConf.cs" />
      <Compile Include="Assets\Script\MinimapSync.cs" />
-     <Compile Include="Assets\Script\MyNetworkManager.cs" />
-     <Compile Include="Assets\Script\PlayerShip.cs" />
-     <Compile Include="Assets\Script\Ship.cs" />
      <Compile Include="Assets\Script\ShipProperties.cs" />
+     <Compile Include="Assets\Script\Ships\BotShip.cs" />
+     <Compile Include="Assets\Script\Ships\PlayerShip.cs" />
+     <Compile Include="Assets\Script\Ships\Ship.cs" />
      <Compile Include="Assets\Script\SimpleMatchMaker.cs" />
      <Compile Include="Assets\Script\SpawnPlayer.cs" />
      <Compile Include="Assets\Script\StaticScript.cs" />
