@@ -11,7 +11,7 @@ public static class ShipProperties
             case -1:
                 return new ShipProperty(-1, "BotShip", 3, 45, 2, 3, 10, 1, "Orange");
             case 0:
-                return new ShipProperty(0, "SmallShip", 5f, 45, 1, 10, 0.2f, 10, "Orange");
+                return new ShipProperty(0, "Destroyer", 5f, 45, 1, 10, 0.2f, 10, "Orange");
             case 1:
                 return new ShipProperty(1, "Frigate", 3f, 22.5f, 1.5f, 10, 3, 1.2f, "Orange");
             case 2:
@@ -32,7 +32,8 @@ public static class ShipProperties
 public struct ShipProperty
 {
     public readonly int ShipID;
-    public readonly GameObject ShipPrefab;
+    public readonly GameObject PlayerShipPrefab;
+    public readonly GameObject BotShipPrefab;
     public readonly string ShipName;
     public readonly Sprite ShipSprite;
     public readonly float SpeedFactor;
@@ -47,7 +48,8 @@ public struct ShipProperty
     {
         ShipID = shipID;
         ShipName = shipName;
-        ShipPrefab = Resources.Load<GameObject>("Prefabs/" + ShipName);
+        PlayerShipPrefab = Resources.Load<GameObject>("Prefabs/" + ShipName + "Player");
+        BotShipPrefab = Resources.Load<GameObject>("Prefabs/" + ShipName + "Bot");
         ShipSprite = Resources.Load<Sprite>("Images/" + ShipName);
         SpeedFactor = speedFactor;
         TurnRate = turnRate;
