@@ -205,7 +205,11 @@ public class Ship : NetworkBehaviour
     {
         Pseudo = pseudo;
         ShipId = shipId;
+    }
 
+    [Command]
+    protected void UpdateMinimap()
+    {
         RpcUpdateMinimap();
     }
 

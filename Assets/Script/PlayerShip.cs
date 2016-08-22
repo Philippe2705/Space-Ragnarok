@@ -27,25 +27,6 @@ public class PlayerShip : Ship
             CmdUpdatePseudoAndShipId(ss.pseudo, ss.shipId);
             GetComponentInChildren<Camera>().orthographicSize = ShipProperties.GetShip(ShipId).ViewDistance;
         }
-
-        if (isServer && NetworkManager.singleton.numPlayers == 1)
-        {
-            if (isLocalPlayer)
-            {
-                var bot = ShipProperties.GetShip(ShipId).ShipPrefab;
-                var botGO = Instantiate(bot, new Vector3(Random.Range(-60, 60), Random.Range(-30, 30), 0), Quaternion.identity) as GameObject;
-                botGO.GetComponent<BotShip>().ShipId = ShipId;
-                NetworkServer.Spawn(botGO);
-            }
-            else
-            {
-                Destroy(this);
-            }
-        }
-        else if (isServer && NetworkManager.singleton.numPlayers == 2)
-        {
-            NetworkServer.Destroy(FindObjectOfType<BotShip>().gameObject);
-        }
     }
 
     protected override void UpdateClient()

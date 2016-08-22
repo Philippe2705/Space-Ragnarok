@@ -2,41 +2,36 @@
 
 public class BotShip : Ship
 {
-    PlayerShip playerShip;
+    PlayerShip[] players;
+    PlayerShip currentPlayer;
+
+    const float nearestPlayerTrigger = 10;
 
     protected override void Start()
     {
         base.Start();
-        if (isLocalPlayer)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            var playerShips = FindObjectsOfType<PlayerShip>();
-            foreach (var ps in playerShips)
-            {
-                if (ps.gameObject != gameObject)
-                {
-                    playerShip = ps;
-                    break;
-                }
-            }
-            Pseudo = "Bot";
-            GetComponentInChildren<Camera>().enabled = false;
-            GetComponentInChildren<AudioListener>().enabled = false;
-            CmdUpdatePseudoAndShipId(Pseudo, ShipId);
-        }
+        UpdatePlayers();
+        currentPlayer = players[0];
+        GetComponentInChildren<Camera>().enabled = false;
+        GetComponentInChildren<AudioListener>().enabled = false;
     }
+
 
     protected override void UpdateServer()
     {
         base.UpdateServer();
+
+        GetNearestPlayer();
+        IA();
+    }
+
+    void IA()
+    {
         float vertical = 1;
         float horizontal;
         float fireSide = 0;
 
-        var deltaPos = playerShip.transform.position - transform.position;
+        var deltaPos = currentPlayer.transform.position - transform.position;
 
         var forwardAngle = Vector3.Angle(transform.up, deltaPos) * Mathf.Sign(Vector3.Dot(Vector3.Cross(transform.up, deltaPos), Vector3.forward));
         var rightAngle = Vector3.Angle(transform.right, deltaPos) * Mathf.Sign(Vector3.Dot(Vector3.Cross(transform.right, deltaPos), Vector3.forward));
@@ -45,7 +40,7 @@ public class BotShip : Ship
 
         if (deltaPos.magnitude < 15)
         {
-            deltaPos += playerShip.transform.up * playerShip.rigidbody2D.velocity.magnitude / 3 * deltaPos.magnitude;
+            deltaPos += currentPlayer.transform.up * currentPlayer.rigidbody2D.velocity.magnitude / 3 * deltaPos.magnitude;
         }
 
 
@@ -81,5 +76,26 @@ public class BotShip : Ship
 
         CmdMove(vertical, horizontal);
         CmdFire(fireSide);
+    }
+
+    void GetNearestPlayer()
+    {
+        PlayerShip nearestPlayer = currentPlayer;
+        foreach (var ps in players)
+        {
+            if (Vector3.Distance(ps.transform.position, transform.position) < Vector3.Distance(nearestPlayer.transform.position, transform.position))
+            {
+                nearestPlayer = ps;
+            }
+        }
+        if (Vector3.Distance(currentPlayer.transform.position, nearestPlayer.transform.position) > nearestPlayerTrigger)
+        {
+            currentPlayer = nearestPlayer;
+        }
+    }
+
+    public void UpdatePlayers()
+    {
+        players = FindObjectsOfType<PlayerShip>();
     }
 }
