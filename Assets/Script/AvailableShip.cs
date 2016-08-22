@@ -6,6 +6,7 @@ public class AvailableShip : MonoBehaviour
 {
 
     public Text ExperienceText;
+    
 
 
     void Update()
@@ -52,5 +53,6 @@ public class AvailableShip : MonoBehaviour
         GameObject ship = GameObject.Find(shipName);
         ship.GetComponent<Button>().interactable = active;
         ship.GetComponentInChildren<Text>().color = active ? Color.white : Color.gray;
+        ship.transform.FindChild("Locked").gameObject.SetActive(!active);
     }
 }

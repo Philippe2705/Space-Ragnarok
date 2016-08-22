@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 
 public static class Experience
 {
+   
     public static PlayerDataStruct PlayerData;
 
 
@@ -13,6 +14,7 @@ public static class Experience
                                                     // you may need to obfuscate them or get the user to input a password each time
     static byte[] iv = { 15, 22, 53, 64, 75, 86, 27, 18 };
     static string path = Application.persistentDataPath + "/playerData.dat";
+    
 
     public static void SaveData()
     {

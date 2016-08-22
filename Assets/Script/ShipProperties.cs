@@ -13,9 +13,9 @@ public static class ShipProperties
             case 0:
                 return new ShipProperty(0, "SmallShip", 10.6f, 5, 1, 10, Color.white);
             case 1:
-                return new ShipProperty(1, "Cruiser", 10.2f, 1, 1.5f, 10, Color.white);
+                return new ShipProperty(1, "Frigate", 10.2f, 1, 1.5f, 10, Color.white);
             case 2:
-                return new ShipProperty(2, "Frigate", 1, 1, 2, 1, Color.red);
+                return new ShipProperty(2, "Cruiser", 1, 1, 2, 1, Color.red);
             case 3:
                 return new ShipProperty(3, "BattleShip", 0.7f, 1, 4, 1, Color.white);
             case 4:
