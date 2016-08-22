@@ -7,10 +7,26 @@ public class BotShip : Ship
     protected override void Start()
     {
         base.Start();
-        playerShip = FindObjectOfType<PlayerShip>();
-        Pseudo = "Bot";
-        GetComponentInChildren<Camera>().enabled = false;
-        GetComponentInChildren<AudioListener>().enabled = false;
+        if (isLocalPlayer)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            var playerShips = FindObjectsOfType<PlayerShip>();
+            foreach (var ps in playerShips)
+            {
+                if (ps.gameObject != gameObject)
+                {
+                    playerShip = ps;
+                    break;
+                }
+            }
+            Pseudo = "Bot";
+            GetComponentInChildren<Camera>().enabled = false;
+            GetComponentInChildren<AudioListener>().enabled = false;
+            CmdUpdatePseudoAndShipId(Pseudo, ShipId);
+        }
     }
 
     protected override void UpdateServer()

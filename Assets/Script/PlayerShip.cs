@@ -8,8 +8,6 @@ public class PlayerShip : Ship
     Slider RightGunReloadingBar;
     Slider LeftGunReloadingBar;
     HealthBar HealthBar;
-    float localReloadTimeR;
-    float localReloadTimeL;
 
     protected override void Start()
     {
@@ -32,11 +30,17 @@ public class PlayerShip : Ship
 
         if (isServer && NetworkManager.singleton.numPlayers == 1)
         {
-            var bot = ShipProperties.GetShip(ShipId).ShipPrefab;
-            var botGO = Instantiate(bot, new Vector3(Random.Range(-60, 60), Random.Range(-30, 30), 0), Quaternion.identity) as GameObject;
-            botGO.AddComponent<BotShip>();
-            botGO.GetComponent<BotShip>().ShipId = ShipId;
-            NetworkServer.Spawn(botGO);
+            if (isLocalPlayer)
+            {
+                var bot = ShipProperties.GetShip(ShipId).ShipPrefab;
+                var botGO = Instantiate(bot, new Vector3(Random.Range(-60, 60), Random.Range(-30, 30), 0), Quaternion.identity) as GameObject;
+                botGO.GetComponent<BotShip>().ShipId = ShipId;
+                NetworkServer.Spawn(botGO);
+            }
+            else
+            {
+                Destroy(this);
+            }
         }
         else if (isServer && NetworkManager.singleton.numPlayers == 2)
         {
@@ -52,17 +56,8 @@ public class PlayerShip : Ship
             /*
              * Update reload sliders
              */
-            if (localReloadTimeR > 0)
-            {
-                localReloadTimeR -= Time.deltaTime;
-            }
-            if (localReloadTimeL > 0)
-            {
-                localReloadTimeL -= Time.deltaTime;
-            }
-
-            RightGunReloadingBar.value = 1 - localReloadTimeR / ReloadingTime;
-            LeftGunReloadingBar.value = 1 - localReloadTimeL / ReloadingTime;
+            RightGunReloadingBar.value = 1 - reloadTimeR / shipProperty.ReloadTime;
+            LeftGunReloadingBar.value = 1 - reloadTimeL / shipProperty.ReloadTime;
 
             /*
              * Fire
@@ -70,14 +65,6 @@ public class PlayerShip : Ship
             var fireSide = CnInputManager.GetAxisRaw("Horizontal1");
             if (Mathf.Abs(fireSide) > 0.2f)
             {
-                if (fireSide > 0 && localReloadTimeR <= 0)
-                {
-                    localReloadTimeR = ReloadingTime;
-                }
-                else if (fireSide < 0 && localReloadTimeL <= 0)
-                {
-                    localReloadTimeL = ReloadingTime;
-                }
                 CmdFire(fireSide);
             }
 
@@ -93,15 +80,20 @@ public class PlayerShip : Ship
     protected override void UpdateServer()
     {
         base.UpdateServer();
-        RpcUpdateHealthUI(GetVie());
+        RpcUpdateHealthUIAndReloadTimes(GetVie(), reloadTimeL, reloadTimeL);
     }
 
     [ClientRpc]
-    void RpcUpdateHealthUI(float vie)
+    void RpcUpdateHealthUIAndReloadTimes(float vie, float reloadTimeL, float reloadTimeR)
     {
         if (isLocalPlayer && HealthBar != null)
         {
             HealthBar.UpdateVie(vie);
+        }
+        if (!isServer)
+        {
+            this.reloadTimeL = reloadTimeL;
+            this.reloadTimeR = reloadTimeR;
         }
     }
 }

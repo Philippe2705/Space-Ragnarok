@@ -7,7 +7,6 @@ public class Ship : NetworkBehaviour
     public const float MinPosX = -60f, MaxPosX = 60f, MinPosY = -30f, MaxPosY = 30f;
     public const float VitesseMinimum = 0.1f;
     public const float VitesseMaximum = 2;
-    public const float ReloadingTime = 3;
 
     public ShipProperty shipProperty;
     public new Rigidbody2D rigidbody2D;
@@ -18,8 +17,9 @@ public class Ship : NetworkBehaviour
     public string Pseudo;
 
 
-    float reloadTimeR;
-    float reloadTimeL;
+    protected float reloadTimeR;
+    protected float reloadTimeL;
+
     float explosionTimer = 5;
     bool isDead = false;
     float vie = 100;
@@ -179,12 +179,13 @@ public class Ship : NetworkBehaviour
         if (fireSide > 0 && reloadTimeR <= 0)
         {
             guns = rightGuns;
-            reloadTimeR = ReloadingTime;
+            reloadTimeR = shipProperty.ReloadTime;
         }
         else if (fireSide < 0 && reloadTimeL <= 0)
         {
             guns = leftGuns;
-            reloadTimeL = ReloadingTime;
+            reloadTimeL = shipProperty.ReloadTime;
+            print(shipProperty.ReloadTime);
         }
 
         foreach (var gun in guns)
