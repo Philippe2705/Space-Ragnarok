@@ -8,18 +8,19 @@ public static class ShipProperties
     {
         switch (shipId)
         {
+
             case -1:
-                return new ShipProperty(-1, "BotShip", 3, 45, 2, 3, 10, 1, "Orange");
+                return new ShipProperty(-1, "BotShip", 3/*Speed Factor*/, 45/*Turn Rate*/, 2/*Armor*/, 10/*Domage*/, 10/*Reload Time*/, 5/*View Distance*/, "Orange");
             case 0:
-                return new ShipProperty(0, "SmallShip", 5f, 45, 1, 10, 0.2f, 10, "Orange");
+                return new ShipProperty(0, "SmallShip", 5f/*Speed Factor*/, 45/*Turn Rate*/, 1/*Armor*/, 10/*Domage*/, 2f/*Reload Time*/, 7/*View Distance*/, "Orange");
             case 1:
-                return new ShipProperty(1, "Frigate", 3f, 22.5f, 1.5f, 10, 3, 1.2f, "Orange");
+                return new ShipProperty(1, "Frigate", 3f/*Speed Factor*/, 22.5f/*Turn Rate*/, 1.2f/*Armor*/, 12/*Domage*/, 3/*Reload Time*/, 7/*View Distance*/, "Orange");
             case 2:
-                return new ShipProperty(2, "Cruiser", 1.5f, 22.5f, 2, 1, 3, 1.3f, "Red");
+                return new ShipProperty(2, "Cruiser", 1.5f/*Speed Factor*/, 22.5f/*Turn Rate*/, 1.5f/*Armor*/, 14/*Domage*/, 3/*Reload Time*/, 8/*View Distance*/, "Red");
             case 3:
-                return new ShipProperty(3, "BattleShip", 0.7f, 15, 4, 1.5f, 3, 1.5f, "Orange");
+                return new ShipProperty(3, "BattleShip", 0.7f/*Speed Factor*/, 18/*Turn Rate*/, 2.5f/*Armor*/, 17/*Domage*/, 3/*Reload Time*/, 9/*View Distance*/, "Orange");
             case 4:
-                return new ShipProperty(0, "Ragnarok", 0.3f, 15, 20, 10, 3, 2, "Purple");
+                return new ShipProperty(4, "Ragnarok", 0.3f/*Speed Factor*/, 15/*Turn Rate*/, 5/*Armor*/, 24/*Domage*/, 3/*Reload Time*/, 12/*View Distance*/, "Purple");
 
             default:
                 Debug.LogError("Incorrect Ship ID");
