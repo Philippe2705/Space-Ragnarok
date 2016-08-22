@@ -10,7 +10,7 @@ public class Bullet : NetworkBehaviour
     [SyncVar]
     public Quaternion direction;
     [SyncVar]
-    public Color color;
+    public string color;
 
     //Server
     public float damage;
@@ -38,6 +38,7 @@ public class Bullet : NetworkBehaviour
         }
         transform.Translate(-transform.up * Time.deltaTime * speed);
         transform.position -= Vector3.forward * transform.position.z;
+        GetComponent<TrailRenderer>().material = Resources.Load<Material>("Materials/Bullet" + color);
     }
 
     void OnCollisionEnter2D(Collision2D other)

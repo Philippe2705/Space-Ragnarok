@@ -9,17 +9,17 @@ public static class ShipProperties
         switch (shipId)
         {
             case -1:
-                return new ShipProperty(-1, "BotShip", 2, 1, 2, 1, 1, Color.white, "BulletOrange");
+                return new ShipProperty(-1, "BotShip", 2, 1, 2, 1, 1, "Orange");
             case 0:
-                return new ShipProperty(0, "SmallShip", 5f, 3, 1, 10, 1, Color.white, "BulletOrange");
+                return new ShipProperty(0, "SmallShip", 5f, 3, 1, 10, 1, "Orange");
             case 1:
-                return new ShipProperty(1, "Frigate", 3f, 1.5f, 1.5f, 10, 1.2f, Color.white, "BulletOrange");
+                return new ShipProperty(1, "Frigate", 3f, 1.5f, 1.5f, 10, 1.2f, "Orange");
             case 2:
-                return new ShipProperty(2, "Cruiser", 1.5f, 1.5f, 2, 1, 1.3f, Color.red, "BulletRed");
+                return new ShipProperty(2, "Cruiser", 1.5f, 1.5f, 2, 1, 1.3f, "Red");
             case 3:
-                return new ShipProperty(3, "BattleShip", 0.7f, 1, 4, 1.5f, 1.5f, Color.white, "BulletOrange");
+                return new ShipProperty(3, "BattleShip", 0.7f, 1, 4, 1.5f, 1.5f, "Orange");
             case 4:
-                return new ShipProperty(0, "Ragnarok", 0.3f, 1, 20, 10, 2, Color.red, "BulletPurple");
+                return new ShipProperty(0, "Ragnarok", 0.3f, 1, 20, 10, 2, "Purple");
 
             default:
                 Debug.LogError("Incorrect Ship ID");
@@ -40,10 +40,9 @@ public struct ShipProperty
     public readonly float Armor;
     public readonly float Damage;
     public readonly float ViewDistanceFactor;
-    public readonly Color Color;
     public readonly string MaterialColor;
 
-    public ShipProperty(int shipID, string shipName, float speedFactor, float turnRate, float armor, float damage, float viewDistanceFactor, Color color, string materialColor)
+    public ShipProperty(int shipID, string shipName, float speedFactor, float turnRate, float armor, float damage, float viewDistanceFactor, string materialColor)
     {
         ShipID = shipID;
         ShipName = shipName;
@@ -54,7 +53,6 @@ public struct ShipProperty
         Armor = armor;
         Damage = damage;
         ViewDistanceFactor = viewDistanceFactor;
-        Color = color;
         MaterialColor = materialColor;
     }
 }

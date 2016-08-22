@@ -185,7 +185,7 @@ public class Ship : NetworkBehaviour
             var bullet = Instantiate(bulletPrefab, gun.transform.position, gun.transform.rotation) as GameObject;
             bullet.GetComponent<Bullet>().speed = Random.Range(2.7f, 3.3f);
             bullet.GetComponent<Bullet>().direction = gun.transform.rotation * Quaternion.Euler(0, Random.Range(-10f, 10f), 0);
-            bullet.GetComponent<Bullet>().color = shipProperty.Color;
+            bullet.GetComponent<Bullet>().color = shipProperty.MaterialColor;
             bullet.GetComponent<Bullet>().damage = shipProperty.Damage;
             NetworkServer.Spawn(bullet);
         }
