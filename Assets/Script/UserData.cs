@@ -4,19 +4,19 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Security.Cryptography;
 
-public static class Experience
+public static class UserData
 {
-   
-    public static PlayerDataStruct PlayerData;
+
+    private static PlayerDataStruct playerData;
 
 
-    static byte[] key = { 5, 65, 25, 46, 21, 55, 76, 68 }; // Where to store these keys is the tricky part, 
-                                                    // you may need to obfuscate them or get the user to input a password each time
-    static byte[] iv = { 15, 22, 53, 64, 75, 86, 27, 18 };
-    static string path = Application.persistentDataPath + "/playerData.dat";
-    
+    private static byte[] key = { 5, 65, 25, 46, 21, 55, 76, 68 }; // Where to store these keys is the tricky part, 
+                                                                   // you may need to obfuscate them or get the user to input a password each time
+    private static byte[] iv = { 15, 22, 53, 64, 75, 86, 27, 18 };
+    private static string path = Application.persistentDataPath + "/playerData.dat";
 
-    public static void SaveData()
+
+    private static void SaveData()
     {
         DESCryptoServiceProvider des = new DESCryptoServiceProvider();
 
@@ -27,10 +27,10 @@ public static class Experience
             BinaryFormatter formatter = new BinaryFormatter();
 
             // This is where you serialize the class
-            formatter.Serialize(cryptoStream, PlayerData);
+            formatter.Serialize(cryptoStream, playerData);
         }
     }
-    public static void LoadData()
+    private static void LoadData()
     {
         if (File.Exists(Application.persistentDataPath + "/playerData.dat"))
         {
@@ -43,7 +43,7 @@ public static class Experience
                 BinaryFormatter formatter = new BinaryFormatter();
 
                 // This is where you deserialize the class
-                PlayerData = (PlayerDataStruct)formatter.Deserialize(cryptoStream);
+                playerData = (PlayerDataStruct)formatter.Deserialize(cryptoStream);
             }
         }
 
@@ -51,14 +51,34 @@ public static class Experience
     public static void AddExperience(int experienceToAdd)
     {
         LoadData();
-        PlayerData.CurrentExperience += experienceToAdd;
+        playerData.CurrentExperience += experienceToAdd;
         SaveData();
     }
 
     public static int GetExperience()
     {
         LoadData();
-        return PlayerData.CurrentExperience;
+        return playerData.CurrentExperience;
+    }
+
+    public static void SetLastShipId(int shipId)
+    {
+        LoadData();
+        if (shipId < 0 || shipId > 4) //If a correct value never init, set to default
+        {
+            playerData.lastShipId = 0;
+        }
+        else
+        {
+            playerData.lastShipId = shipId;
+        }
+        SaveData();
+    }
+
+    public static int GetLastShipId()
+    {
+        LoadData();
+        return playerData.lastShipId;
     }
 
 }
@@ -67,5 +87,5 @@ public static class Experience
 public struct PlayerDataStruct
 {
     public int CurrentExperience;
-    public int lastShipUsedID;
+    public int lastShipId;
 }

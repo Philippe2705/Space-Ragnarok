@@ -6,44 +6,34 @@ public class AvailableShip : MonoBehaviour
 {
 
     public Text ExperienceText;
-    public GameObject staticOject;
-
-    void Start()
-    {
-        Experience.LoadData();
-        if (Experience.PlayerData.lastShipUsedID < 0 || Experience.PlayerData.lastShipUsedID > 4) //If a correct value never init, set to default
-        {
-            Experience.PlayerData.lastShipUsedID = 0;
-        }
-    }
 
     void Update()
     {
         if (ExperienceText.IsActive())
         {
-            ExperienceText.text = "Experience : " + Experience.GetExperience().ToString();
+            ExperienceText.text = "Experience : " + UserData.GetExperience().ToString();
             var ships = new string[] { "Frigate", "Cruiser", "BattleShip", "Ragnarok" };
 
             foreach (var ship in ships)
             {
                 SetShipActive(ship, false);
             }
-            if (Experience.GetExperience() >= 50)
+            if (UserData.GetExperience() >= 50)
             {
                 //Frigate Available
                 SetShipActive(ships[0], true);
             }
-            if (Experience.GetExperience() >= 200)
+            if (UserData.GetExperience() >= 200)
             {
                 //Cruiser Available
                 SetShipActive(ships[1], true);
             }
-            if (Experience.GetExperience() >= 600)
+            if (UserData.GetExperience() >= 600)
             {
                 //BatleShip Available
                 SetShipActive(ships[2], true);
             }
-            if (Experience.GetExperience() >= 1200)
+            if (UserData.GetExperience() >= 1200)
             {
                 //Ragnarok Available
                 SetShipActive(ships[3], true);
@@ -53,7 +43,7 @@ public class AvailableShip : MonoBehaviour
 
     public void AddXP(int xp)
     {
-        Experience.AddExperience(xp);
+        UserData.AddExperience(xp);
     }
 
     void SetShipActive(string shipName, bool active)

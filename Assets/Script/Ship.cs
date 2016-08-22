@@ -259,7 +259,7 @@ public class Ship : NetworkBehaviour
         print(gameObject.name + "A été détruit");
         if (!isLocalPlayer && shipProperty.ShipID != -1) //Pas le joueur tué, ni le bot
         {
-            Experience.AddExperience(1);
+            UserData.AddExperience(1);
         }
     }
 
@@ -273,7 +273,7 @@ public class Ship : NetworkBehaviour
         }
         if (!(isServer && GetType() != typeof(BotShip)) && !isLocalPlayer)
         {
-            Experience.AddExperience(1);
+            UserData.AddExperience(1);
         }
     }
 
