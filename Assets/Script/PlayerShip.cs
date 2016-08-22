@@ -38,6 +38,7 @@ public class PlayerShip : Ship
             Pseudo = ss.pseudo;
             ShipId = ss.shipId;
             CmdUpdatePseudoAndShipId(ss.pseudo, ss.shipId);
+            GetComponentInChildren<Camera>().orthographicSize = ShipProperties.GetShip(ShipId).ViewDistance;
         }
     }
 

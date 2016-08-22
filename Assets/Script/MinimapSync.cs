@@ -8,7 +8,6 @@ public class MinimapSync : MonoBehaviour
     public RectTransform enemyIcon;
     Transform player;
     Transform enemy;
-    float viewDistance;
 
 
     public void SearchForPlayers()
@@ -19,7 +18,6 @@ public class MinimapSync : MonoBehaviour
             {
                 player = playerShip.transform;
                 playerIcon.GetComponent<Image>().sprite = ShipProperties.GetShip(playerShip.ShipId).ShipSprite;
-                viewDistance = ShipProperties.GetShip(playerShip.ShipId).ViewDistance;
             }
             else
             {
@@ -42,7 +40,7 @@ public class MinimapSync : MonoBehaviour
             playerIcon.localPosition = player.position * 2;
             playerIcon.localRotation = player.rotation;
         }
-        if (enemy != null && Vector3.Distance(player.transform.position, enemy.transform.position) < viewDistance)
+        if (enemy != null)
         {
             enemyIcon.localPosition = enemy.position * 2;
             enemyIcon.localRotation = enemy.rotation;

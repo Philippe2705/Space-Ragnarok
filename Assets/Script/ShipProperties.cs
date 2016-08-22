@@ -11,7 +11,7 @@ public static class ShipProperties
             case -1:
                 return new ShipProperty(-1, "BotShip", 2, 1, 2, 1, 1, "Orange");
             case 0:
-                return new ShipProperty(0, "SmallShip", 5f, 3, 1, 10, 100, "Orange");
+                return new ShipProperty(0, "SmallShip", 5f, 3, 1, 10, 10, "Orange");
             case 1:
                 return new ShipProperty(1, "Frigate", 3f, 1.5f, 1.5f, 10, 1.2f, "Orange");
             case 2:

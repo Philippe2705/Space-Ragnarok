@@ -16,7 +16,9 @@ public class BotShip : Ship
         float vertical;
         float horizontal;
 
-        if (transform.rotation.eulerAngles.z < playerShip.transform.rotation.eulerAngles.z)
+        var deltaPos = playerShip.transform.position - transform.position;
+
+        if (transform.rotation.eulerAngles.z < Mathf.Atan2(deltaPos.y, deltaPos.x))
         {
             horizontal = 1;
         } else
@@ -25,7 +27,6 @@ public class BotShip : Ship
         }
 
         vertical = 1;
-        horizontal = 1;
 
         CmdMove(vertical, horizontal);
     }
