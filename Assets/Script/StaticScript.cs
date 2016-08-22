@@ -15,6 +15,7 @@ public class StaticScript : MonoBehaviour
 
     void Start()
     {
+        PlayerPrefs.SetInt("ShipID", Experience.PlayerData.lastShipUsedID);
         DontDestroyOnLoad(gameObject);
         if (PlayerPrefs.GetInt("ShipID") >= 0 && PlayerPrefs.GetInt("ShipID") <= 4) //Vérifie qu'un ship préféré est déja défini avec un ID correct
         {
@@ -45,6 +46,7 @@ public class StaticScript : MonoBehaviour
         PlayerPrefs.SetInt("ShipID", id);
         shipId = id;
         shipPreview.sprite = ShipProperties.GetShip(id).ShipSprite;
+        Experience.PlayerData.lastShipUsedID = id;
     }
 
     public void OnPseudoChange(string newPseudo)

@@ -67,4 +67,5 @@ public static class Experience
 public struct PlayerDataStruct
 {
     public int CurrentExperience;
+    public int lastShipUsedID;
 }

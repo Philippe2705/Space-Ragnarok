@@ -6,8 +6,15 @@ public class AvailableShip : MonoBehaviour
 {
 
     public Text ExperienceText;
-    
+    public GameObject staticOject;
 
+    void Start()
+    {
+        if (Experience.PlayerData.lastShipUsedID < 0 || Experience.PlayerData.lastShipUsedID > 4) //If a correct value never init, set to default
+        {
+            Experience.PlayerData.lastShipUsedID = 0;
+        }
+    }
 
     void Update()
     {
