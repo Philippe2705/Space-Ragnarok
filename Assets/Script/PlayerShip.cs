@@ -82,7 +82,7 @@ public class PlayerShip : Ship
             /*
              * Move
              */
-            float horizontal = CnInputManager.GetAxis("Horizontal");
+            float horizontal = -CnInputManager.GetAxis("Horizontal");
             float vertical = CnInputManager.GetAxis("Vertical");
             CmdMove(vertical, horizontal);
         }

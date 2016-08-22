@@ -9,17 +9,17 @@ public static class ShipProperties
         switch (shipId)
         {
             case -1:
-                return new ShipProperty(-1, "BotShip", 2, 1, 2, 1, 1, "Orange");
+                return new ShipProperty(-1, "BotShip", 2, 15, 2, 1, 1, "Orange");
             case 0:
-                return new ShipProperty(0, "SmallShip", 5f, 3, 1, 10, 10, "Orange");
+                return new ShipProperty(0, "SmallShip", 5f, 45, 1, 10, 10, "Orange");
             case 1:
-                return new ShipProperty(1, "Frigate", 3f, 1.5f, 1.5f, 10, 1.2f, "Orange");
+                return new ShipProperty(1, "Frigate", 3f, 22.5f, 1.5f, 10, 1.2f, "Orange");
             case 2:
-                return new ShipProperty(2, "Cruiser", 1.5f, 1.5f, 2, 1, 1.3f, "Red");
+                return new ShipProperty(2, "Cruiser", 1.5f, 22.5f, 2, 1, 1.3f, "Red");
             case 3:
-                return new ShipProperty(3, "BattleShip", 0.7f, 1, 4, 1.5f, 1.5f, "Orange");
+                return new ShipProperty(3, "BattleShip", 0.7f, 15, 4, 1.5f, 1.5f, "Orange");
             case 4:
-                return new ShipProperty(0, "Ragnarok", 0.3f, 1, 20, 10, 2, "Purple");
+                return new ShipProperty(0, "Ragnarok", 0.3f, 15, 20, 10, 2, "Purple");
 
             default:
                 Debug.LogError("Incorrect Ship ID");

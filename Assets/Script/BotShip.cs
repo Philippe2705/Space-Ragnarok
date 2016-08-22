@@ -18,7 +18,7 @@ public class BotShip : Ship
 
         var deltaPos = playerShip.transform.position - transform.position;
 
-        if (transform.rotation.eulerAngles.z < Mathf.Atan2(deltaPos.y, deltaPos.x))
+        if (transform.rotation.eulerAngles.z > Mathf.Atan2(deltaPos.y, deltaPos.x))
         {
             horizontal = 1;
         } else
@@ -26,7 +26,7 @@ public class BotShip : Ship
             horizontal = -1;
         }
 
-        vertical = 1;
+        vertical = 0;
 
         CmdMove(vertical, horizontal);
     }

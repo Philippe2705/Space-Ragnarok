@@ -150,7 +150,7 @@ public class Ship : NetworkBehaviour
         /*
          * Rotate along Z axis 
          */
-        rigidbody2D.angularVelocity = horizontal * -15 * shipProperty.TurnRate;
+        rigidbody2D.angularVelocity = horizontal * shipProperty.TurnRate;
 
         /*
          * Move ship
