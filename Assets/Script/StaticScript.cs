@@ -43,10 +43,12 @@ public class StaticScript : MonoBehaviour
 
     public void SetShipID(int id)
     {
+        Experience.LoadData();
         PlayerPrefs.SetInt("ShipID", id);
         shipId = id;
         shipPreview.sprite = ShipProperties.GetShip(id).ShipSprite;
         Experience.PlayerData.lastShipUsedID = id;
+        Experience.SaveData();
     }
 
     public void OnPseudoChange(string newPseudo)
