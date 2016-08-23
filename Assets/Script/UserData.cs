@@ -78,6 +78,10 @@ public static class UserData
     public static int GetShipId()
     {
         LoadData();
+        if (playerData.ShipId < 0 || playerData.ShipId > 4) //If a correct value never init, set to default
+        {
+            playerData.ShipId = 0;
+        }
         return playerData.ShipId;
     }
 

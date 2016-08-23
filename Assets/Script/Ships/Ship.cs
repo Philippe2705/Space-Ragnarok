@@ -40,7 +40,6 @@ public class Ship : NetworkBehaviour
 
     protected virtual void Start()
     {
-        pseudoGO = transform.FindChild("Player_name").gameObject;
         rigidbody2D = GetComponent<Rigidbody2D>();
         /*
          * Prefabs
@@ -303,6 +302,7 @@ public class Ship : NetworkBehaviour
      */
     void UpdatePseudo(string value)
     {
+        pseudoGO = transform.FindChild("Player_name").gameObject;
         pseudoGO.GetComponent<TextMesh>().text = value;
         pseudoGO.GetComponent<TextMesh>().characterSize = isLocalPlayer ? 0f : 0.01f;
     }

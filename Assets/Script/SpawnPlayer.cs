@@ -1,21 +1,22 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
-using System.Collections;
 
 public class SpawnPlayer : NetworkBehaviour
 {
-    void Start()
+    public int ShipId;
+    public string Pseudo;
+
+    public override void OnStartLocalPlayer()
     {
-        if (isLocalPlayer)
-        {
-            //CmdSpawnPlayer(FindObjectOfType<StaticScript>().shipId);
-        }
+        CmdSpawnPlayer();
     }
 
     [Command]
-    void CmdSpawnPlayer(int shipId)
+    void CmdSpawnPlayer()
     {
-        var player = Instantiate(ShipProperties.GetShip(shipId).PlayerShipPrefab, new Vector3(Random.Range(-60, 60), Random.Range(-30, 30), 0), Quaternion.identity) as GameObject;
-        NetworkServer.ReplacePlayerForConnection(NetworkServer.connections[NetworkServer.connections.Count - 1], player, 0);
+        var player = Instantiate(ShipProperties.GetShip(ShipId).PlayerShipPrefab, new Vector3(Random.Range(-60, 60), Random.Range(-30, 30), 0), Quaternion.identity) as GameObject;
+        NetworkServer.ReplacePlayerForConnection(connectionToClient, player, 0);
+        player.GetComponent<PlayerShip>().Pseudo = Pseudo;
+        player.GetComponent<PlayerShip>().ShipId = ShipId;
     }
 }

@@ -11,7 +11,7 @@ public static class ShipProperties
             case -1:
                 return new ShipProperty(-1, "BotShip", 3/*Speed Factor*/, 45/*Turn Rate*/, 2/*Armor*/, 10/*Domage*/, 10/*Reload Time*/, 5/*View Distance*/, "Orange");
             case 0:
-                return new ShipProperty(0, "SmallShip", 5f/*Speed Factor*/, 45/*Turn Rate*/, 1/*Armor*/, 10/*Domage*/, 2f/*Reload Time*/, 7/*View Distance*/, "Orange");
+                return new ShipProperty(0, "Destroyer", 5f/*Speed Factor*/, 45/*Turn Rate*/, 1/*Armor*/, 10/*Domage*/, 2f/*Reload Time*/, 7/*View Distance*/, "Orange");
             case 1:
                 return new ShipProperty(1, "Frigate", 3f/*Speed Factor*/, 22.5f/*Turn Rate*/, 1.2f/*Armor*/, 12/*Domage*/, 3/*Reload Time*/, 7/*View Distance*/, "Orange");
             case 2:
