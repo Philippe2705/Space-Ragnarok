@@ -62,7 +62,7 @@ public class MinimapSync : MonoBehaviour
             playerIcon.localRotation = player.transform.rotation;
             if (player.IsDead)
             {
-
+                playerIcon.GetComponent<Image>().color = Color.gray;
             }
         }
         if (enemies != null)
@@ -73,7 +73,7 @@ public class MinimapSync : MonoBehaviour
                 var enemyIcon = enemiesIcons[i];
                 if (enemy.IsDead)
                 {
-                    enemy.GetComponent<Image>().color *= 0.2f;
+                    enemyIcon.GetComponent<Image>().color = Color.gray;
                 }
                 enemyIcon.localPosition = enemy.transform.position * 2;
                 enemyIcon.localRotation = enemy.transform.rotation;

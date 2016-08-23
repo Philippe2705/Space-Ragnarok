@@ -12,10 +12,11 @@ public class BotShip : Ship
     protected override void Start()
     {
         base.Start();
-        UpdatePlayers();
-        currentPlayer = players[0];
         GetComponentInChildren<Camera>().enabled = false;
         GetComponentInChildren<AudioListener>().enabled = false;
+        UpdatePlayers();
+        currentPlayer = players[0];
+        InvokeRepeating("UpdatePlayers", 0, 1);
     }
 
 

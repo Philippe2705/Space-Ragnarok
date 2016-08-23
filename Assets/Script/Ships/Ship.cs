@@ -142,7 +142,7 @@ public class Ship : NetworkBehaviour
          */
         if (!hasUpdatedMinimap)
         {
-            RpcUpdateMinimap();
+            CmdUpdateMinimap();
         }
 
         /*
