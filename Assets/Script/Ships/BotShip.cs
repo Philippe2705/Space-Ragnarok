@@ -7,6 +7,8 @@ public class BotShip : Ship
 
     const float nearestPlayerTrigger = 10;
 
+    float horizontal, vertical, fireSide;
+
     protected override void Start()
     {
         base.Start();
@@ -20,16 +22,23 @@ public class BotShip : Ship
     protected override void UpdateServer()
     {
         base.UpdateServer();
+        fireSide = 0;
+        horizontal = 0;
+        vertical = 0;
 
         GetNearestPlayer();
-        IA();
+        if (currentPlayer != null && !currentPlayer.IsDead)
+        {
+            IA();
+        }
+        CmdMove(vertical, horizontal);
+        CmdFire(fireSide);
     }
 
     void IA()
     {
-        float vertical = 1;
-        float horizontal;
-        float fireSide = 0;
+        vertical = 1;
+        fireSide = 0;
 
         var deltaPos = currentPlayer.transform.position - transform.position;
 
@@ -72,10 +81,6 @@ public class BotShip : Ship
                 fireSide = -1;
             }
         }
-
-
-        CmdMove(vertical, horizontal);
-        CmdFire(fireSide);
     }
 
     void GetNearestPlayer()
@@ -83,9 +88,12 @@ public class BotShip : Ship
         PlayerShip nearestPlayer = currentPlayer;
         foreach (var ps in players)
         {
-            if (Vector3.Distance(ps.transform.position, transform.position) < Vector3.Distance(nearestPlayer.transform.position, transform.position))
+            if (!ps.IsDead)
             {
-                nearestPlayer = ps;
+                if (Vector3.Distance(ps.transform.position, transform.position) < Vector3.Distance(nearestPlayer.transform.position, transform.position))
+                {
+                    nearestPlayer = ps;
+                }
             }
         }
         if (Vector3.Distance(currentPlayer.transform.position, nearestPlayer.transform.position) > nearestPlayerTrigger)

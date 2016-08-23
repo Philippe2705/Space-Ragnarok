@@ -11,6 +11,9 @@ public class Ship : NetworkBehaviour
     public ShipProperty shipProperty;
     public new Rigidbody2D rigidbody2D;
 
+
+    [SyncVar]
+    public bool IsDead = false;
     [SyncVar(hook = "UpdateShipId")]
     public int ShipId;
     [SyncVar(hook = "UpdatePseudo")]
@@ -20,8 +23,8 @@ public class Ship : NetworkBehaviour
     protected float reloadTimeR;
     protected float reloadTimeL;
 
+    bool hasUpdatedMinimap;
     float explosionTimer = 5;
-    bool isDead = false;
     float vie = 100;
     GameObject[] rightGuns;
     GameObject[] leftGuns;
@@ -115,12 +118,12 @@ public class Ship : NetworkBehaviour
         /*
          * Death
          */
-        if (vie <= 0 && !isDead)
+        if (vie <= 0 && !IsDead)
         {
-            isDead = true;
+            IsDead = true;
             RpcBeginSmallExplosions();
         }
-        if (isDead && explosionTimer > 0)
+        if (IsDead && explosionTimer > 0)
         {
             explosionTimer -= Time.deltaTime;
             if (explosionTimer <= 0)
@@ -134,6 +137,17 @@ public class Ship : NetworkBehaviour
 
     protected virtual void UpdateClient()
     {
+        /*
+         * Update minimap
+         */
+        if (!hasUpdatedMinimap)
+        {
+            RpcUpdateMinimap();
+        }
+
+        /*
+         * Update pseudo rotation
+         */
         if (pseudoGO != null && Camera.main != null)
         {
             pseudoGO.transform.rotation = Camera.main.transform.rotation;
@@ -147,7 +161,7 @@ public class Ship : NetworkBehaviour
     [Command]
     protected void CmdMove(float vertical, float horizontal)
     {
-        if (isDead)
+        if (IsDead)
         {
             return;
         }
@@ -169,7 +183,7 @@ public class Ship : NetworkBehaviour
     [Command]
     protected void CmdFire(float fireSide)
     {
-        if (isDead)
+        if (IsDead)
         {
             return;
         }
@@ -184,7 +198,6 @@ public class Ship : NetworkBehaviour
         {
             guns = leftGuns;
             reloadTimeL = shipProperty.ReloadTime;
-            print(shipProperty.ReloadTime);
         }
 
         foreach (var gun in guns)
@@ -200,14 +213,7 @@ public class Ship : NetworkBehaviour
     }
 
     [Command]
-    protected void CmdUpdatePseudoAndShipId(string pseudo, int shipId)
-    {
-        Pseudo = pseudo;
-        ShipId = shipId;
-    }
-
-    [Command]
-    protected void CmdUpdateMinimap()
+    void CmdUpdateMinimap()
     {
         RpcUpdateMinimap();
     }
@@ -232,9 +238,10 @@ public class Ship : NetworkBehaviour
      */
 
     [ClientRpc]
-    void RpcUpdateMinimap()
+    protected void RpcUpdateMinimap()
     {
         FindObjectOfType<MinimapSync>().SearchForPlayers();
+        hasUpdatedMinimap = true;
     }
 
     [ClientRpc]

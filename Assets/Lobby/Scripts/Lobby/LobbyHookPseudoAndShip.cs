@@ -7,7 +7,8 @@ public class LobbyHookPseudoAndShip : LobbyHook
 {
     public override void OnLobbyServerSceneLoadedForPlayer(NetworkManager manager, GameObject lobbyPlayer, GameObject gamePlayer)
     {
-        gamePlayer.GetComponent<SpawnPlayer>().ShipId = lobbyPlayer.GetComponent<LobbyPlayer>().playerShip;
-        gamePlayer.GetComponent<SpawnPlayer>().Pseudo = lobbyPlayer.GetComponent<LobbyPlayer>().playerName;
+        gamePlayer.GetComponent<SpawnPlayer>().ShipId = lobbyPlayer.GetComponent<LobbyPlayer>().Ship;
+        gamePlayer.GetComponent<SpawnPlayer>().Pseudo = lobbyPlayer.GetComponent<LobbyPlayer>().Pseudo;
+        gamePlayer.GetComponent<SpawnPlayer>().IsBot = lobbyPlayer.GetComponent<LobbyPlayer>().IsBot;
     }
 }

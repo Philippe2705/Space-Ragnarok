@@ -24,9 +24,11 @@ namespace Prototype.NetworkLobby
 
         //OnMyName function will be invoked on clients when server change the value of playerName
         [SyncVar(hook = "OnMyName")]
-        public string playerName = "";
+        public string Pseudo = "";
         [SyncVar(hook = "OnMyShip")]
-        public int playerShip = 0;
+        public int Ship = 0;
+        [SyncVar]
+        public bool IsBot;
 
         public Color OddRowColor = new Color(250.0f / 255.0f, 250.0f / 255.0f, 250.0f / 255.0f, 1.0f);
         public Color EvenRowColor = new Color(180.0f / 255.0f, 180.0f / 255.0f, 180.0f / 255.0f, 1.0f);
@@ -58,8 +60,8 @@ namespace Prototype.NetworkLobby
 
             //setup the player data on UI. The value are SyncVar so the player
             //will be created with the right value currently on server
-            OnMyName(playerName);
-            OnMyShip(playerShip);
+            OnMyName(Pseudo);
+            OnMyShip(Ship);
         }
 
         public override void OnStartAuthority()
@@ -111,9 +113,21 @@ namespace Prototype.NetworkLobby
             readyButton.interactable = true;
 
             //have to use child count of player prefab already setup as "this.slot" is not set yet
-            if (playerName == "")
-                CmdNameChanged("Player" + (LobbyPlayerList._instance.playerListContentTransform.childCount - 1));
-
+            if (Pseudo == "")
+            {
+                if (PlayerPrefs.GetInt("Bot") == 1)
+                {
+                    IsBot = true;
+                    OnReadyClicked();
+                    CmdNameChanged("Bot " + PlayerPrefs.GetInt("BotCount"));
+                    PlayerPrefs.SetInt("BotCount", PlayerPrefs.GetInt("BotCount") + 1);
+                    Ship = (int)Random.Range(0, 4);
+                }
+                else
+                {
+                    CmdNameChanged(PlayerPrefs.GetString("Pseudo", "Player" + (LobbyPlayerList._instance.playerListContentTransform.childCount - 1)));
+                }
+            }
             //we switch from simple name display to name input
             shipButton.interactable = true;
             nameInput.interactable = true;
@@ -180,14 +194,14 @@ namespace Prototype.NetworkLobby
 
         public void OnMyName(string newName)
         {
-            playerName = newName;
-            nameInput.text = playerName;
+            Pseudo = newName;
+            nameInput.text = Pseudo;
         }
 
         public void OnMyShip(int newShip)
         {
-            playerShip = newShip;
-            shipButton.GetComponent<Image>().sprite = ShipProperties.GetShip(playerShip).ShipSprite;
+            Ship = newShip;
+            shipButton.GetComponent<Image>().sprite = ShipProperties.GetShip(Ship).ShipSprite;
         }
 
         //===== UI Handler
@@ -201,6 +215,7 @@ namespace Prototype.NetworkLobby
 
         public void OnNameChanged(string str)
         {
+            PlayerPrefs.SetString("Pseudo", str);
             CmdNameChanged(str);
         }
 
@@ -211,8 +226,17 @@ namespace Prototype.NetworkLobby
                 RemovePlayer();
             }
             else if (isServer)
-                LobbyManager.s_Singleton.KickPlayer(connectionToClient);
-
+            {
+                if (IsBot)
+                {
+                    readyToBegin = false;
+                    RemovePlayer();
+                }
+                else
+                {
+                    LobbyManager.s_Singleton.KickPlayer(connectionToClient);
+                }
+            }
         }
 
         public void ToggleJoinButton(bool enabled)
@@ -239,13 +263,13 @@ namespace Prototype.NetworkLobby
         [Command]
         public void CmdShipChange(int newShip)
         {
-            playerShip = newShip;
+            Ship = newShip;
         }
 
         [Command]
         public void CmdNameChanged(string name)
         {
-            playerName = name;
+            Pseudo = name;
         }
 
         //Cleanup thing when get destroy (which happen when client kick or disconnect)

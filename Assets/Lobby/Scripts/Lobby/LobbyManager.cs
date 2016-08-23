@@ -55,6 +55,8 @@ namespace Prototype.NetworkLobby
 
         void Start()
         {
+            PlayerPrefs.SetInt("Bot", 0);
+            PlayerPrefs.SetInt("BotCount", 1);
             s_Singleton = this;
             _lobbyHooks = GetComponent<Prototype.NetworkLobby.LobbyHook>();
             currentPanel = mainMenuPanel;
@@ -77,7 +79,7 @@ namespace Prototype.NetworkLobby
 
         public override void OnLobbyClientSceneChanged(NetworkConnection conn)
         {
-            if (SceneManager.GetSceneAt(1).name == lobbyScene)
+            if (SceneManager.GetActiveScene().name == lobbyScene)
             {
                 if (topPanel.isInGame)
                 {
@@ -175,7 +177,9 @@ namespace Prototype.NetworkLobby
 
         public void AddLocalPlayer()
         {
+            PlayerPrefs.SetInt("Bot", 1);
             TryToAddPlayer();
+            PlayerPrefs.SetInt("Bot", 0);
         }
 
         public void RemovePlayer(LobbyPlayer player)
