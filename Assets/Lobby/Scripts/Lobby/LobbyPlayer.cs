@@ -27,7 +27,7 @@ namespace Prototype.NetworkLobby
         public string Pseudo = "";
         [SyncVar(hook = "OnMyShip")]
         public int Ship = 0;
-        [SyncVar]
+        [SyncVar(hook = "OnIsBot")]
         public bool IsBot;
 
         public Color OddRowColor = new Color(250.0f / 255.0f, 250.0f / 255.0f, 250.0f / 255.0f, 1.0f);
@@ -118,7 +118,6 @@ namespace Prototype.NetworkLobby
                 if (PlayerPrefs.GetInt("Bot") == 1)
                 {
                     IsBot = true;
-                    OnReadyClicked();
                     CmdNameChanged("Bot " + PlayerPrefs.GetInt("BotCount"));
                     PlayerPrefs.SetInt("BotCount", PlayerPrefs.GetInt("BotCount") + 1);
                     Ship = (int)Random.Range(0, 4);
@@ -156,7 +155,7 @@ namespace Prototype.NetworkLobby
             foreach (PlayerController p in ClientScene.localPlayers)
                 localPlayerCount += (p == null || p.playerControllerId == -1) ? 0 : 1;
 
-            removePlayerButton.interactable = localPlayerCount > 1;
+            removePlayerButton.interactable = IsBot;
         }
 
         public override void OnClientReady(bool readyState)
@@ -204,6 +203,15 @@ namespace Prototype.NetworkLobby
             shipButton.GetComponent<Image>().sprite = ShipProperties.GetShip(Ship).ShipSprite;
         }
 
+        public void OnIsBot(bool isBot)
+        {
+            IsBot = isBot;
+            if (isBot)
+            {
+                readyButton.gameObject.SetActive(false);
+            }
+        }
+
         //===== UI Handler
 
         //Note that those handler use Command function, as we need to change the value on the server not locally
@@ -211,6 +219,16 @@ namespace Prototype.NetworkLobby
         public void OnReadyClicked()
         {
             SendReadyToBeginMessage();
+            if (isServer && !IsBot)
+            {
+                foreach (var lobbyPlayer in FindObjectsOfType<LobbyPlayer>())
+                {
+                    if (lobbyPlayer.IsBot)
+                    {
+                        lobbyPlayer.OnReadyClicked();
+                    }
+                }
+            }
         }
 
         public void OnNameChanged(string str)
@@ -227,21 +245,13 @@ namespace Prototype.NetworkLobby
             }
             else if (isServer)
             {
-                if (IsBot)
-                {
-                    readyToBegin = false;
-                    RemovePlayer();
-                }
-                else
-                {
-                    LobbyManager.s_Singleton.KickPlayer(connectionToClient);
-                }
+                LobbyManager.s_Singleton.KickPlayer(connectionToClient);
             }
         }
 
         public void ToggleJoinButton(bool enabled)
         {
-            readyButton.gameObject.SetActive(enabled);
+            readyButton.gameObject.SetActive(enabled && !IsBot);
             waitingPlayerButton.gameObject.SetActive(!enabled);
         }
 
@@ -270,6 +280,10 @@ namespace Prototype.NetworkLobby
         public void CmdNameChanged(string name)
         {
             Pseudo = name;
+            if (!IsBot)
+            {
+                PlayerPrefs.SetString("Pseudo", name);
+            }
         }
 
         //Cleanup thing when get destroy (which happen when client kick or disconnect)
