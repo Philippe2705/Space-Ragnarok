@@ -21,6 +21,7 @@ public class CustomNetworkManager : MonoBehaviour
         SetupClientButton.onClick.AddListener(SetupClient);
 
         ip = PlayerPrefs.GetString("Ip", "localhost");
+        print("Ip: " + ip);
 
         IpField.text = ip;
         ServerPortField.text = port.ToString();
