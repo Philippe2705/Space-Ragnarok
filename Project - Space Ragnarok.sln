@@ -7,8 +7,6 @@ Project("{1B6299B7-05EF-AAFB-5270-F2325849ECDC}") = "Project - Space Ragnarok", 
 EndProject
 Project("{1B6299B7-05EF-AAFB-5270-F2325849ECDC}") = "Project - Space Ragnarok", "Assembly-CSharp-Editor-firstpass.csproj", "{C456AC05-6726-24DD-1003-20EB1133ED1D}"
 EndProject
-Project("{1B6299B7-05EF-AAFB-5270-F2325849ECDC}") = "Project - Space Ragnarok", "Assembly-CSharp-Editor.csproj", "{9F663B7A-4D41-C636-0822-5585FCE7BF70}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,10 +25,6 @@ Global
 		{C456AC05-6726-24DD-1003-20EB1133ED1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C456AC05-6726-24DD-1003-20EB1133ED1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C456AC05-6726-24DD-1003-20EB1133ED1D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9F663B7A-4D41-C636-0822-5585FCE7BF70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9F663B7A-4D41-C636-0822-5585FCE7BF70}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9F663B7A-4D41-C636-0822-5585FCE7BF70}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9F663B7A-4D41-C636-0822-5585FCE7BF70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
