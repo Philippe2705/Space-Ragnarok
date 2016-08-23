@@ -45,33 +45,52 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Lobby\Scripts\DraggablePanel.cs" />
+     <Compile Include="Assets\Lobby\Scripts\EventSystemChecker.cs" />
+     <Compile Include="Assets\Lobby\Scripts\Lobby\LobbyCountdownPanel.cs" />
+     <Compile Include="Assets\Lobby\Scripts\Lobby\LobbyHook.cs" />
+     <Compile Include="Assets\Lobby\Scripts\Lobby\LobbyHookPseudoAndShip.cs" />
+     <Compile Include="Assets\Lobby\Scripts\Lobby\LobbyInfoPanel.cs" />
+     <Compile Include="Assets\Lobby\Scripts\Lobby\LobbyMainMenu.cs" />
+     <Compile Include="Assets\Lobby\Scripts\Lobby\LobbyManager.cs" />
+     <Compile Include="Assets\Lobby\Scripts\Lobby\LobbyPlayer.cs" />
+     <Compile Include="Assets\Lobby\Scripts\Lobby\LobbyPlayerList.cs" />
+     <Compile Include="Assets\Lobby\Scripts\Lobby\LobbyServerEntry.cs" />
+     <Compile Include="Assets\Lobby\Scripts\Lobby\LobbyServerList.cs" />
+     <Compile Include="Assets\Lobby\Scripts\Lobby\LobbyTopPanel.cs" />
      <Compile Include="Assets\Script\AnalyticsScript.cs" />
      <Compile Include="Assets\Script\AutoDestruct.cs" />
      <Compile Include="Assets\Script\Bullet.cs" />
      <Compile Include="Assets\Script\Disconnect.cs" />
      <Compile Include="Assets\Script\FPSCounter.cs" />
      <Compile Include="Assets\Script\HealthBar.cs" />
+     <Compile Include="Assets\Script\LoadSceneScript.cs" />
      <Compile Include="Assets\Script\MainMenu\AvailableShip.cs" />
      <Compile Include="Assets\Script\MainMenu\CustomNetworkManager.cs" />
-     <Compile Include="Assets\Script\MainMenu\PseudoSave.cs" />
      <Compile Include="Assets\Script\MainMenu\ServerConf.cs" />
      <Compile Include="Assets\Script\MinimapSync.cs" />
+     <Compile Include="Assets\Script\Purchaser.cs" />
      <Compile Include="Assets\Script\ShipProperties.cs" />
      <Compile Include="Assets\Script\Ships\BotShip.cs" />
      <Compile Include="Assets\Script\Ships\PlayerShip.cs" />
      <Compile Include="Assets\Script\Ships\Ship.cs" />
      <Compile Include="Assets\Script\SimpleMatchMaker.cs" />
      <Compile Include="Assets\Script\SpawnPlayer.cs" />
-     <Compile Include="Assets\Script\StaticScript.cs" />
      <Compile Include="Assets\Script\UserData.cs" />
+     <None Include="Assets\Lobby\Documentation.txt" />
+     <None Include="Assets\Lobby\Instruction.txt" />
      <None Include="Assets\Standard Assets\Unity Samples UI\Fonts\Jupiter\LICENSE.txt" />
      <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAlpha.shader" />
      <None Include="Assets\Standard Assets\Unity Samples UI\Textures and Sprites\SF UI\Background\LICENSE.txt" />
      <None Include="Assets\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />
      <None Include="Assets\Standard Assets\KY_effects\MagicEffectsPackFree\ReadMe.txt" />
+     <None Include="Assets\Fonts\OpenSans\License!.txt" />
      <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAddSoft.shader" />
      <None Include="Assets\Standard Assets\Unity Samples UI\Materials\UI-Default-No-Alpha.shader" />
      <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />
+ <Reference Include="Assembly-UnityScript-firstpass">
+ <HintPath>C:/Users/X-Gaming/Documents/Unity Projects/Project - Space Ragnarok/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity5/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
