@@ -147,6 +147,7 @@ public class ScoreBoard : NetworkBehaviour
             playerScores.Add(pseudo, ps);
             var psd = Instantiate(PlayerScoreDisplayer) as GameObject;
             psd.transform.SetParent(transform);
+            psd.transform.localScale = Vector3.one;
             psd.transform.SetAsLastSibling();
             psd.GetComponent<PlayerScoreDisplayer>().PlayerScore = ps;
         }
