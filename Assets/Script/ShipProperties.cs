@@ -11,13 +11,13 @@ public static class ShipProperties
             case 0:
                 return new ShipProperty(0, "Destroyer", 5f/*Speed Factor*/, 45/*Turn Rate*/, 2/*Armor*/, 10/*Domage*/, 2f/*Reload Time*/, 7/*View Distance*/, 0/*Bullet Dispersion*/, 0/*Price*/, "Orange");
             case 1:
-                return new ShipProperty(1, "Frigate", 3f/*Speed Factor*/, 22.5f/*Turn Rate*/, 3f/*Armor*/, 12/*Domage*/, 3/*Reload Time*/, 7/*View Distance*/, 10/*Bullet Dispersion*/, 1250/*Price*/, "Orange");
+                return new ShipProperty(1, "Frigate", 3.2f/*Speed Factor*/, 22.5f/*Turn Rate*/, 3f/*Armor*/, 12/*Domage*/, 3/*Reload Time*/, 7/*View Distance*/, 10/*Bullet Dispersion*/, 1250/*Price*/, "Orange");
             case 2:
-                return new ShipProperty(2, "Cruiser", 1.5f/*Speed Factor*/, 22.5f/*Turn Rate*/, 5f/*Armor*/, 14/*Domage*/, 3/*Reload Time*/, 8/*View Distance*/, 10/*Bullet Dispersion*/, 2500/*Price*/, "Red");
+                return new ShipProperty(2, "Cruiser", 2.2f/*Speed Factor*/, 22.5f/*Turn Rate*/, 5f/*Armor*/, 14/*Domage*/, 3/*Reload Time*/, 8/*View Distance*/, 10/*Bullet Dispersion*/, 2500/*Price*/, "Red");
             case 3:
-                return new ShipProperty(3, "BattleShip", 0.7f/*Speed Factor*/, 18/*Turn Rate*/, 10f/*Armor*/, 17/*Domage*/, 3/*Reload Time*/, 9/*View Distance*/, 10/*Bullet Dispersion*/, 5000/*Price*/, "Orange");
+                return new ShipProperty(3, "BattleShip", 1.2f/*Speed Factor*/, 18/*Turn Rate*/, 10f/*Armor*/, 17/*Domage*/, 3/*Reload Time*/, 9/*View Distance*/, 10/*Bullet Dispersion*/, 5000/*Price*/, "Orange");
             case 4:
-                return new ShipProperty(4, "Ragnarok", 0.3f/*Speed Factor*/, 15/*Turn Rate*/, 50/*Armor*/, 24/*Domage*/, 3/*Reload Time*/, 12/*View Distance*/, 10/*Bullet Dispersion*/, 10000/*Price*/, "Purple");
+                return new ShipProperty(4, "Ragnarok", 0.6f/*Speed Factor*/, 15/*Turn Rate*/, 50/*Armor*/, 24/*Domage*/, 3/*Reload Time*/, 12/*View Distance*/, 10/*Bullet Dispersion*/, 10000/*Price*/, "Purple");
 
             default:
                 Debug.LogError("Incorrect Ship ID");
@@ -30,10 +30,28 @@ public static class ShipProperties
     {
         switch (level)
         {
+            case 1:
+                return new BotProperties(0.7f, 0.7f, 0.7f, 0.7f, "Beginneer");
+            case 2:
+                return new BotProperties(1, 1, 1, 1, "Easy");
+            case 3:
+                return new BotProperties(1.4f, 1.4f, 1.4f, 1.4f, "Medium-Easy");
+            case 4:
+                return new BotProperties(2, 2, 2, 2, "Medium");
+            case 5:
+                return new BotProperties(3, 3, 3, 3, "Advanced");
+            case 6:
+                return new BotProperties(4.5f, 4.5f, 4.5f, 4.5f, "Hard");
+            case 7:
+                return new BotProperties(6, 6, 6, 6, "Very hard");
+            case 8:
+                return new BotProperties(9, 9, 9, 9, "Hardcore");
+            case 9:
+                return new BotProperties(12, 12, 12, 12, "Incredible");
             case 10:
-                return new BotProperties(10, 10, 10, 10);
+                return new BotProperties(20, 20, 20, 20, "Chuck Norris");
             default:
-                return new BotProperties(1, 1, 1, 1);
+                return new BotProperties(1, 1, 1, 1, "Easy");
         }
     }
 }
@@ -44,13 +62,15 @@ public struct BotProperties
     public readonly float DamageMultiplier;
     public readonly float SpeedMultiplier;
     public readonly float TurnRateMultiplier;
+    public readonly string DificultieName;
 
-    public BotProperties(float armorMultiplier, float damageMultiplier, float speedMultiplier, float turnRateMultiplier) : this()
+    public BotProperties(float armorMultiplier, float damageMultiplier, float speedMultiplier, float turnRateMultiplier, string dificultieName) : this()
     {
         ArmorMultiplier = armorMultiplier;
         DamageMultiplier = damageMultiplier;
         SpeedMultiplier = speedMultiplier;
         TurnRateMultiplier = turnRateMultiplier;
+        dificultieName = DificultieName;
     }
 }
 
