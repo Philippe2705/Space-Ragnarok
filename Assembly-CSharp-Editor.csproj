@@ -45,14 +45,53 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\SDKBOX\iap\Editor\setup.cs" />
+     <Compile Include="Assets\Google\GooglePlayGames\Editor\CocoaPodHelper.cs" />
+     <Compile Include="Assets\Google\GooglePlayGames\Editor\GPGSAndroidSetupUI.cs" />
+     <Compile Include="Assets\Google\GooglePlayGames\Editor\GPGSDependencies.cs" />
+     <Compile Include="Assets\Google\GooglePlayGames\Editor\GPGSDocsUI.cs" />
+     <Compile Include="Assets\Google\GooglePlayGames\Editor\GPGSIOSSetupUI.cs" />
+     <Compile Include="Assets\Google\GooglePlayGames\Editor\GPGSInstructionWindow.cs" />
+     <Compile Include="Assets\Google\GooglePlayGames\Editor\GPGSPostBuild.cs" />
+     <Compile Include="Assets\Google\GooglePlayGames\Editor\GPGSProjectSettings.cs" />
+     <Compile Include="Assets\Google\GooglePlayGames\Editor\GPGSStrings.cs" />
+     <Compile Include="Assets\Google\GooglePlayGames\Editor\GPGSUpgrader.cs" />
+     <Compile Include="Assets\Google\GooglePlayGames\Editor\GPGSUtil.cs" />
+     <Compile Include="Assets\Google\GooglePlayGames\Editor\NearbyConnectionUI.cs" />
+     <Compile Include="Assets\Google\GooglePlayGames\Editor\PlistBuddyHelper.cs" />
+     <Compile Include="Assets\Google\GooglePlayGames\Editor\xcode\Elements.cs" />
+     <Compile Include="Assets\Google\GooglePlayGames\Editor\xcode\Lexer.cs" />
+     <Compile Include="Assets\Google\GooglePlayGames\Editor\xcode\Objects.cs" />
+     <Compile Include="Assets\Google\GooglePlayGames\Editor\xcode\PBXProject.cs" />
+     <Compile Include="Assets\Google\GooglePlayGames\Editor\xcode\Parser.cs" />
+     <Compile Include="Assets\Google\GooglePlayGames\Editor\xcode\Sections.cs" />
+     <Compile Include="Assets\Google\GooglePlayGames\Editor\xcode\Serializer.cs" />
+     <Compile Include="Assets\Google\GooglePlayGames\Editor\xcode\Utils.cs" />
+     <Compile Include="Assets\Google\PlayServicesResolver\Editor\DefaultResolver.cs" />
+     <Compile Include="Assets\Google\PlayServicesResolver\Editor\IResolver.cs" />
+     <Compile Include="Assets\Google\PlayServicesResolver\Editor\PlayServicesResolver.cs" />
+     <Compile Include="Assets\Google\PlayServicesResolver\Editor\ResolverVer1_1.cs" />
+     <Compile Include="Assets\Google\PlayServicesResolver\Editor\ResolverVer1_2.cs" />
+     <Compile Include="Assets\Google\PlayServicesResolver\Editor\SampleDependencies.cs" />
+     <Compile Include="Assets\Google\PlayServicesResolver\Editor\SettingsDialog.cs" />
+     <None Include="Assets\Google\GooglePlayGames\Editor\Podfile.txt" />
+     <None Include="Assets\Lobby\Documentation.txt" />
+     <None Include="Assets\Google\GooglePlayGames\Editor\template-GameInfo.txt" />
+     <None Include="Assets\Lobby\Instruction.txt" />
+     <None Include="Assets\Google\GooglePlayGames\Editor\template-AndroidManifest.txt" />
      <None Include="Assets\Standard Assets\Unity Samples UI\Fonts\Jupiter\LICENSE.txt" />
+     <None Include="Assets\Google\Plugins\Android\MainLibProj\AndroidManifest.xml" />
      <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAlpha.shader" />
      <None Include="Assets\Standard Assets\Unity Samples UI\Textures and Sprites\SF UI\Background\LICENSE.txt" />
      <None Include="Assets\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />
+     <None Include="Assets\Standard Assets\KY_effects\MagicEffectsPackFree\ReadMe.txt" />
+     <None Include="Assets\Fonts\OpenSans\License!.txt" />
      <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAddSoft.shader" />
      <None Include="Assets\Standard Assets\Unity Samples UI\Materials\UI-Default-No-Alpha.shader" />
+     <None Include="Assets\Google\GooglePlayGames\Editor\template-Constants.txt" />
      <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />
+ <Reference Include="Assembly-UnityScript-firstpass">
+ <HintPath>C:/Users/X-Gaming/Documents/Unity Projects/Project - Space Ragnarok/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEditor.Advertisements">
  <HintPath>C:/Program Files/Unity5/Editor/Data/UnityExtensions/Unity/Advertisements/Editor/UnityEditor.Advertisements.dll</HintPath>
  </Reference>
@@ -101,9 +140,6 @@
  <Reference Include="winrt">
  <HintPath>C:/Users/X-Gaming/Documents/Unity Projects/Project - Space Ragnarok/Assets/Plugins/UnityPurchasing/winrt/winrt.dll</HintPath>
  </Reference>
- <Reference Include="Sdkbox">
- <HintPath>C:/Users/X-Gaming/Documents/Unity Projects/Project - Space Ragnarok/Assets/SDKBOX/sdkbox/Editor/Sdkbox.dll</HintPath>
- </Reference>
  <Reference Include="UnityEditor.Graphs">
  <HintPath>C:/Program Files/Unity5/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
  </Reference>
@@ -112,6 +148,9 @@
  </Reference>
  <Reference Include="UnityEditor.WindowsStandalone.Extensions">
  <HintPath>C:/Program Files/Unity5/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="JarResolverLib">
+ <HintPath>C:/Users/X-Gaming/Documents/Unity Projects/Project - Space Ragnarok/Assets/Google/PlayServicesResolver/Editor/JarResolverLib.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

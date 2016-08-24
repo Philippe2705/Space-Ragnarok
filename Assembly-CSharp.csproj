@@ -48,8 +48,8 @@
      <Compile Include="Assets\Lobby\Scripts\DraggablePanel.cs" />
      <Compile Include="Assets\Lobby\Scripts\EventSystemChecker.cs" />
      <Compile Include="Assets\Lobby\Scripts\Lobby\LobbyCountdownPanel.cs" />
+     <Compile Include="Assets\Lobby\Scripts\Lobby\LobbyCustomHook.cs" />
      <Compile Include="Assets\Lobby\Scripts\Lobby\LobbyHook.cs" />
-     <Compile Include="Assets\Lobby\Scripts\Lobby\LobbyHookPseudoAndShip.cs" />
      <Compile Include="Assets\Lobby\Scripts\Lobby\LobbyInfoPanel.cs" />
      <Compile Include="Assets\Lobby\Scripts\Lobby\LobbyMainMenu.cs" />
      <Compile Include="Assets\Lobby\Scripts\Lobby\LobbyManager.cs" />
@@ -61,6 +61,7 @@
      <Compile Include="Assets\Script\AnalyticsScript.cs" />
      <Compile Include="Assets\Script\AutoDestruct.cs" />
      <Compile Include="Assets\Script\Bullet.cs" />
+     <Compile Include="Assets\Script\Constants.cs" />
      <Compile Include="Assets\Script\Disconnect.cs" />
      <Compile Include="Assets\Script\FPSCounter.cs" />
      <Compile Include="Assets\Script\HealthBar.cs" />
@@ -77,9 +78,13 @@
      <Compile Include="Assets\Script\SimpleMatchMaker.cs" />
      <Compile Include="Assets\Script\SpawnPlayer.cs" />
      <Compile Include="Assets\Script\UserData.cs" />
+     <None Include="Assets\Standard Assets\Google\GooglePlayGames\Editor\Podfile.txt" />
      <None Include="Assets\Lobby\Documentation.txt" />
+     <None Include="Assets\Standard Assets\Google\GooglePlayGames\Editor\template-GameInfo.txt" />
      <None Include="Assets\Lobby\Instruction.txt" />
+     <None Include="Assets\Standard Assets\Google\GooglePlayGames\Editor\template-AndroidManifest.txt" />
      <None Include="Assets\Standard Assets\Unity Samples UI\Fonts\Jupiter\LICENSE.txt" />
+     <None Include="Assets\Standard Assets\Google\Plugins\Android\MainLibProj\AndroidManifest.xml" />
      <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAlpha.shader" />
      <None Include="Assets\Standard Assets\Unity Samples UI\Textures and Sprites\SF UI\Background\LICENSE.txt" />
      <None Include="Assets\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />
@@ -87,6 +92,7 @@
      <None Include="Assets\Fonts\OpenSans\License!.txt" />
      <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAddSoft.shader" />
      <None Include="Assets\Standard Assets\Unity Samples UI\Materials\UI-Default-No-Alpha.shader" />
+     <None Include="Assets\Standard Assets\Google\GooglePlayGames\Editor\template-Constants.txt" />
      <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />
  <Reference Include="Assembly-UnityScript-firstpass">
  <HintPath>C:/Users/X-Gaming/Documents/Unity Projects/Project - Space Ragnarok/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
