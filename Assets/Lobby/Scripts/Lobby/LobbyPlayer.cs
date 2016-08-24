@@ -1,9 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Prototype.NetworkLobby
 {
@@ -29,6 +27,8 @@ namespace Prototype.NetworkLobby
         public int Ship = 0;
         [SyncVar(hook = "OnIsBot")]
         public bool IsBot;
+        [SyncVar(hook = "OnBotLevel")]
+        public int BotLevel = -1;
 
         public Color OddRowColor = new Color(250.0f / 255.0f, 250.0f / 255.0f, 250.0f / 255.0f, 1.0f);
         public Color EvenRowColor = new Color(180.0f / 255.0f, 180.0f / 255.0f, 180.0f / 255.0f, 1.0f);
@@ -62,6 +62,9 @@ namespace Prototype.NetworkLobby
             //will be created with the right value currently on server
             OnMyName(Pseudo);
             OnMyShip(Ship);
+            OnIsBot(IsBot);
+            OnBotLevel(BotLevel);
+            SetDirtyBit(0xFFFFFF);
         }
 
         public override void OnStartAuthority()
@@ -121,6 +124,7 @@ namespace Prototype.NetworkLobby
                     CmdNameChanged("Bot " + PlayerPrefs.GetInt("BotCount"));
                     PlayerPrefs.SetInt("BotCount", PlayerPrefs.GetInt("BotCount") + 1);
                     Ship = (int)Random.Range(0, 4);
+                    BotLevel = 0;
                 }
                 else
                 {
@@ -160,6 +164,10 @@ namespace Prototype.NetworkLobby
 
         public override void OnClientReady(bool readyState)
         {
+            if (IsBot)
+            {
+                return;
+            }
             if (readyState)
             {
                 ChangeReadyButtonColor(TransparentColor);
@@ -206,9 +214,15 @@ namespace Prototype.NetworkLobby
         public void OnIsBot(bool isBot)
         {
             IsBot = isBot;
-            if (isBot)
+        }
+
+        public void OnBotLevel(int botLevel)
+        {
+            BotLevel = botLevel;
+            if (IsBot)
             {
-                readyButton.gameObject.SetActive(false);
+                ChangeReadyButtonColor(GetColor(botLevel));
+                readyButton.transform.GetChild(0).GetComponent<Text>().text = GetText(botLevel);
             }
         }
 
@@ -218,15 +232,26 @@ namespace Prototype.NetworkLobby
         //so that all client get the new value throught syncvar
         public void OnReadyClicked()
         {
-            SendReadyToBeginMessage();
-            if (isServer && !IsBot)
+            if (!IsBot)
             {
-                foreach (var lobbyPlayer in FindObjectsOfType<LobbyPlayer>())
+                SendReadyToBeginMessage();
+                if (isServer)
                 {
-                    if (lobbyPlayer.IsBot)
+                    foreach (var lobbyPlayer in FindObjectsOfType<LobbyPlayer>())
                     {
-                        lobbyPlayer.OnReadyClicked();
+                        if (lobbyPlayer.IsBot)
+                        {
+                            lobbyPlayer.SendReadyToBeginMessage();
+                        }
                     }
+                }
+            }
+            else
+            {
+                BotLevel++;
+                if (BotLevel > Constants.TotalBotLevel)
+                {
+                    BotLevel = 0;
                 }
             }
         }
@@ -254,7 +279,7 @@ namespace Prototype.NetworkLobby
 
         public void ToggleJoinButton(bool enabled)
         {
-            readyButton.gameObject.SetActive(enabled && !IsBot);
+            readyButton.gameObject.SetActive(enabled);
             waitingPlayerButton.gameObject.SetActive(!enabled);
         }
 
@@ -303,6 +328,16 @@ namespace Prototype.NetworkLobby
             {
                 LobbyManager.s_Singleton.OnPlayersNumberModified(-1);
             }
+        }
+
+        Color GetColor(int botLevel)
+        {
+            return Color.Lerp(Color.green, Color.red, (float)botLevel / Constants.TotalBotLevel);
+        }
+
+        string GetText(int botLevel)
+        {
+            return botLevel.ToString();
         }
     }
 }

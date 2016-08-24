@@ -15,7 +15,6 @@ public class BotShip : Ship
         GetComponentInChildren<Camera>().enabled = false;
         GetComponentInChildren<AudioListener>().enabled = false;
         UpdatePlayers();
-        currentPlayer = players[0];
         InvokeRepeating("UpdatePlayers", 0, 1);
     }
 
@@ -86,20 +85,31 @@ public class BotShip : Ship
 
     void GetNearestPlayer()
     {
-        PlayerShip nearestPlayer = currentPlayer;
-        foreach (var ps in players)
+        if (currentPlayer == null)
         {
-            if (!ps.IsDead)
+            UpdatePlayers();
+            if (players.Length > 0)
             {
-                if (Vector3.Distance(ps.transform.position, transform.position) < Vector3.Distance(nearestPlayer.transform.position, transform.position))
-                {
-                    nearestPlayer = ps;
-                }
+                currentPlayer = players[0];
             }
         }
-        if (Vector3.Distance(currentPlayer.transform.position, nearestPlayer.transform.position) > nearestPlayerTrigger)
+        if (currentPlayer != null)
         {
-            currentPlayer = nearestPlayer;
+            PlayerShip nearestPlayer = currentPlayer;
+            foreach (var ps in players)
+            {
+                if (!ps.IsDead)
+                {
+                    if (Vector3.Distance(ps.transform.position, transform.position) < Vector3.Distance(nearestPlayer.transform.position, transform.position) || nearestPlayer.IsDead)
+                    {
+                        nearestPlayer = ps;
+                    }
+                }
+            }
+            if (Vector3.Distance(currentPlayer.transform.position, nearestPlayer.transform.position) > nearestPlayerTrigger)
+            {
+                currentPlayer = nearestPlayer;
+            }
         }
     }
 

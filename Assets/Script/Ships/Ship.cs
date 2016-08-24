@@ -11,6 +11,8 @@ public class Ship : NetworkBehaviour
     public ShipProperty shipProperty;
     public new Rigidbody2D rigidbody2D;
 
+    public bool IsBot;
+    public int BotLevel = -1;
 
     [SyncVar]
     public bool IsDead = false;
@@ -46,6 +48,7 @@ public class Ship : NetworkBehaviour
 
     protected virtual void Start()
     {
+        IsBot = GetType() == typeof(BotShip);
         rigidbody2D = GetComponent<Rigidbody2D>();
         //particleSystem = transform.Find("Smoke").GetComponent<ParticleSystem>();
         /*
@@ -117,11 +120,6 @@ public class Ship : NetworkBehaviour
         /*
          * Death
          */
-        if (health <= 0 && !IsDead)
-        {
-            IsDead = true;
-            RpcBeginSmallExplosions();
-        }
         if (IsDead && explosionTimer > 0)
         {
             explosionTimer -= Time.deltaTime;
@@ -168,12 +166,12 @@ public class Ship : NetworkBehaviour
         /*
          * Rotate along Z axis 
          */
-        rigidbody2D.angularVelocity = horizontal * shipProperty.TurnRate * (GetType() == typeof(BotShip) ? 4 : 1);
+        rigidbody2D.angularVelocity = horizontal * shipProperty.TurnRate * ShipProperties.GetBotProperties(BotLevel).TurnRateMultiplier;
 
         /*
          * Move ship
          */
-        rigidbody2D.velocity = transform.up * Mathf.Max(vertical, VitesseMinimum) * shipProperty.SpeedFactor * (GetType() == typeof(BotShip) ? 2 : 1);
+        rigidbody2D.velocity = transform.up * Mathf.Max(vertical, VitesseMinimum) * shipProperty.SpeedFactor * ShipProperties.GetBotProperties(BotLevel).SpeedMultiplier;
     }
 
 
@@ -202,9 +200,9 @@ public class Ship : NetworkBehaviour
             //Create bullet
             var bullet = Instantiate(bulletPrefab, gun.transform.position, gun.transform.rotation) as GameObject;
             bullet.GetComponent<Bullet>().speed = Random.Range(2.7f, 3.3f);
-            bullet.GetComponent<Bullet>().direction = gun.transform.rotation * Quaternion.Euler(0, Random.Range(-10f, 10f), 0);
+            bullet.GetComponent<Bullet>().direction = gun.transform.rotation * Quaternion.Euler(0, Random.Range(-shipProperty.BulletDispersion, shipProperty.BulletDispersion), 0);
             bullet.GetComponent<Bullet>().color = shipProperty.MaterialColor;
-            bullet.GetComponent<Bullet>().damage = shipProperty.Damage;
+            bullet.GetComponent<Bullet>().damage = shipProperty.Damage * ShipProperties.GetBotProperties(BotLevel).DamageMultiplier;
             bullet.GetComponent<Bullet>().playerName = Pseudo;
             NetworkServer.Spawn(bullet);
         }
@@ -220,10 +218,22 @@ public class Ship : NetworkBehaviour
      * Hit
      */
     [Server]
-    public void HitByBullet(Vector3 position, Quaternion rotation, float damage)
+    public void HitByBullet(Vector3 position, Quaternion rotation, float damage, string playerName)
     {
-        health -= damage * Random.Range(0.5f, 1.5f) / shipProperty.Armor;
+        if (!IsDead)
+        {
+            health -= damage * Random.Range(1 - Constants.DamageDispersion, 1 + Constants.DamageDispersion) / (shipProperty.Armor * ShipProperties.GetBotProperties(BotLevel).ArmorMultiplier);
 
+
+            if (health <= 0)
+            {
+                IsDead = true;
+                RpcBeginSmallExplosions();
+            }
+
+
+            RpcAddXpToPlayer(playerName, IsDead ? Constants.XpForKill : 0 + Constants.XpForHit);
+        }
         //Hit effect
         RpcHitByBullet(position, rotation);
     }
@@ -275,6 +285,18 @@ public class Ship : NetworkBehaviour
         }
     }
 
+    [ClientRpc]
+    void RpcAddXpToPlayer(string playerName, int xp)
+    {
+        foreach (var player in FindObjectsOfType<PlayerShip>())
+        {
+            if (player.isLocalPlayer && player.Pseudo == playerName)
+            {
+                UserData.AddExperience(xp);
+            }
+        }
+    }
+
     /*
      * Hooks
      */
@@ -282,7 +304,7 @@ public class Ship : NetworkBehaviour
     {
         pseudoGO = transform.FindChild("Player_name").gameObject;
         pseudoGO.GetComponent<TextMesh>().text = value;
-        pseudoGO.GetComponent<TextMesh>().characterSize = isLocalPlayer ? 0f : 0.01f;
+        pseudoGO.GetComponent<TextMesh>().characterSize = isLocalPlayer ? 0f : Constants.PseudoSize;
     }
 
     void OnShipId(int value)

@@ -58,7 +58,7 @@ public class Bullet : NetworkBehaviour
         {
             ship = bot;
         }
-        ship.HitByBullet(transform.position, transform.rotation, damage);
+        ship.HitByBullet(transform.position, transform.rotation, damage, playerName);
         RpcSpawnExplosion();
         NetworkServer.Destroy(gameObject);
     }

@@ -6,6 +6,7 @@ public class SpawnPlayer : NetworkBehaviour
     public int ShipId;
     public string Pseudo;
     public bool IsBot;
+    public int BotLevel;
 
     public override void OnStartLocalPlayer()
     {
@@ -22,6 +23,7 @@ public class SpawnPlayer : NetworkBehaviour
             NetworkServer.Spawn(bot);
             bot.GetComponent<BotShip>().Pseudo = Pseudo;
             bot.GetComponent<BotShip>().ShipId = ShipId;
+            bot.GetComponent<BotShip>().BotLevel = BotLevel;
         }
         else
         {
