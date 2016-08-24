@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Space-Ragnarok.CSharp", "Sp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Space-Ragnarok.CSharp.Editor.Plugins", "Space-Ragnarok.CSharp.Editor.Plugins.csproj", "{B08A83BC-9B29-A335-7E49-018FB2EF3854}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Space-Ragnarok.CSharp.Editor", "Space-Ragnarok.CSharp.Editor.csproj", "{3AC78049-CFA4-CCFB-FB17-0D86FD7FF166}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{B08A83BC-9B29-A335-7E49-018FB2EF3854}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B08A83BC-9B29-A335-7E49-018FB2EF3854}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B08A83BC-9B29-A335-7E49-018FB2EF3854}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AC78049-CFA4-CCFB-FB17-0D86FD7FF166}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AC78049-CFA4-CCFB-FB17-0D86FD7FF166}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AC78049-CFA4-CCFB-FB17-0D86FD7FF166}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AC78049-CFA4-CCFB-FB17-0D86FD7FF166}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

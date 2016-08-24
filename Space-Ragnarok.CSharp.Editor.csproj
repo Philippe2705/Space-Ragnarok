@@ -5,16 +5,16 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B08A83BC-9B29-A335-7E49-018FB2EF3854}</ProjectGuid>
+    <ProjectGuid>{3AC78049-CFA4-CCFB-FB17-0D86FD7FF166}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AssemblyName>Assembly-CSharp-Editor-firstpass</AssemblyName>
+    <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
     <CompilerResponseFile></CompilerResponseFile>
-    <UnityProjectType>EditorPlugins:7</UnityProjectType>
+    <UnityProjectType>Editor:5</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>5.3.6f1</UnityVersion>
     <RootNamespace></RootNamespace>
@@ -131,10 +131,40 @@
       <Project>{9B9690DE-CDA3-EF64-9523-B79790BED839}</Project>
       <Name>Space-Ragnarok.CSharp</Name>
     </ProjectReference>
+    <ProjectReference Include="Space-Ragnarok.CSharp.Editor.Plugins.csproj">
+      <Project>{B08A83BC-9B29-A335-7E49-018FB2EF3854}</Project>
+      <Name>Space-Ragnarok.CSharp.Editor.Plugins</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Standard Assets\Unity Samples UI\Scripts\Editor\AlphaNumericSort.cs" />
-    <Compile Include="Assets\Standard Assets\Unity Samples UI\Scripts\Editor\GUIHierarchy.cs" />
+    <Compile Include="Assets\GooglePlayGames\Editor\CocoaPodHelper.cs" />
+    <Compile Include="Assets\GooglePlayGames\Editor\GPGSAndroidSetupUI.cs" />
+    <Compile Include="Assets\GooglePlayGames\Editor\GPGSDependencies.cs" />
+    <Compile Include="Assets\GooglePlayGames\Editor\GPGSDocsUI.cs" />
+    <Compile Include="Assets\GooglePlayGames\Editor\GPGSIOSSetupUI.cs" />
+    <Compile Include="Assets\GooglePlayGames\Editor\GPGSInstructionWindow.cs" />
+    <Compile Include="Assets\GooglePlayGames\Editor\GPGSPostBuild.cs" />
+    <Compile Include="Assets\GooglePlayGames\Editor\GPGSProjectSettings.cs" />
+    <Compile Include="Assets\GooglePlayGames\Editor\GPGSStrings.cs" />
+    <Compile Include="Assets\GooglePlayGames\Editor\GPGSUpgrader.cs" />
+    <Compile Include="Assets\GooglePlayGames\Editor\GPGSUtil.cs" />
+    <Compile Include="Assets\GooglePlayGames\Editor\NearbyConnectionUI.cs" />
+    <Compile Include="Assets\GooglePlayGames\Editor\PlistBuddyHelper.cs" />
+    <Compile Include="Assets\GooglePlayGames\Editor\xcode\Elements.cs" />
+    <Compile Include="Assets\GooglePlayGames\Editor\xcode\Lexer.cs" />
+    <Compile Include="Assets\GooglePlayGames\Editor\xcode\Objects.cs" />
+    <Compile Include="Assets\GooglePlayGames\Editor\xcode\PBXProject.cs" />
+    <Compile Include="Assets\GooglePlayGames\Editor\xcode\Parser.cs" />
+    <Compile Include="Assets\GooglePlayGames\Editor\xcode\Sections.cs" />
+    <Compile Include="Assets\GooglePlayGames\Editor\xcode\Serializer.cs" />
+    <Compile Include="Assets\GooglePlayGames\Editor\xcode\Utils.cs" />
+    <Compile Include="Assets\PlayServicesResolver\Editor\DefaultResolver.cs" />
+    <Compile Include="Assets\PlayServicesResolver\Editor\IResolver.cs" />
+    <Compile Include="Assets\PlayServicesResolver\Editor\PlayServicesResolver.cs" />
+    <Compile Include="Assets\PlayServicesResolver\Editor\ResolverVer1_1.cs" />
+    <Compile Include="Assets\PlayServicesResolver\Editor\ResolverVer1_2.cs" />
+    <Compile Include="Assets\PlayServicesResolver\Editor\SampleDependencies.cs" />
+    <Compile Include="Assets\PlayServicesResolver\Editor\SettingsDialog.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Fonts\OpenSans\License!.txt" />
