@@ -30,28 +30,28 @@ public static class ShipProperties
     {
         switch (level)
         {
-            case 1:
+            case 0:
                 return new BotProperties(0.7f, 0.7f, 0.7f, 0.7f, "Beginneer");
-            case 2:
+            case 1:
                 return new BotProperties(1, 1, 1, 1, "Easy");
-            case 3:
+            case 2:
                 return new BotProperties(1.4f, 1.4f, 1.4f, 1.4f, "Medium-Easy");
-            case 4:
+            case 3:
                 return new BotProperties(2, 2, 2, 2, "Medium");
-            case 5:
+            case 4:
                 return new BotProperties(3, 3, 3, 3, "Advanced");
-            case 6:
+            case 5:
                 return new BotProperties(4.5f, 4.5f, 4.5f, 4.5f, "Hard");
-            case 7:
+            case 6:
                 return new BotProperties(6, 6, 6, 6, "Very hard");
-            case 8:
+            case 7:
                 return new BotProperties(9, 9, 9, 9, "Hardcore");
-            case 9:
+            case 8:
                 return new BotProperties(12, 12, 12, 12, "Incredible");
-            case 10:
+            case 9:
                 return new BotProperties(20, 20, 20, 20, "Chuck Norris");
             default:
-                return new BotProperties(1, 1, 1, 1, "Easy");
+                return new BotProperties(1, 1, 1, 1, "Default");
         }
     }
 }

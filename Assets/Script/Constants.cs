@@ -7,7 +7,7 @@
 
     public const float DamageDispersion = 0.5f;
 
-    public const int TotalBotLevel = 10;
+    public const int TotalBotLevel = 9;
 
     public const int ShipsCount = 5;
 }
