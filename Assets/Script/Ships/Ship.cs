@@ -14,18 +14,20 @@ public class Ship : NetworkBehaviour
 
     [SyncVar]
     public bool IsDead = false;
-    [SyncVar(hook = "UpdateShipId")]
+    [SyncVar(hook = "OnShipId")]
     public int ShipId;
-    [SyncVar(hook = "UpdatePseudo")]
+    [SyncVar(hook = "OnPseudo")]
     public string Pseudo;
 
-
+    //[SyncVar(hook = "OnHealth")]
+    float health = 100;
+    [SyncVar]
     protected float reloadTimeR;
+    [SyncVar]
     protected float reloadTimeL;
 
     bool hasUpdatedMinimap;
     float explosionTimer = 5;
-    float vie = 100;
     GameObject[] rightGuns;
     GameObject[] leftGuns;
     GameObject pseudoGO;
@@ -37,6 +39,7 @@ public class Ship : NetworkBehaviour
     GameObject smallExplosionSound;
     GameObject bigExplosionSound;
     GameObject bulletPrefab;
+    //ParticleSystem particleSystem;
 
 
 
@@ -44,6 +47,7 @@ public class Ship : NetworkBehaviour
     protected virtual void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
+        //particleSystem = transform.Find("Smoke").GetComponent<ParticleSystem>();
         /*
          * Prefabs
          */
@@ -85,11 +89,6 @@ public class Ship : NetworkBehaviour
      */
     void FixedUpdate()
     {
-        if (shipProperty.Armor == 0) //Update needed
-        {
-            UpdatePseudo(Pseudo);
-            UpdateShipId(ShipId);
-        }
         if (isServer)
         {
             UpdateServer();
@@ -118,7 +117,7 @@ public class Ship : NetworkBehaviour
         /*
          * Death
          */
-        if (vie <= 0 && !IsDead)
+        if (health <= 0 && !IsDead)
         {
             IsDead = true;
             RpcBeginSmallExplosions();
@@ -128,8 +127,6 @@ public class Ship : NetworkBehaviour
             explosionTimer -= Time.deltaTime;
             if (explosionTimer <= 0)
             {
-                RpcBigExplosion();
-                RpcEndSmallExplosions();
                 RpcDie();
             }
         }
@@ -208,6 +205,7 @@ public class Ship : NetworkBehaviour
             bullet.GetComponent<Bullet>().direction = gun.transform.rotation * Quaternion.Euler(0, Random.Range(-10f, 10f), 0);
             bullet.GetComponent<Bullet>().color = shipProperty.MaterialColor;
             bullet.GetComponent<Bullet>().damage = shipProperty.Damage;
+            bullet.GetComponent<Bullet>().playerName = Pseudo;
             NetworkServer.Spawn(bullet);
         }
     }
@@ -224,9 +222,7 @@ public class Ship : NetworkBehaviour
     [Server]
     public void HitByBullet(Vector3 position, Quaternion rotation, float damage)
     {
-        vie -= damage * Random.Range(0.5f, 2) / shipProperty.Armor;
-        print(Pseudo + " touché");
-        print("Vie restante pour " + Pseudo + " : " + vie.ToString());
+        health -= damage * Random.Range(0.5f, 1.5f) / shipProperty.Armor;
 
         //Hit effect
         RpcHitByBullet(position, rotation);
@@ -257,12 +253,6 @@ public class Ship : NetworkBehaviour
         InvokeRepeating("SmallExplosion", 0, 0.1f);
     }
 
-    [ClientRpc]
-    void RpcEndSmallExplosions()
-    {
-        CancelInvoke("SmallExplosion");
-    }
-
     void SmallExplosion()
     {
         Vector3 randomPos = new Vector3(transform.position.x + Random.Range(-0.5f, 0.5f), transform.position.y + Random.Range(-0.5f, 0.5f), -1);
@@ -271,51 +261,37 @@ public class Ship : NetworkBehaviour
     }
 
     [ClientRpc]
-    void RpcBigExplosion()
-    {
-        Instantiate(bigExplosion, transform.position, transform.rotation);
-        Instantiate(bigExplosionSound, transform.position, transform.rotation);
-        print(gameObject.name + "A été détruit");
-        if (!isLocalPlayer && shipProperty.ShipID != -1) //Pas le joueur tué, ni le bot
-        {
-            UserData.AddExperience(1);
-        }
-    }
-
-    [ClientRpc]
     void RpcDie()
     {
+        CancelInvoke("SmallExplosion");
+        Instantiate(bigExplosion, transform.position, transform.rotation);
+        Instantiate(bigExplosionSound, transform.position, transform.rotation);
+
         GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/Death");
+
         foreach (var s in GetComponentsInChildren<ParticleSystemRenderer>())
         {
             s.enabled = false;
         }
-        if (!(isServer && GetType() != typeof(BotShip)) && !isLocalPlayer)
-        {
-            UserData.AddExperience(1);
-        }
-    }
-
-    /*
-     * Gets
-     */
-    protected float GetVie()
-    {
-        return vie;
     }
 
     /*
      * Hooks
      */
-    void UpdatePseudo(string value)
+    void OnPseudo(string value)
     {
         pseudoGO = transform.FindChild("Player_name").gameObject;
         pseudoGO.GetComponent<TextMesh>().text = value;
         pseudoGO.GetComponent<TextMesh>().characterSize = isLocalPlayer ? 0f : 0.01f;
     }
 
-    void UpdateShipId(int value)
+    void OnShipId(int value)
     {
         shipProperty = ShipProperties.GetShip(value);
     }
+
+    //protected virtual void OnHealth(float value)
+    //{
+    //    particleSystem.emissionRate =  (100 - value) * 250;
+    //}
 }

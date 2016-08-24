@@ -14,7 +14,7 @@ public class Bullet : NetworkBehaviour
 
     //Server
     public float damage;
-
+    public string playerName;
     float autoDestruct;
 
 

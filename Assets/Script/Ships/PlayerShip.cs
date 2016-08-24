@@ -54,23 +54,13 @@ public class PlayerShip : Ship
         }
     }
 
-    protected override void UpdateServer()
-    {
-        base.UpdateServer();
-        RpcUpdateHealthUIAndReloadTimes(GetVie(), reloadTimeL, reloadTimeL);
-    }
 
-    [ClientRpc]
-    void RpcUpdateHealthUIAndReloadTimes(float vie, float reloadTimeL, float reloadTimeR)
-    {
-        if (isLocalPlayer && HealthBar != null)
-        {
-            HealthBar.UpdateVie(vie);
-        }
-        if (!isServer)
-        {
-            this.reloadTimeL = reloadTimeL;
-            this.reloadTimeR = reloadTimeR;
-        }
-    }
+    //protected override void OnHealth(float value)
+    //{
+    //    base.OnHealth(value);
+    //    if (isLocalPlayer && HealthBar != null)
+    //    {
+    //        HealthBar.UpdateHealth(value);
+    //    }
+    //}
 }

@@ -11,7 +11,7 @@ namespace Prototype.NetworkLobby
     //Any LobbyHook can then grab it and pass those value to the game player prefab (see the Pong Example in the Samples Scenes)
     public class LobbyPlayer : NetworkLobbyPlayer
     {
-        static Color[] Colors = new Color[] { Color.magenta, Color.red, Color.cyan, Color.blue, Color.green, Color.yellow };
+        static List<string> playersPseudo = new List<string>();
 
         public Button shipButton;
         public InputField nameInput;
@@ -233,7 +233,10 @@ namespace Prototype.NetworkLobby
 
         public void OnNameChanged(string str)
         {
-            PlayerPrefs.SetString("Pseudo", str);
+            if (!IsBot)
+            {
+                PlayerPrefs.SetString("Pseudo", str);
+            }
             CmdNameChanged(str);
         }
 
@@ -279,10 +282,16 @@ namespace Prototype.NetworkLobby
         [Command]
         public void CmdNameChanged(string name)
         {
-            Pseudo = name;
-            if (!IsBot)
+            if (!playersPseudo.Contains(name))
             {
-                PlayerPrefs.SetString("Pseudo", name);
+                playersPseudo.Add(name);
+                playersPseudo.Remove(Pseudo);
+                Pseudo = name;
+            }
+            else
+            {
+                playersPseudo.Remove(Pseudo);
+                CmdNameChanged(name + "_");
             }
         }
 

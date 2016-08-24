@@ -13,7 +13,7 @@ public class HealthBar : MonoBehaviour {
     }
 
 
-	public void UpdateVie(float vie)
+	public void UpdateHealth(float vie)
     {
         slider.value = (vie / 100f);
         Color couleur;
