@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 public static class UserData
 {
 
-    private static PlayerDataStruct playerData;
+    private static PlayerData playerData;
 
 
     private static byte[] key = { 5, 65, 25, 46, 21, 55, 76, 68 }; // Where to store these keys is the tricky part, 
@@ -43,28 +43,55 @@ public static class UserData
                 BinaryFormatter formatter = new BinaryFormatter();
 
                 // This is where you deserialize the class
-                playerData = (PlayerDataStruct)formatter.Deserialize(cryptoStream);
+                playerData = (PlayerData)formatter.Deserialize(cryptoStream);
             }
+        }
+        else
+        {
+            playerData = new PlayerData();
+            SaveData();
         }
 
     }
+
+    private static void RemoveCredit(int creditToRemove)
+    {
+        LoadData();
+        playerData.Credits -= creditToRemove;
+        SaveData();
+    }
+
     public static void AddExperience(int experienceToAdd)
     {
         LoadData();
-        playerData.CurrentExperience += experienceToAdd;
+        playerData.Credits += experienceToAdd;
+        playerData.Experience += experienceToAdd;
         SaveData();
     }
 
     public static int GetExperience()
     {
         LoadData();
-        return playerData.CurrentExperience;
+        return playerData.Experience;
+    }
+
+    public static int GetCredits()
+    {
+        LoadData();
+        return playerData.Credits;
+    }
+
+    public static void AddCredits(int creditsToAdd)
+    {
+        LoadData();
+        playerData.Credits += creditsToAdd;
+        SaveData();
     }
 
     public static void SetShipId(int shipId)
     {
         LoadData();
-        if (shipId < 0 || shipId > 4) //If a correct value never init, set to default
+        if (shipId < 0 || shipId > Constants.ShipsCount) //If a correct value never init, set to default
         {
             playerData.ShipId = 0;
         }
@@ -78,16 +105,17 @@ public static class UserData
     public static int GetShipId()
     {
         LoadData();
-        if (playerData.ShipId < 0 || playerData.ShipId > 4) //If a correct value never init, set to default
+        if (playerData.ShipId < 0 || playerData.ShipId > Constants.ShipsCount) //If a correct value never init, set to default
         {
             playerData.ShipId = 0;
+            SaveData();
         }
         return playerData.ShipId;
     }
 
-    public static bool BuyShip(int shipId)
+    public static bool CanBuyShip(int shipId)
     {
-        if (ShipProperties.GetShip(shipId).Price > GetExperience())
+        if (ShipProperties.GetShip(shipId).Price > GetCredits())
         {
             return false;
         }
@@ -97,17 +125,30 @@ public static class UserData
         }
     }
 
+    public static void BuyShip(int shipId)
+    {
+        if (CanBuyShip(shipId))
+        {
+            LoadData();
+            RemoveCredit(ShipProperties.GetShip(shipId).Price);
+            playerData.BoughtShips[shipId] = true;
+            SaveData();
+        }
+    }
+
+    public static bool HasBoughtShip(int shipId)
+    {
+        LoadData();
+        return playerData.BoughtShips[shipId];
+    }
 }
 
 [Serializable]
-public struct PlayerDataStruct
+public class PlayerData
 {
-    public int CurrentExperience;
+    public int Experience;
+    public int Credits;
     public int ShipId;
 
-    public bool Destroyer;
-    public bool BattleShip;
-    public bool Frigate;
-    public bool Cruiser;
-    public bool Ragnarok;
+    public bool[] BoughtShips = new bool[100];
 }

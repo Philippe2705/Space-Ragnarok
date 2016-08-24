@@ -45,7 +45,7 @@ public struct BotProperties
     public readonly float SpeedMultiplier;
     public readonly float TurnRateMultiplier;
 
-    public BotProperties(float armorMultiplier, float damageMultiplier, float speedMultiplier, float turnRateMultiplier) : this()
+    public BotProperties(float armorMultiplier, float damageMultiplier, float speedMultiplier, float turnRateMultiplier)
     {
         ArmorMultiplier = armorMultiplier;
         DamageMultiplier = damageMultiplier;
