@@ -337,7 +337,7 @@ namespace Prototype.NetworkLobby
 
         string GetText(int botLevel)
         {
-            return botLevel.ToString();
+            return ShipProperties.GetBotProperties(botLevel).LevelName;
         }
     }
 }
