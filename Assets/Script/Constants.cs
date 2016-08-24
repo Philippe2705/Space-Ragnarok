@@ -1,6 +1,6 @@
 ﻿public static class Constants
 {
-    public const int XpForKill = 10;
+    public const int XpForKill = 50;
     public const int XpForHit = 1;
 
     public const float PseudoSize = 0.01f;

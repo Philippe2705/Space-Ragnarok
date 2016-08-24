@@ -125,7 +125,7 @@ public class Ship : NetworkBehaviour
             explosionTimer -= Time.deltaTime;
             if (explosionTimer <= 0)
             {
-                RpcDie();
+                Die();
             }
         }
     }
@@ -220,15 +220,14 @@ public class Ship : NetworkBehaviour
     [Server]
     public void HitByBullet(Vector3 position, Quaternion rotation, float damage, string playerName)
     {
-        if (!IsDead)
+        if (!IsDead && playerName != Pseudo)
         {
             health -= damage * Random.Range(1 - Constants.DamageDispersion, 1 + Constants.DamageDispersion) / (shipProperty.Armor * ShipProperties.GetBotProperties(BotLevel).ArmorMultiplier);
 
 
             if (health <= 0)
             {
-                IsDead = true;
-                RpcBeginSmallExplosions();
+                BeginDeath();
             }
 
 
@@ -236,6 +235,36 @@ public class Ship : NetworkBehaviour
         }
         //Hit effect
         RpcHitByBullet(position, rotation);
+    }
+
+    void BeginDeath()
+    {
+        IsDead = true;
+        RpcBeginSmallExplosions();
+    }
+
+    void Die()
+    {
+        RpcDie();
+        int shipsLeft = 0;
+        foreach (var playerShip in FindObjectsOfType<PlayerShip>())
+        {
+            if (!playerShip.IsDead)
+            {
+                shipsLeft++;
+            }
+        }
+        foreach (var botShip in FindObjectsOfType<BotShip>())
+        {
+            if (!botShip.IsDead)
+            {
+                shipsLeft++;
+            }
+        }
+        if(shipsLeft <= 1)
+        {
+
+        }
     }
 
 
@@ -314,6 +343,6 @@ public class Ship : NetworkBehaviour
 
     //protected virtual void OnHealth(float value)
     //{
-    //    particleSystem.emissionRate =  (100 - value) * 250;
+    //    particleSystem.emissionRate = (100 - value) * 250;
     //}
 }
