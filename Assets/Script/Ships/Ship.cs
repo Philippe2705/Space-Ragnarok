@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
+using System.Collections.Generic;
 
 public class Ship : NetworkBehaviour
 {
@@ -30,6 +31,7 @@ public class Ship : NetworkBehaviour
 
     bool hasUpdatedMinimap;
     float explosionTimer = 5;
+    bool isExploding = false;
     GameObject[] rightGuns;
     GameObject[] leftGuns;
     GameObject pseudoGO;
@@ -48,6 +50,7 @@ public class Ship : NetworkBehaviour
 
     protected virtual void Start()
     {
+        Invoke("DelayedScoreBoard", 0.1f);
         IsBot = GetType() == typeof(BotShip);
         rigidbody2D = GetComponent<Rigidbody2D>();
         //particleSystem = transform.Find("Smoke").GetComponent<ParticleSystem>();
@@ -120,7 +123,7 @@ public class Ship : NetworkBehaviour
         /*
          * Death
          */
-        if (IsDead && explosionTimer > 0)
+        if (isExploding && explosionTimer > 0)
         {
             explosionTimer -= Time.deltaTime;
             if (explosionTimer <= 0)
@@ -231,7 +234,7 @@ public class Ship : NetworkBehaviour
             }
 
 
-            RpcAddXpToPlayer(playerName, IsDead ? Constants.XpForKill : 0 + Constants.XpForHit);
+            RpcAddXpToPlayer(playerName, health <= 0, Pseudo);
         }
         //Hit effect
         RpcHitByBullet(position, rotation);
@@ -240,11 +243,13 @@ public class Ship : NetworkBehaviour
     void BeginDeath()
     {
         IsDead = true;
+        isExploding = true;
         RpcBeginSmallExplosions();
     }
 
     void Die()
     {
+        IsDead = true;
         RpcDie();
         int shipsLeft = 0;
         foreach (var playerShip in FindObjectsOfType<PlayerShip>())
@@ -259,11 +264,20 @@ public class Ship : NetworkBehaviour
             if (!botShip.IsDead)
             {
                 shipsLeft++;
+                break;
             }
         }
-        if(shipsLeft <= 1)
+        if (shipsLeft <= 1)
         {
-
+            foreach (var playerShip in FindObjectsOfType<PlayerShip>())
+            {
+                playerShip.IsDead = true;
+            }
+            foreach (var botShip in FindObjectsOfType<BotShip>())
+            {
+                botShip.IsDead = true;
+            }
+            FindObjectOfType<ScoreBoard>().ShowScoreBoardOnAll(true);
         }
     }
 
@@ -315,13 +329,24 @@ public class Ship : NetworkBehaviour
     }
 
     [ClientRpc]
-    void RpcAddXpToPlayer(string playerName, int xp)
+    void RpcAddXpToPlayer(string playerName, bool death, string playerHit)
     {
-        foreach (var player in FindObjectsOfType<PlayerShip>())
+        List<Ship> ships = new List<Ship>(FindObjectsOfType<PlayerShip>());
+        ships.AddRange(FindObjectsOfType<BotShip>());
+        foreach (var ship in ships)
         {
-            if (player.isLocalPlayer && player.Pseudo == playerName)
+            if ((ship.isLocalPlayer || ship.IsBot) && ship.Pseudo == playerName)
             {
-                UserData.AddExperience(xp);
+                if (isLocalPlayer)
+                {
+                    var xp = death ? Constants.XpForKill : 0 + Constants.XpForHit;
+                    UserData.AddExperience(xp);
+                }
+                FindObjectOfType<ScoreBoard>().AddHit(ship.Pseudo);
+                if (death)
+                {
+                    FindObjectOfType<ScoreBoard>().AddKill(ship.Pseudo, playerHit);
+                }
             }
         }
     }
@@ -345,4 +370,13 @@ public class Ship : NetworkBehaviour
     //{
     //    particleSystem.emissionRate = (100 - value) * 250;
     //}
+
+
+    void DelayedScoreBoard()
+    {
+        if (isServer)
+        {
+            FindObjectOfType<ScoreBoard>().AddPlayerOnAll(Pseudo);
+        }
+    }
 }

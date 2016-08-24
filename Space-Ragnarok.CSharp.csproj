@@ -121,6 +121,7 @@
     <Compile Include="Assets\Script\MainMenu\CustomNetworkManager.cs" />
     <Compile Include="Assets\Script\MainMenu\ServerConf.cs" />
     <Compile Include="Assets\Script\MinimapSync.cs" />
+    <Compile Include="Assets\Script\PlayerScoreDisplayer.cs" />
     <Compile Include="Assets\Script\Purchaser.cs" />
     <Compile Include="Assets\Script\ScoreBoard.cs" />
     <Compile Include="Assets\Script\ShipProperties.cs" />
@@ -135,6 +136,11 @@
     <None Include="Assets\Fonts\OpenSans\License!.txt" />
     <None Include="Assets\Lobby\Documentation.txt" />
     <None Include="Assets\Lobby\Instruction.txt" />
+    <None Include="Assets\Standard Assets\Google\GooglePlayGames\Editor\Podfile.txt" />
+    <None Include="Assets\Standard Assets\Google\GooglePlayGames\Editor\template-AndroidManifest.txt" />
+    <None Include="Assets\Standard Assets\Google\GooglePlayGames\Editor\template-Constants.txt" />
+    <None Include="Assets\Standard Assets\Google\GooglePlayGames\Editor\template-GameInfo.txt" />
+    <None Include="Assets\Standard Assets\Google\Plugins\Android\MainLibProj\AndroidManifest.xml" />
     <None Include="Assets\Standard Assets\KY_effects\MagicEffectsPackFree\ReadMe.txt" />
     <None Include="Assets\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />
     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />
