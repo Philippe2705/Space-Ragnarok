@@ -9,15 +9,15 @@ public static class ShipProperties
         switch (shipId)
         {
             case 0:
-                return new ShipProperty(0, "Destroyer", 5f/*Speed Factor*/, 45/*Turn Rate*/, 2/*Armor*/, 10/*Domage*/, 2f/*Reload Time*/, 7/*View Distance*/, 0/*Bullet Dispersion*/, "Orange");
+                return new ShipProperty(0, "Destroyer", 5f/*Speed Factor*/, 45/*Turn Rate*/, 2/*Armor*/, 10/*Domage*/, 2f/*Reload Time*/, 7/*View Distance*/, 0/*Bullet Dispersion*/, 0/*Price*/, "Orange");
             case 1:
-                return new ShipProperty(1, "Frigate", 3f/*Speed Factor*/, 22.5f/*Turn Rate*/, 3f/*Armor*/, 12/*Domage*/, 3/*Reload Time*/, 7/*View Distance*/, 10/*Bullet Dispersion*/, "Orange");
+                return new ShipProperty(1, "Frigate", 3f/*Speed Factor*/, 22.5f/*Turn Rate*/, 3f/*Armor*/, 12/*Domage*/, 3/*Reload Time*/, 7/*View Distance*/, 10/*Bullet Dispersion*/, 1250/*Price*/, "Orange");
             case 2:
-                return new ShipProperty(2, "Cruiser", 1.5f/*Speed Factor*/, 22.5f/*Turn Rate*/, 5f/*Armor*/, 14/*Domage*/, 3/*Reload Time*/, 8/*View Distance*/, 10/*Bullet Dispersion*/, "Red");
+                return new ShipProperty(2, "Cruiser", 1.5f/*Speed Factor*/, 22.5f/*Turn Rate*/, 5f/*Armor*/, 14/*Domage*/, 3/*Reload Time*/, 8/*View Distance*/, 10/*Bullet Dispersion*/, 2500/*Price*/, "Red");
             case 3:
-                return new ShipProperty(3, "BattleShip", 0.7f/*Speed Factor*/, 18/*Turn Rate*/, 10f/*Armor*/, 17/*Domage*/, 3/*Reload Time*/, 9/*View Distance*/, 10/*Bullet Dispersion*/, "Orange");
+                return new ShipProperty(3, "BattleShip", 0.7f/*Speed Factor*/, 18/*Turn Rate*/, 10f/*Armor*/, 17/*Domage*/, 3/*Reload Time*/, 9/*View Distance*/, 10/*Bullet Dispersion*/, 5000/*Price*/, "Orange");
             case 4:
-                return new ShipProperty(4, "Ragnarok", 0.3f/*Speed Factor*/, 15/*Turn Rate*/, 50/*Armor*/, 24/*Domage*/, 3/*Reload Time*/, 12/*View Distance*/, 10/*Bullet Dispersion*/, "Purple");
+                return new ShipProperty(4, "Ragnarok", 0.3f/*Speed Factor*/, 15/*Turn Rate*/, 50/*Armor*/, 24/*Domage*/, 3/*Reload Time*/, 12/*View Distance*/, 10/*Bullet Dispersion*/, 10000/*Price*/, "Purple");
 
             default:
                 Debug.LogError("Incorrect Ship ID");
@@ -69,9 +69,10 @@ public struct ShipProperty
     public readonly float ReloadTime;
     public readonly float ViewDistance;
     public readonly float BulletDispersion;
+    public readonly int Price;
     public readonly string MaterialColor;
 
-    public ShipProperty(int shipID, string shipName, float speedFactor, float turnRate, float armor, float damage, float reloadTime, float viewDistance, float bulletDispersion, string materialColor)
+    public ShipProperty(int shipID, string shipName, float speedFactor, float turnRate, float armor, float damage, float reloadTime, float viewDistance, float bulletDispersion, int price, string materialColor)
     {
         ShipID = shipID;
         ShipName = shipName;
@@ -85,6 +86,7 @@ public struct ShipProperty
         ReloadTime = reloadTime;
         ViewDistance = viewDistance;
         BulletDispersion = bulletDispersion;
+        Price = price;
         MaterialColor = materialColor;
     }
 }

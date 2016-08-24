@@ -85,6 +85,18 @@ public static class UserData
         return playerData.ShipId;
     }
 
+    public static bool BuyShip(int shipId)
+    {
+        if (ShipProperties.GetShip(shipId).Price > GetExperience())
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
 }
 
 [Serializable]
@@ -92,4 +104,10 @@ public struct PlayerDataStruct
 {
     public int CurrentExperience;
     public int ShipId;
+
+    public bool Destroyer;
+    public bool BattleShip;
+    public bool Frigate;
+    public bool Cruiser;
+    public bool Ragnarok;
 }
