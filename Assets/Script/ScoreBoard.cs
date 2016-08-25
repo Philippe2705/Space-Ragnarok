@@ -7,6 +7,8 @@ using System.Collections.Generic;
 
 public class ScoreBoard : NetworkBehaviour
 {
+    float scoreBoardTimer = 10;
+    bool playTimer = false;
     public GameObject PlayerScoreDisplayer;
 
     Dictionary<string, PlayerScore> playerScores = new Dictionary<string, PlayerScore>();
@@ -29,11 +31,17 @@ public class ScoreBoard : NetworkBehaviour
         {
             ShowScoreBoard(false);
         }
+        if (playTimer && scoreBoardTimer > 0)
+        {
+            scoreBoardTimer -= Time.deltaTime;
+            GameObject.Find("Timer").GetComponent<Text>().text = scoreBoardTimer.ToString();
+        }
     }
 
 
     public void ShowScoreBoard(bool show)
     {
+        playTimer = true;
         transform.parent.GetComponent<Canvas>().enabled = show;
         foreach (var c in FindObjectsOfType<Canvas>())
         {

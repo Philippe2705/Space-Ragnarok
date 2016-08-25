@@ -30,7 +30,7 @@ public class Ship : NetworkBehaviour
     protected float reloadTimeL;
 
     bool hasUpdatedMinimap;
-    float explosionTimer = 5;
+    float explosionTimer = 2;
     bool isExploding = false;
     GameObject[] rightGuns;
     GameObject[] leftGuns;
