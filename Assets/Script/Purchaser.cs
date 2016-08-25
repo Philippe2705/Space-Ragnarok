@@ -58,6 +58,7 @@ namespace CompleteProject
             // Add a product to sell / restore by way of its identifier, associating the general identifier
             // with its store-specific identifiers.
             builder.AddProduct(kProductIDConsumable, ProductType.Consumable);
+            builder.AddProduct("com.maquin.premium", ProductType.NonConsumable);
             // Continue adding the non-consumable product.
             builder.AddProduct(kProductIDNonConsumable, ProductType.NonConsumable);
             // And finish adding the subscription product. Notice this uses store-specific IDs, illustrating
@@ -210,7 +211,7 @@ namespace CompleteProject
             {
                 Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
                 // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
-                UserData.AddExperience(1500);
+                UserData.BecomePremium();
             }
             // Or ... a non-consumable product has been purchased by this user.
             else if (String.Equals(args.purchasedProduct.definition.id, kProductIDNonConsumable, StringComparison.Ordinal))

@@ -135,7 +135,26 @@ public static class UserData
             SaveData();
         }
     }
-
+    public static void BecomePremium()
+    {
+        LoadData();
+        playerData.premium = "premium";
+        SaveData();
+    }
+    public static bool ImPremium()
+    {
+        LoadData();
+        if (playerData.premium == "premium")
+        {
+            Debug.Log("You are premium");
+            return true;
+        }
+        else
+        {
+            Debug.Log("Vous n'etes pas premium");
+            return false;
+        }
+    }
     public static bool HasBoughtShip(int shipId)
     {
         LoadData();
@@ -149,6 +168,7 @@ public class PlayerData
     public int Experience;
     public int Credits;
     public int ShipId;
+    public string premium;
 
     public bool[] BoughtShips = new bool[100];
 }

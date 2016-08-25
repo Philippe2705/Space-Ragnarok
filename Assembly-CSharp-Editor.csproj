@@ -122,6 +122,9 @@
  <Reference Include="UnityEngine.Purchasing">
  <HintPath>C:/Program Files/Unity5/Editor/Data/UnityExtensions/Unity/UnityPurchasing/UnityEngine.Purchasing.dll</HintPath>
  </Reference>
+ <Reference Include="JarResolverLib">
+ <HintPath>C:/Users/X-Gaming/Documents/Unity Projects/Project - Space Ragnarok/Assets/PlayServicesResolver/Editor/JarResolverLib.dll</HintPath>
+ </Reference>
  <Reference Include="Common">
  <HintPath>C:/Users/X-Gaming/Documents/Unity Projects/Project - Space Ragnarok/Assets/Plugins/UnityPurchasing/Bin/Common.dll</HintPath>
  </Reference>
@@ -149,15 +152,10 @@
  <Reference Include="UnityEditor.WindowsStandalone.Extensions">
  <HintPath>C:/Program Files/Unity5/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
  </Reference>
- <Reference Include="JarResolverLib">
- <HintPath>C:/Users/X-Gaming/Documents/Unity Projects/Project - Space Ragnarok/Assets/PlayServicesResolver/Editor/JarResolverLib.dll</HintPath>
- </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
       <Project>{BD056C4E-06F9-CAC5-8DAA-8AF6B9AE6050}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
-    <ProjectReference Include="Assembly-CSharp.csproj">
-      <Project>{14503506-6D17-5AF2-DDDC-83B4C4E725D5}</Project>      <Name>Assembly-CSharp</Name>    </ProjectReference>
     <ProjectReference Include="Assembly-CSharp-Editor-firstpass.csproj">
       <Project>{C456AC05-6726-24DD-1003-20EB1133ED1D}</Project>      <Name>Assembly-CSharp-Editor-firstpass</Name>    </ProjectReference>
   </ItemGroup>

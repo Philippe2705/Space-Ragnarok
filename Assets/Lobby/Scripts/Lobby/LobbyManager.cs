@@ -241,6 +241,10 @@ namespace Prototype.NetworkLobby
             netMsg.conn.Disconnect();
         }
 
+        public void ReturnToMainMenu()
+        {
+            Application.LoadLevel(0);
+        }
         //===================
 
         public override void OnStartHost()
