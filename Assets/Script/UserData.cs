@@ -32,7 +32,7 @@ public static class UserData
     }
     private static void LoadData()
     {
-        if (File.Exists(Application.persistentDataPath + "/playerData.dat"))
+        if (File.Exists(path))
         {
             DESCryptoServiceProvider des = new DESCryptoServiceProvider();
 
@@ -162,6 +162,14 @@ public static class UserData
     {
         LoadData();
         return playerData.KillsCount;
+    }
+
+    public static void Reset()
+    {
+        if (File.Exists(path))
+        {
+            File.Delete(path);
+        }
     }
 }
 

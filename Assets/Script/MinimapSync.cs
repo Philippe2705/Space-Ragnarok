@@ -17,6 +17,10 @@ public class MinimapSync : MonoBehaviour
         playerIcon.GetComponent<Image>().color = Color.green;
         parent = playerIcon.parent;
         enemies = new List<Ship>();
+        foreach (var enemyIcon in enemiesIcons)
+        {
+            enemyIcon.GetComponent<Image>().color = Color.red;
+        }
 
         foreach (var playerShip in FindObjectsOfType<PlayerShip>())
         {
@@ -71,13 +75,16 @@ public class MinimapSync : MonoBehaviour
             for (var i = 0; i < enemies.Count; i++)
             {
                 var enemy = enemies[i];
-                var enemyIcon = enemiesIcons[i];
-                if (enemy.IsDead)
+                if (enemy != null)
                 {
-                    enemyIcon.GetComponent<Image>().color = Color.gray;
+                    var enemyIcon = enemiesIcons[i];
+                    if (enemy.IsDead)
+                    {
+                        enemyIcon.GetComponent<Image>().color = Color.gray;
+                    }
+                    enemyIcon.localPosition = enemy.transform.position * 2;
+                    enemyIcon.localRotation = enemy.transform.rotation;
                 }
-                enemyIcon.localPosition = enemy.transform.position * 2;
-                enemyIcon.localRotation = enemy.transform.rotation;
             }
         }
     }

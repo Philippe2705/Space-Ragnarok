@@ -19,9 +19,9 @@ public class BotShip : Ship
     }
 
 
-    protected override void UpdateServer()
+    protected override void FixedUpdateServer()
     {
-        base.UpdateServer();
+        base.FixedUpdateServer();
         fireSide = 0;
         horizontal = 0;
         vertical = 0;
@@ -47,7 +47,7 @@ public class BotShip : Ship
         var leftAngle = Vector3.Angle(-transform.right, deltaPos) * Mathf.Sign(Vector3.Dot(Vector3.Cross(-transform.right, deltaPos), Vector3.forward));
 
 
-        if (deltaPos.magnitude < 15)
+        if (deltaPos.magnitude < 15 && currentPlayer.rigidbody2D != null)
         {
             deltaPos += currentPlayer.transform.up * currentPlayer.rigidbody2D.velocity.magnitude / 3 * deltaPos.magnitude;
         }
