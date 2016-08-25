@@ -62,7 +62,7 @@ public static class UserData
         SaveData();
     }
 
-    private static void AddExperience(int experienceToAdd)
+    public static void AddExperience(int experienceToAdd)
     {
         LoadData();
         playerData.Credits += experienceToAdd;
