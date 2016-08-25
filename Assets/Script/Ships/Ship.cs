@@ -335,7 +335,7 @@ public class Ship : NetworkBehaviour
                 if (isLocalPlayer)
                 {
                     var xp = death ? Constants.XpForKill : 0 + Constants.XpForHit;
-                    UserData.AddExperience(xp);
+                    //UserData.AddExperience(xp);
                 }
                 FindObjectOfType<ScoreBoard>().AddHit(ship.Pseudo);
                 if (death)
