@@ -100,6 +100,5 @@ public class AvailableShip : MonoBehaviour
     {
         UserData.BuyShip(currentShip);
         UserData.SetShipId(currentShip);
-        BuyButton.gameObject.SetActive(false);
     }
 }

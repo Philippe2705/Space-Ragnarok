@@ -141,6 +141,28 @@ public static class UserData
         LoadData();
         return playerData.BoughtShips[shipId];
     }
+
+    public static void AddHit()
+    {
+        LoadData();
+        AddExperience(Constants.XpForHit);
+        playerData.HitsCount++;
+        SaveData();
+    }
+
+    public static void AddKill()
+    {
+        LoadData();
+        AddExperience(Constants.XpForKill);
+        playerData.KillsCount++;
+        SaveData();
+    }
+
+    public static int GetKills()
+    {
+        LoadData();
+        return playerData.KillsCount;
+    }
 }
 
 [Serializable]
@@ -151,4 +173,7 @@ public class PlayerData
     public int ShipId;
 
     public bool[] BoughtShips = new bool[100];
+
+    public int HitsCount;
+    public int KillsCount;
 }
