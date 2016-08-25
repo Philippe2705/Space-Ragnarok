@@ -86,9 +86,9 @@ public class Ship : NetworkBehaviour
         if (!isLocalPlayer)
         {
             SetDirtyBit(syncVarDirtyBits);
+            syncVarHookGuard = false;
         }
     }
-
 
     /*
      * Update
@@ -138,7 +138,7 @@ public class Ship : NetworkBehaviour
         /*
          * Update minimap
          */
-        if (!hasUpdatedMinimap)
+        if (!hasUpdatedMinimap && isLocalPlayer)
         {
             CmdUpdateMinimap();
         }
@@ -156,6 +156,18 @@ public class Ship : NetworkBehaviour
     /*
      * Commands
      */
+    [Command]
+    void CmdReSpawnPlayer()
+    {
+        var player = Instantiate(NetworkManager.singleton.playerPrefab) as GameObject;
+        player.GetComponent<SpawnPlayer>().Pseudo = Pseudo;
+        player.GetComponent<SpawnPlayer>().ShipId = ShipId;
+        player.GetComponent<SpawnPlayer>().BotLevel = -1;
+        NetworkServer.Spawn(player);
+        NetworkServer.ReplacePlayerForConnection(connectionToClient, player, 0);
+
+    }
+
     [Command]
     protected void CmdMove(float vertical, float horizontal)
     {
@@ -354,11 +366,13 @@ public class Ship : NetworkBehaviour
         pseudoGO = transform.FindChild("Player_name").gameObject;
         pseudoGO.GetComponent<TextMesh>().text = value;
         pseudoGO.GetComponent<TextMesh>().characterSize = isLocalPlayer ? 0f : Constants.PseudoSize;
+        Pseudo = value;
     }
 
     void OnShipId(int value)
     {
         shipProperty = ShipProperties.GetShip(value);
+        ShipId = value;
     }
 
     //protected virtual void OnHealth(float value)
@@ -372,6 +386,25 @@ public class Ship : NetworkBehaviour
         if (isServer)
         {
             FindObjectOfType<ScoreBoard>().AddPlayerOnAll(Pseudo);
+        }
+    }
+
+    public void Respawn()
+    {
+        if (IsBot)
+        {
+            if (isServer)
+            {
+                var player = Instantiate(NetworkManager.singleton.playerPrefab) as GameObject;
+                player.GetComponent<SpawnPlayer>().Pseudo = Pseudo;
+                player.GetComponent<SpawnPlayer>().ShipId = ShipId;
+                player.GetComponent<SpawnPlayer>().BotLevel = BotLevel;
+                player.GetComponent<SpawnPlayer>().IsBot = true;
+            }
+        }
+        else
+        {
+            CmdReSpawnPlayer();
         }
     }
 }

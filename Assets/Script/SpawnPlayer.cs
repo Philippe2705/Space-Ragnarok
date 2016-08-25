@@ -8,13 +8,11 @@ public class SpawnPlayer : NetworkBehaviour
     public bool IsBot;
     public int BotLevel;
 
-    public void Start()
+    public override void OnStartLocalPlayer()
     {
-        if (isLocalPlayer)
-        {
-            CmdSpawnPlayer();
-        }
+        CmdSpawnPlayer();
     }
+
 
     [Command]
     void CmdSpawnPlayer()
