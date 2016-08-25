@@ -34,7 +34,6 @@ namespace Prototype.NetworkLobby
         protected RectTransform currentPanel;
 
         public Button backButton;
-        public Button returnToMainMenu;
 
         public Text statusInfo;
         public Text hostInfo;
@@ -145,12 +144,10 @@ namespace Prototype.NetworkLobby
             if (currentPanel != mainMenuPanel)
             {
                 backButton.gameObject.SetActive(true);
-                returnToMainMenu.gameObject.SetActive(false);
             }
             else
             {
                 backButton.gameObject.SetActive(false);
-                returnToMainMenu.gameObject.SetActive(true);
                 SetServerInfo("Offline", "None");
                 _isMatchmaking = false;
             }
