@@ -10,14 +10,10 @@ public class PanelManager : MonoBehaviour {
 	private int m_OpenParameterId;
 	private Animator m_Open;
 	private GameObject m_PreviouslySelected;
-	
-	public GameObject Netsyncer;
-	public string localIp;
 
 	const string k_OpenTransitionName = "Open";
 	const string k_ClosedStateName = "Closed";
-	public InputField nameInput;
-	public string pseudo = "";
+
 	void Start()
 	{
 	}

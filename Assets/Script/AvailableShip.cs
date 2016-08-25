@@ -8,7 +8,18 @@ public class AvailableShip : MonoBehaviour
     public Text ExperienceText;
     public Image ShipPreview;
     public Transform ShipContainer;
+    public Button BuyButton;
     public GameObject ShipBuyPrefab;
+
+    int currentShip;
+
+    void Start()
+    {
+        currentShip = UserData.GetShipId();
+        BuyButton.onClick.AddListener(OnBuyShip);
+        ShipPreview.sprite = ShipProperties.GetShip(currentShip).ShipSprite;
+        BuyButton.gameObject.SetActive(false);
+    }
 
     void Update()
     {
@@ -42,7 +53,7 @@ public class AvailableShip : MonoBehaviour
 
             for (int i = 0; i < Constants.ShipsCount; i++)
             {
-                SetShipActive(i, UserData.HasBoughtShip(i));
+                SetShipBought(i, UserData.HasBoughtShip(i));
                 SetShipLocked(i, !(UserData.CanBuyShip(i) || UserData.HasBoughtShip(i)));
             }
         }
@@ -52,7 +63,7 @@ public class AvailableShip : MonoBehaviour
         UserData.AddExperience(xp);
     }
 
-    void SetShipActive(int shipId, bool active)
+    void SetShipBought(int shipId, bool active)
     {
         GameObject ship = GameObject.Find(ShipProperties.GetShip(shipId).ShipName);
         ship.GetComponentInChildren<Text>().text = active ? ShipProperties.GetShip(shipId).ShipName : ShipProperties.GetShip(shipId).Price.ToString();
@@ -63,22 +74,32 @@ public class AvailableShip : MonoBehaviour
     {
         GameObject ship = GameObject.Find(ShipProperties.GetShip(shipId).ShipName);
         ship.GetComponentInChildren<Text>().color = locked ? Color.gray : Color.white;
-        ship.transform.Find("Locked").gameObject.SetActive(locked);
-    }
-    void SetShipID(int id)
-    {
-        UserData.SetShipId(id);
-        ShipPreview.sprite = ShipProperties.GetShip(id).ShipSprite;
+        //ship.transform.Find("Locked").gameObject.SetActive(locked);
     }
 
     public void OnShipId(int id)
     {
+        BuyButton.gameObject.SetActive(false);
         if (!UserData.HasBoughtShip(id))
         {
             if (UserData.CanBuyShip(id))
             {
-                UserData.BuyShip(id);
+                BuyButton.gameObject.SetActive(true);
+                currentShip = id;
+                ShipPreview.sprite = ShipProperties.GetShip(id).ShipSprite;
             }
         }
+        else
+        {
+            currentShip = id;
+            ShipPreview.sprite = ShipProperties.GetShip(id).ShipSprite;
+            UserData.SetShipId(id);
+        }
+    }
+
+    public void OnBuyShip()
+    {
+        UserData.BuyShip(currentShip);
+        UserData.SetShipId(currentShip);
     }
 }

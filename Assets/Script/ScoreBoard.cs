@@ -7,10 +7,10 @@ using System.Collections.Generic;
 
 public class ScoreBoard : NetworkBehaviour
 {
-    float scoreBoardTimer = 10;
-    bool playTimer = false;
     public GameObject PlayerScoreDisplayer;
 
+    float scoreBoardTimer = 10;
+    bool playTimer = false;
     Dictionary<string, PlayerScore> playerScores = new Dictionary<string, PlayerScore>();
 
     void Start()

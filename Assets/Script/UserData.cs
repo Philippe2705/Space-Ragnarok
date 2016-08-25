@@ -49,6 +49,7 @@ public static class UserData
         else
         {
             playerData = new PlayerData();
+            playerData.BoughtShips[0] = true;
             SaveData();
         }
 
