@@ -8,14 +8,24 @@ using System.Collections.Generic;
 public class ScoreBoard : NetworkBehaviour
 {
     public GameObject PlayerScoreDisplayer;
+    public Button NewGameButton;
+    public Button QuitButton;
 
-    float scoreBoardTimer = 10;
-    bool playTimer = false;
-    Dictionary<string, PlayerScore> playerScores = new Dictionary<string, PlayerScore>();
+    float scoreBoardTimer;
+    bool timerActivated;
+    Dictionary<string, PlayerScore> playerScores;
+
 
     void Start()
     {
-        transform.parent.GetComponent<Canvas>().enabled = false;
+        playerScores = new Dictionary<string, PlayerScore>();
+        NewGameButton.onClick.AddListener(OnNewGame);
+        QuitButton.onClick.AddListener(OnQuit);
+        NewGameButton.gameObject.SetActive(false);
+        QuitButton.gameObject.SetActive(false);
+        timerActivated = false;
+        scoreBoardTimer = Constants.TimeBeforeButtonsScoreBoard;
+        ShowScoreBoard(false);
     }
 
     void Update()
@@ -31,18 +41,24 @@ public class ScoreBoard : NetworkBehaviour
         {
             ShowScoreBoard(false);
         }
-        if (playTimer && scoreBoardTimer > 0)
+        if (timerActivated && scoreBoardTimer > 0)
         {
             scoreBoardTimer -= Time.deltaTime;
-            GameObject.Find("Timer").GetComponent<Text>().text = scoreBoardTimer.ToString();
+        }
+        if (scoreBoardTimer < 0 && timerActivated)
+        {
+            timerActivated = false;
+            NewGameButton.gameObject.SetActive(true);
+            QuitButton.gameObject.SetActive(true);
         }
     }
 
 
     public void ShowScoreBoard(bool show)
     {
-        playTimer = true;
-        transform.parent.GetComponent<Canvas>().enabled = show;
+        timerActivated = true;
+        SortPlayers();
+        transform.parent.parent.parent.GetComponent<Canvas>().enabled = show;
         foreach (var c in FindObjectsOfType<Canvas>())
         {
             if (!transform.IsChildOf(c.transform))
@@ -161,6 +177,72 @@ public class ScoreBoard : NetworkBehaviour
         }
     }
 
+    void SortPlayers()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            Destroy(transform.GetChild(i).gameObject);
+        }
+        var l = new List<PlayerScore>();
+        foreach (var ps in playerScores.Values)
+        {
+            l.Add(ps);
+        }
+        l.Sort((a, b) => b.Xp.CompareTo(a.Xp));
+        foreach (var ps in l)
+        {
+            var psd = Instantiate(PlayerScoreDisplayer) as GameObject;
+            psd.transform.SetParent(transform);
+            psd.transform.localScale = Vector3.one;
+            psd.transform.SetAsLastSibling();
+            psd.GetComponent<PlayerScoreDisplayer>().PlayerScore = ps;
+        }
+    }
+
+    public void OnNewGame()
+    {
+        Start();
+        if (isServer)
+        {
+            foreach (var bs in FindObjectsOfType<BotShip>())
+            {
+                var player = Instantiate(NetworkManager.singleton.playerPrefab) as GameObject;
+                player.GetComponent<SpawnPlayer>().Pseudo = bs.Pseudo;
+                player.GetComponent<SpawnPlayer>().ShipId = bs.ShipId;
+                player.GetComponent<SpawnPlayer>().BotLevel = bs.BotLevel;
+                player.GetComponent<SpawnPlayer>().IsBot = true;
+            }
+        }
+        foreach (var ps in FindObjectsOfType<PlayerShip>())
+        {
+            if (ps.isLocalPlayer)
+            {
+                CmdReSpawnPlayer(ps.Pseudo);
+            }
+        }
+    }
+
+    [Command]
+    void CmdReSpawnPlayer(string pseudo)
+    {
+        foreach (var ps in FindObjectsOfType<PlayerShip>())
+        {
+            if (ps.Pseudo == pseudo)
+            {
+                var player = Instantiate(NetworkManager.singleton.playerPrefab) as GameObject;
+                player.GetComponent<SpawnPlayer>().Pseudo = ps.Pseudo;
+                player.GetComponent<SpawnPlayer>().ShipId = ps.ShipId;
+                player.GetComponent<SpawnPlayer>().BotLevel = -1;
+                NetworkServer.Spawn(player);
+                NetworkServer.ReplacePlayerForConnection(ps.connectionToClient, player, 0);
+            }
+        }
+    }
+
+    public void OnQuit()
+    {
+        FindObjectOfType<Disconnect>().StartDisconnect();
+    }
 }
 
 public class PlayerScore

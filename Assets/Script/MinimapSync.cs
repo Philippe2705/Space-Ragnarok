@@ -14,6 +14,7 @@ public class MinimapSync : MonoBehaviour
 
     public void SearchForPlayers()
     {
+        playerIcon.GetComponent<Image>().color = Color.green;
         parent = playerIcon.parent;
         enemies = new List<Ship>();
 

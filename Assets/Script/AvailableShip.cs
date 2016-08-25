@@ -23,7 +23,6 @@ public class AvailableShip : MonoBehaviour
 
     void Update()
     {
-        print(UserData.ImPremium());
         if (ExperienceText.IsActive())
         {
             ExperienceText.text = "Credits : " + UserData.GetCredits().ToString();

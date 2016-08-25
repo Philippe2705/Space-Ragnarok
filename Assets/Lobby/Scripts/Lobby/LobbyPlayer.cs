@@ -307,6 +307,10 @@ namespace Prototype.NetworkLobby
         [Command]
         public void CmdNameChanged(string name)
         {
+            if (name == Pseudo)
+            {
+                return;
+            }
             if (!playersPseudo.Contains(name))
             {
                 playersPseudo.Add(name);

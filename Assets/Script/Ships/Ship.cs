@@ -30,7 +30,7 @@ public class Ship : NetworkBehaviour
     protected float reloadTimeL;
 
     bool hasUpdatedMinimap;
-    float explosionTimer = 2;
+    float explosionTimer = Constants.ExplosionDurationBeforeDeath;
     bool isExploding = false;
     GameObject[] rightGuns;
     GameObject[] leftGuns;
@@ -269,14 +269,6 @@ public class Ship : NetworkBehaviour
         }
         if (shipsLeft <= 1)
         {
-            foreach (var playerShip in FindObjectsOfType<PlayerShip>())
-            {
-                playerShip.IsDead = true;
-            }
-            foreach (var botShip in FindObjectsOfType<BotShip>())
-            {
-                botShip.IsDead = true;
-            }
             FindObjectOfType<ScoreBoard>().ShowScoreBoardOnAll(true);
         }
     }
@@ -326,6 +318,9 @@ public class Ship : NetworkBehaviour
         {
             s.enabled = false;
         }
+        pseudoGO = transform.FindChild("Player_name").gameObject;
+        pseudoGO.GetComponent<TextMesh>().text = Pseudo;
+        pseudoGO.GetComponent<TextMesh>().characterSize = Constants.PseudoSize;
     }
 
     [ClientRpc]
