@@ -247,6 +247,7 @@
      <Compile Include="Assets\Script\Gizmo\Gun.cs" />
      <Compile Include="Assets\Script\Gizmo\Motor.cs" />
      <Compile Include="Assets\Script\Gizmo\Smoke.cs" />
+     <Compile Include="Assets\Script\GooglePlayServices.cs" />
      <Compile Include="Assets\Script\HealthBar.cs" />
      <Compile Include="Assets\Script\LoadSceneScript.cs" />
      <Compile Include="Assets\Script\MinimapSync.cs" />
