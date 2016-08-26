@@ -41,11 +41,15 @@ public class EditorScript : MonoBehaviour
     [MenuItem("Ships/Create Final Ships")]
     static void GenerateFinalShips()
     {
-        GameObject go = (GameObject)Selection.activeObject;
+        var name = Selection.activeObject.name;
+        GameObject go = Instantiate((GameObject)Selection.activeObject) as GameObject;
         go.AddComponent<PlayerShip>();
-        PrefabUtility.CreatePrefab("Assets/Resources/Prefabs/Ships/" + go.name + "Player.prefab", go);
+        PrefabUtility.CreatePrefab("Assets/Resources/Prefabs/Ships/" + name + "Player.prefab", go);
+        DestroyImmediate(go);
+        go = Instantiate((GameObject)Selection.activeObject) as GameObject;
         go.AddComponent<BotShip>();
-        PrefabUtility.CreatePrefab("Assets/Resources/Prefabs/Ships/" + go.name + "Bot.prefab", go);
+        PrefabUtility.CreatePrefab("Assets/Resources/Prefabs/Ships/" + name + "Bot.prefab", go);
+        DestroyImmediate(go);
     }
 }
 

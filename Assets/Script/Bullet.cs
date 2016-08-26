@@ -37,8 +37,7 @@ public class Bullet : NetworkBehaviour
                 NetworkServer.Destroy(gameObject);
             }
         }
-        transform.Translate(-transform.up * Time.deltaTime * speed - Vector3.forward * transform.position.z);
-        transform.position -= Vector3.forward * transform.position.z;
+        transform.Translate(Vector3.right * Time.deltaTime * speed);
     }
 
     void OnCollisionEnter2D(Collision2D other)

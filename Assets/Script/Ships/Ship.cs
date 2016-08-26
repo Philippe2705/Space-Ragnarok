@@ -12,29 +12,28 @@ public class Ship : NetworkBehaviour
     public ShipProperty shipProperty;
     public new Rigidbody2D rigidbody2D;
 
+    [SyncVar]
     public bool IsBot;
+    [SyncVar]
     public int BotLevel = -1;
-
     [SyncVar]
     public bool IsDead = false;
     [SyncVar(hook = "OnShipId")]
     public int ShipId;
     [SyncVar(hook = "OnPseudo")]
     public string Pseudo;
-
-    //[SyncVar(hook = "OnHealth")]
+    [SyncVar(hook = "OnHealth")]
     float health = 100;
-    [SyncVar]
-    protected float reloadTimeR;
-    [SyncVar]
-    protected float reloadTimeL;
 
     bool hasUpdatedMinimap;
     float explosionTimer = Constants.ExplosionDurationBeforeDeath;
     bool isExploding = false;
-    GameObject[] rightGuns;
-    GameObject[] leftGuns;
-    GameObject pseudoGO;
+
+    Transform playerName;
+    Transform[] guns;
+    ParticleSystem[] smokes;
+    ParticleSystem[] motors;
+    Transform[] explosions;
 
 
     GameObject smallExplosion;
@@ -46,6 +45,9 @@ public class Ship : NetworkBehaviour
     //ParticleSystem particleSystem;
 
 
+    float reloadTime;
+    Vector2 lastVelocity;
+
 
 
     protected virtual void Start()
@@ -53,7 +55,33 @@ public class Ship : NetworkBehaviour
         Invoke("DelayedScoreBoard", 0.1f);
         IsBot = GetType() == typeof(BotShip);
         rigidbody2D = GetComponent<Rigidbody2D>();
-        //particleSystem = transform.Find("Smoke").GetComponent<ParticleSystem>();
+
+        playerName = transform.FindChild("Player_name");
+
+        guns = new Transform[transform.FindChild("Guns").childCount];
+        for (int i = 0; i < transform.FindChild("Guns").childCount; i++)
+        {
+            guns[i] = transform.FindChild("Guns").GetChild(i);
+        }
+
+        smokes = new ParticleSystem[transform.FindChild("Smokes").childCount];
+        for (int i = 0; i < transform.FindChild("Smokes").childCount; i++)
+        {
+            smokes[i] = transform.FindChild("Smokes").GetChild(i).GetComponent<ParticleSystem>();
+        }
+
+        motors = new ParticleSystem[transform.FindChild("Motors").childCount];
+        for (int i = 0; i < transform.FindChild("Motors").childCount; i++)
+        {
+            motors[i] = transform.FindChild("Motors").GetChild(i).GetComponent<ParticleSystem>();
+        }
+
+        explosions = new Transform[transform.FindChild("Explosions").childCount];
+        for (int i = 0; i < transform.FindChild("Explosions").childCount; i++)
+        {
+            explosions[i] = transform.FindChild("Explosions").GetChild(i);
+        }
+
         /*
          * Prefabs
          */
@@ -63,22 +91,8 @@ public class Ship : NetworkBehaviour
         smallExplosionSound = Resources.Load<GameObject>("Prefabs/SmallExplosionSound");
         bigExplosionSound = Resources.Load<GameObject>("Prefabs/BigExplosionSound");
         bulletPrefab = Resources.Load<GameObject>("Prefabs/Bullet");
-        /*
-         * Guns
-         */
-        var rightGun = transform.FindChild("RightGuns");
-        var leftGun = transform.FindChild("LeftGuns");
-        rightGuns = new GameObject[rightGun.childCount];
-        leftGuns = new GameObject[leftGun.childCount];
 
-        for (int i = 0; i < rightGun.childCount; i++)
-        {
-            rightGuns[i] = rightGun.transform.GetChild(i).gameObject;
-        }
-        for (int i = 0; i < leftGun.childCount; i++)
-        {
-            leftGuns[i] = leftGun.transform.GetChild(i).gameObject;
-        }
+        OnHealth(health);
     }
 
     public override void OnStartClient()
@@ -104,6 +118,16 @@ public class Ship : NetworkBehaviour
             FixedUpdateClient();
         }
         //Borders
+        var v = rigidbody2D.velocity;
+        if (transform.position.x <= MinPosX || transform.position.x >= MaxPosX)
+        {
+            v.x *= -1;
+        }
+        if (transform.position.y <= MinPosY || transform.position.y >= MaxPosY)
+        {
+            v.y *= -1;
+        }
+        rigidbody2D.velocity = v;
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, MinPosX, MaxPosX), Mathf.Clamp(transform.position.y, MinPosY, MaxPosY), transform.position.z);
     }
 
@@ -132,16 +156,10 @@ public class Ship : NetworkBehaviour
     protected virtual void UpdateServer()
     {
         /*
-         * Update reloads times
+         * Temp
          */
-        if (reloadTimeR > 0)
-        {
-            reloadTimeR -= Time.deltaTime;
-        }
-        if (reloadTimeL > 0)
-        {
-            reloadTimeL -= Time.deltaTime;
-        }
+        reloadTime -= Time.deltaTime;
+
         /*
          * Death
          */
@@ -167,10 +185,21 @@ public class Ship : NetworkBehaviour
         /*
          * Update pseudo rotation
          */
-        if (pseudoGO != null && Camera.main != null)
+        if (playerName != null && Camera.main != null)
         {
-            pseudoGO.transform.rotation = Camera.main.transform.rotation;
+            playerName.transform.rotation = Camera.main.transform.rotation;
         }
+        /*
+         * Effects
+         */
+        //var rate = 50f * Vector3.Project(rigidbody2D.velocity, transform.up).magnitude / (shipProperty.SpeedFactor * ShipProperties.GetBotProperties(BotLevel).SpeedMultiplier) + 10f;
+        var acceleration = (rigidbody2D.velocity - lastVelocity) / Time.fixedDeltaTime;
+        var rate = 50f * Vector3.Project(acceleration, transform.up).magnitude;
+        foreach (var motor in motors)
+        {
+            ParticleSystemExtension.SetEmissionRate(motor, rate);
+        }
+        lastVelocity = rigidbody2D.velocity;
     }
 
 
@@ -211,7 +240,10 @@ public class Ship : NetworkBehaviour
         /*
          * Move ship
          */
-        rigidbody2D.velocity = transform.up * Mathf.Max(vertical, VitesseMinimum) * shipProperty.SpeedFactor * ShipProperties.GetBotProperties(BotLevel).SpeedMultiplier;
+        if (!(rigidbody2D.velocity.magnitude < shipProperty.SpeedFactor * ShipProperties.GetBotProperties(BotLevel).SpeedMultiplier && vertical > 1))
+        {
+            rigidbody2D.AddForce(transform.up * vertical, ForceMode2D.Force);
+        }
     }
 
 
@@ -222,29 +254,23 @@ public class Ship : NetworkBehaviour
         {
             return;
         }
-        GameObject[] guns = new GameObject[0];
 
-        if (fireSide > 0 && reloadTimeR <= 0)
+        if (reloadTime < 0 && fireSide != 0)
         {
-            guns = rightGuns;
-            reloadTimeR = shipProperty.ReloadTime;
-        }
-        else if (fireSide < 0 && reloadTimeL <= 0)
-        {
-            guns = leftGuns;
-            reloadTimeL = shipProperty.ReloadTime;
-        }
+            reloadTime = 2;
 
-        foreach (var gun in guns)
-        {
-            //Create bullet
-            var bullet = Instantiate(bulletPrefab, gun.transform.position, gun.transform.rotation) as GameObject;
-            bullet.GetComponent<Bullet>().speed = Random.Range(2.7f, 3.3f);
-            bullet.GetComponent<Bullet>().direction = gun.transform.rotation * Quaternion.Euler(0, Random.Range(-shipProperty.BulletDispersion, shipProperty.BulletDispersion), 0);
-            bullet.GetComponent<Bullet>().color = shipProperty.MaterialColor;
-            bullet.GetComponent<Bullet>().damage = shipProperty.Damage * ShipProperties.GetBotProperties(BotLevel).DamageMultiplier;
-            bullet.GetComponent<Bullet>().playerName = Pseudo;
-            NetworkServer.Spawn(bullet);
+
+            foreach (var gun in guns)
+            {
+                //Create bullet
+                var bullet = Instantiate(bulletPrefab, gun.transform.position, Quaternion.identity) as GameObject;
+                bullet.GetComponent<Bullet>().speed = Random.Range(2.7f, 3.3f);
+                bullet.GetComponent<Bullet>().direction = gun.transform.rotation * Quaternion.Euler(0, 0, Random.Range(-shipProperty.BulletDispersion, shipProperty.BulletDispersion));
+                bullet.GetComponent<Bullet>().color = shipProperty.MaterialColor;
+                bullet.GetComponent<Bullet>().damage = shipProperty.Damage * ShipProperties.GetBotProperties(BotLevel).DamageMultiplier;
+                bullet.GetComponent<Bullet>().playerName = Pseudo;
+                NetworkServer.Spawn(bullet);
+            }
         }
     }
 
@@ -332,12 +358,12 @@ public class Ship : NetworkBehaviour
     [ClientRpc]
     void RpcBeginSmallExplosions()
     {
-        InvokeRepeating("SmallExplosion", 0, 0.1f);
+        InvokeRepeating("SmallExplosion", 0, 0.25f);
     }
 
     void SmallExplosion()
     {
-        Vector3 randomPos = new Vector3(transform.position.x + Random.Range(-0.5f, 0.5f), transform.position.y + Random.Range(-0.5f, 0.5f), -1);
+        var randomPos = explosions[Random.Range(0, explosions.Length)].position;
         Instantiate(smallExplosion, randomPos, transform.rotation);
         Instantiate(smallExplosionSound, randomPos, transform.rotation);
     }
@@ -351,13 +377,12 @@ public class Ship : NetworkBehaviour
 
         GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/Death");
 
-        foreach (var s in GetComponentsInChildren<ParticleSystemRenderer>())
+        foreach (var motor in motors)
         {
-            s.enabled = false;
+            motor.EnableEmission(false);
         }
-        pseudoGO = transform.FindChild("Player_name").gameObject;
-        pseudoGO.GetComponent<TextMesh>().text = Pseudo;
-        pseudoGO.GetComponent<TextMesh>().characterSize = Constants.PseudoSize;
+        playerName.GetComponent<TextMesh>().text = Pseudo;
+        playerName.GetComponent<TextMesh>().characterSize = Constants.PseudoSize;
     }
 
     [ClientRpc]
@@ -394,22 +419,29 @@ public class Ship : NetworkBehaviour
      */
     void OnPseudo(string value)
     {
-        pseudoGO = transform.FindChild("Player_name").gameObject;
-        pseudoGO.GetComponent<TextMesh>().text = value;
-        pseudoGO.GetComponent<TextMesh>().characterSize = isLocalPlayer ? 0f : Constants.PseudoSize;
-        Pseudo = value;
+        playerName = transform.FindChild("Player_name");
+        playerName.GetComponent<TextMesh>().text = value;
+        playerName.GetComponent<TextMesh>().characterSize = isLocalPlayer ? 0f : Constants.PseudoSize;
     }
 
     void OnShipId(int value)
     {
         shipProperty = ShipProperties.GetShip(value);
-        ShipId = value;
     }
 
-    //protected virtual void OnHealth(float value)
-    //{
-    //    particleSystem.emissionRate = (100 - value) * 250;
-    //}
+    void OnHealth(float value)
+    {
+        foreach (var smoke in smokes)
+        {
+            ParticleSystemExtension.SetEmissionRate(smoke, (100 - value) / 5 * Constants.SmokeDensity);
+        }
+        OnHealthDelegate(value);
+    }
+
+    protected virtual void OnHealthDelegate(float value)
+    {
+
+    }
 
 
     void DelayedScoreBoard()

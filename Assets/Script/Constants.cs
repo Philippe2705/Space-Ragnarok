@@ -16,4 +16,6 @@
     public const float TimeBeforeButtonsScoreBoard = 10;
 
     public const float CameraStabilization = 1;
+
+    public const float SmokeDensity = 1;
 }

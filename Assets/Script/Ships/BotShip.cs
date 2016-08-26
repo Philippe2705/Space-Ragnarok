@@ -12,8 +12,6 @@ public class BotShip : Ship
     protected override void Start()
     {
         base.Start();
-        GetComponentInChildren<Camera>().enabled = false;
-        GetComponentInChildren<AudioListener>().enabled = false;
         UpdatePlayers();
         InvokeRepeating("UpdatePlayers", 0, 1);
     }

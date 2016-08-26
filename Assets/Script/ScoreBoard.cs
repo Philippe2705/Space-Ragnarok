@@ -10,15 +10,16 @@ public class ScoreBoard : NetworkBehaviour
     public GameObject PlayerScoreDisplayer;
     public Button NewGameButton;
     public Button QuitButton;
+    public GameObject Canvas;
 
     float scoreBoardTimer;
     bool timerActivated;
-    Dictionary<string, PlayerScore> playerScores;
+    Dictionary<string, PlayerScore> playerScores = new Dictionary<string, PlayerScore>();
 
 
     void Start()
     {
-        playerScores = new Dictionary<string, PlayerScore>();
+        playerScores.Clear();
         NewGameButton.onClick.AddListener(OnNewGame);
         QuitButton.onClick.AddListener(OnQuit);
         NewGameButton.gameObject.SetActive(false);
@@ -59,13 +60,7 @@ public class ScoreBoard : NetworkBehaviour
         timerActivated = true;
         SortPlayers();
         transform.parent.parent.parent.GetComponent<Canvas>().enabled = show;
-        foreach (var c in FindObjectsOfType<Canvas>())
-        {
-            if (!transform.IsChildOf(c.transform))
-            {
-                c.enabled = !show;
-            }
-        }
+        Canvas.SetActive(!show);
     }
 
 

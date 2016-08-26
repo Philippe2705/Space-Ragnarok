@@ -91,16 +91,15 @@ public struct ShipProperty
     public readonly float ViewDistance;
     public readonly float BulletDispersion;
     public readonly int Price;
+    public readonly int 
     public readonly string MaterialColor;
 
     public ShipProperty(int shipID, string shipName, float speedFactor, float turnRate, float armor, float damage, float reloadTime, float viewDistance, float bulletDispersion, int price, string materialColor)
     {
         ShipID = shipID;
         ShipName = shipName;
-        //TODO: switch to Prefabs/Ships
-        PlayerShipPrefab = Resources.Load<GameObject>("Prefabs/" + ShipName + "Player");
-        //TODO: switch to Prefabs/Ships
-        BotShipPrefab = Resources.Load<GameObject>("Prefabs/" + ShipName + "Bot");
+        PlayerShipPrefab = Resources.Load<GameObject>("Prefabs/Ships/" + ShipName + "Player");
+        BotShipPrefab = Resources.Load<GameObject>("Prefabs/Ships/" + ShipName + "Bot");
         ShipSprite = Resources.Load<Sprite>("Images/" + ShipName);
         SpeedFactor = speedFactor;
         TurnRate = turnRate;

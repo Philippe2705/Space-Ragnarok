@@ -16,9 +16,6 @@ public class PlayerShip : Ship
         rightGunReloadingBar = GameObject.Find("RightReloading").GetComponent<Slider>();
         leftGunReloadingBar = GameObject.Find("LeftReloading").GetComponent<Slider>();
         healthBar = FindObjectOfType<HealthBar>();
-        GetComponentInChildren<Camera>().enabled = isLocalPlayer && false;
-        GetComponentInChildren<Camera>().tag = isLocalPlayer && false ? "MainCamera" : "Untagged";
-        GetComponentInChildren<AudioListener>().enabled = isLocalPlayer;
 
 
         if (isLocalPlayer)
@@ -29,6 +26,7 @@ public class PlayerShip : Ship
             camera.GetComponent<Camera>().orthographicSize = ShipProperties.GetShip(ShipId).ViewDistance;
             camera.tag = "MainCamera";
             rigidbody2D.interpolation = RigidbodyInterpolation2D.Interpolate;
+            OnHealthDelegate(100);
         }
     }
 
@@ -37,12 +35,6 @@ public class PlayerShip : Ship
         base.FixedUpdateClient();
         if (isLocalPlayer)
         {
-            /*
-             * Update reload sliders
-             */
-            rightGunReloadingBar.value = 1 - reloadTimeR / shipProperty.ReloadTime;
-            leftGunReloadingBar.value = 1 - reloadTimeL / shipProperty.ReloadTime;
-
             /*
              * Fire
              */
@@ -72,12 +64,11 @@ public class PlayerShip : Ship
     }
 
 
-    //protected override void OnHealth(float value)
-    //{
-    //    base.OnHealth(value);
-    //    if (isLocalPlayer && HealthBar != null)
-    //    {
-    //        HealthBar.UpdateHealth(value);
-    //    }
-    //}
+    protected override void OnHealthDelegate(float value)
+    {
+        if (isLocalPlayer && !IsBot && healthBar != null)
+        {
+            healthBar.UpdateHealth(value);
+        }
+    }
 }
