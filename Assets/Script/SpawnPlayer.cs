@@ -8,13 +8,11 @@ public class SpawnPlayer : NetworkBehaviour
     public bool IsBot;
     public int BotLevel;
 
-    public void Start()
+    public override void OnStartLocalPlayer()
     {
-        if (isLocalPlayer)
-        {
-            CmdSpawnPlayer();
-        }
+        CmdSpawnPlayer();
     }
+
 
     [Command]
     void CmdSpawnPlayer()
@@ -23,7 +21,7 @@ public class SpawnPlayer : NetworkBehaviour
         if (IsBot)
         {
             var bot = Instantiate(ShipProperties.GetShip(ShipId).BotShipPrefab, randomPos, Quaternion.identity) as GameObject;
-            NetworkServer.Spawn(bot);
+            NetworkServer.ReplacePlayerForConnection(connectionToClient, bot, playerControllerId);
             bot.GetComponent<BotShip>().Pseudo = Pseudo;
             bot.GetComponent<BotShip>().ShipId = ShipId;
             bot.GetComponent<BotShip>().BotLevel = BotLevel;
@@ -31,7 +29,7 @@ public class SpawnPlayer : NetworkBehaviour
         else
         {
             var player = Instantiate(ShipProperties.GetShip(ShipId).PlayerShipPrefab, randomPos, Quaternion.identity) as GameObject;
-            NetworkServer.ReplacePlayerForConnection(connectionToClient, player, 0);
+            NetworkServer.ReplacePlayerForConnection(connectionToClient, player, playerControllerId);
             player.GetComponent<PlayerShip>().Pseudo = Pseudo;
             player.GetComponent<PlayerShip>().ShipId = ShipId;
         }

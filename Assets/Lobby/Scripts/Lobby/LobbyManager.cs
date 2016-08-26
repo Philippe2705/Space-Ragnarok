@@ -177,9 +177,7 @@ namespace Prototype.NetworkLobby
 
         public void AddLocalPlayer()
         {
-            PlayerPrefs.SetInt("Bot", 1);
             TryToAddPlayer();
-            PlayerPrefs.SetInt("Bot", 0);
         }
 
         public void RemovePlayer(LobbyPlayer player)
@@ -239,11 +237,6 @@ namespace Prototype.NetworkLobby
         {
             infoPanel.Display("Kicked by Server", "Close", null);
             netMsg.conn.Disconnect();
-        }
-
-        public void ReturnToMainMenu()
-        {
-            Application.LoadLevel(0);
         }
         //===================
 

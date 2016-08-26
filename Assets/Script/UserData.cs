@@ -32,7 +32,7 @@ public static class UserData
     }
     private static void LoadData()
     {
-        if (File.Exists(Application.persistentDataPath + "/playerData.dat"))
+        if (File.Exists(path))
         {
             DESCryptoServiceProvider des = new DESCryptoServiceProvider();
 
@@ -141,6 +141,36 @@ public static class UserData
         LoadData();
         return playerData.BoughtShips[shipId];
     }
+
+    public static void AddHit()
+    {
+        LoadData();
+        AddExperience(Constants.XpForHit);
+        playerData.HitsCount++;
+        SaveData();
+    }
+
+    public static void AddKill()
+    {
+        LoadData();
+        AddExperience(Constants.XpForKill);
+        playerData.KillsCount++;
+        SaveData();
+    }
+
+    public static int GetKills()
+    {
+        LoadData();
+        return playerData.KillsCount;
+    }
+
+    public static void Reset()
+    {
+        if (File.Exists(path))
+        {
+            File.Delete(path);
+        }
+    }
 }
 
 [Serializable]
@@ -151,4 +181,7 @@ public class PlayerData
     public int ShipId;
 
     public bool[] BoughtShips = new bool[100];
+
+    public int HitsCount;
+    public int KillsCount;
 }

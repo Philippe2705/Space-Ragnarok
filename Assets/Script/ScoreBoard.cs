@@ -72,47 +72,20 @@ public class ScoreBoard : NetworkBehaviour
 
     public void AddHit(string pseudo)
     {
-        CmdAddHit(pseudo);
+        RpcAddHit(pseudo);
     }
 
     public void AddKill(string killer, string killed)
     {
-        CmdAddKill(killer, killed);
+        RpcAddKill(killer, killed);
     }
 
     public void ShowScoreBoardOnAll(bool show)
     {
-        CmdShowScoreBoard(show);
-    }
-
-    public void AddPlayerOnAll(string pseudo)
-    {
-        CmdAddPlayer(pseudo);
-    }
-
-    /*
-     * Commands
-     */
-    [Command]
-    void CmdAddHit(string pseudo)
-    {
-        RpcAddHit(pseudo);
-    }
-
-    [Command]
-    void CmdAddKill(string killer, string killed)
-    {
-        RpcAddKill(killer, killed);
-    }
-
-    [Command]
-    void CmdShowScoreBoard(bool show)
-    {
         RpcShowScoreBoard(show);
     }
 
-    [Command]
-    void CmdAddPlayer(string pseudo)
+    public void AddPlayerOnAll(string pseudo)
     {
         RpcAddPlayer(pseudo);
     }
@@ -201,40 +174,24 @@ public class ScoreBoard : NetworkBehaviour
 
     public void OnNewGame()
     {
+        //if already respawn (multi clicks)
+        if (scoreBoardTimer > 0)
+        {
+            return;
+        }
         Start();
         if (isServer)
         {
             foreach (var bs in FindObjectsOfType<BotShip>())
             {
-                var player = Instantiate(NetworkManager.singleton.playerPrefab) as GameObject;
-                player.GetComponent<SpawnPlayer>().Pseudo = bs.Pseudo;
-                player.GetComponent<SpawnPlayer>().ShipId = bs.ShipId;
-                player.GetComponent<SpawnPlayer>().BotLevel = bs.BotLevel;
-                player.GetComponent<SpawnPlayer>().IsBot = true;
+                bs.Respawn();
             }
         }
         foreach (var ps in FindObjectsOfType<PlayerShip>())
         {
             if (ps.isLocalPlayer)
             {
-                CmdReSpawnPlayer(ps.Pseudo);
-            }
-        }
-    }
-
-    [Command]
-    void CmdReSpawnPlayer(string pseudo)
-    {
-        foreach (var ps in FindObjectsOfType<PlayerShip>())
-        {
-            if (ps.Pseudo == pseudo)
-            {
-                var player = Instantiate(NetworkManager.singleton.playerPrefab) as GameObject;
-                player.GetComponent<SpawnPlayer>().Pseudo = ps.Pseudo;
-                player.GetComponent<SpawnPlayer>().ShipId = ps.ShipId;
-                player.GetComponent<SpawnPlayer>().BotLevel = -1;
-                NetworkServer.Spawn(player);
-                NetworkServer.ReplacePlayerForConnection(ps.connectionToClient, player, 0);
+                ps.Respawn();
             }
         }
     }

@@ -14,4 +14,6 @@
     public const float ExplosionDurationBeforeDeath = 5;
 
     public const float TimeBeforeButtonsScoreBoard = 10;
+
+    public const float CameraStabilization = 1;
 }

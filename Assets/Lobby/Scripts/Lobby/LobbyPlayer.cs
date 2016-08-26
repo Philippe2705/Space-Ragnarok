@@ -118,7 +118,7 @@ namespace Prototype.NetworkLobby
             //have to use child count of player prefab already setup as "this.slot" is not set yet
             if (Pseudo == "")
             {
-                if (PlayerPrefs.GetInt("Bot") == 1)
+                if (playerControllerId > 0)
                 {
                     IsBot = true;
                     CmdNameChanged("Bot " + PlayerPrefs.GetInt("BotCount"));

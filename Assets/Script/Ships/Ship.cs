@@ -86,14 +86,38 @@ public class Ship : NetworkBehaviour
         if (!isLocalPlayer)
         {
             SetDirtyBit(syncVarDirtyBits);
+            syncVarHookGuard = false;
         }
     }
-
 
     /*
      * Update
      */
     void FixedUpdate()
+    {
+        if (isServer)
+        {
+            FixedUpdateServer();
+        }
+        if (isClient)
+        {
+            FixedUpdateClient();
+        }
+        //Borders
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, MinPosX, MaxPosX), Mathf.Clamp(transform.position.y, MinPosY, MaxPosY), transform.position.z);
+    }
+
+    protected virtual void FixedUpdateServer()
+    {
+
+    }
+
+    protected virtual void FixedUpdateClient()
+    {
+
+    }
+
+    void Update()
     {
         if (isServer)
         {
@@ -103,8 +127,6 @@ public class Ship : NetworkBehaviour
         {
             UpdateClient();
         }
-        //Borders
-        transform.position = new Vector3(Mathf.Clamp(transform.position.x, MinPosX, MaxPosX), Mathf.Clamp(transform.position.y, MinPosY, MaxPosY), transform.position.z);
     }
 
     protected virtual void UpdateServer()
@@ -132,7 +154,6 @@ public class Ship : NetworkBehaviour
             }
         }
     }
-
     protected virtual void UpdateClient()
     {
         /*
@@ -156,6 +177,22 @@ public class Ship : NetworkBehaviour
     /*
      * Commands
      */
+    [Command]
+    void CmdRespawnPlayer()
+    {
+        var player = Instantiate(NetworkManager.singleton.playerPrefab) as GameObject;
+        player.GetComponent<SpawnPlayer>().Pseudo = Pseudo;
+        player.GetComponent<SpawnPlayer>().ShipId = ShipId;
+        player.GetComponent<SpawnPlayer>().BotLevel = BotLevel;
+        player.GetComponent<SpawnPlayer>().IsBot = IsBot;
+        NetworkServer.ReplacePlayerForConnection(connectionToClient, player, playerControllerId);
+        if (!IsDead)
+        {
+            NetworkServer.Destroy(gameObject);
+        }
+
+    }
+
     [Command]
     protected void CmdMove(float vertical, float horizontal)
     {
@@ -330,17 +367,23 @@ public class Ship : NetworkBehaviour
         ships.AddRange(FindObjectsOfType<BotShip>());
         foreach (var ship in ships)
         {
-            if ((ship.isLocalPlayer || ship.IsBot) && ship.Pseudo == playerName)
+            if (ship.Pseudo == playerName)
             {
                 if (isLocalPlayer)
                 {
-                    var xp = death ? Constants.XpForKill : 0 + Constants.XpForHit;
-                    //UserData.AddExperience(xp);
+                    UserData.AddHit();
+                    if (death)
+                    {
+                        UserData.AddKill();
+                    }
                 }
-                FindObjectOfType<ScoreBoard>().AddHit(ship.Pseudo);
-                if (death)
+                if (isServer)
                 {
-                    FindObjectOfType<ScoreBoard>().AddKill(ship.Pseudo, playerHit);
+                    FindObjectOfType<ScoreBoard>().AddHit(ship.Pseudo);
+                    if (death)
+                    {
+                        FindObjectOfType<ScoreBoard>().AddKill(ship.Pseudo, playerHit);
+                    }
                 }
             }
         }
@@ -354,11 +397,13 @@ public class Ship : NetworkBehaviour
         pseudoGO = transform.FindChild("Player_name").gameObject;
         pseudoGO.GetComponent<TextMesh>().text = value;
         pseudoGO.GetComponent<TextMesh>().characterSize = isLocalPlayer ? 0f : Constants.PseudoSize;
+        Pseudo = value;
     }
 
     void OnShipId(int value)
     {
         shipProperty = ShipProperties.GetShip(value);
+        ShipId = value;
     }
 
     //protected virtual void OnHealth(float value)
@@ -373,5 +418,10 @@ public class Ship : NetworkBehaviour
         {
             FindObjectOfType<ScoreBoard>().AddPlayerOnAll(Pseudo);
         }
+    }
+
+    public void Respawn()
+    {
+        CmdRespawnPlayer();
     }
 }
