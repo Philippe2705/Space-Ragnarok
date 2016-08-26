@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 using UnityEngine.Networking.Types;
 using UnityEngine.Networking.Match;
 using System.Collections;
+using System.Net;
 
 
 namespace Prototype.NetworkLobby
@@ -72,7 +73,7 @@ namespace Prototype.NetworkLobby
         {
             if (Input.GetKeyDown(KeyCode.Escape)) // Return key on Android
             {
-                if(currentPanel == mainMenuPanel)
+                if (currentPanel == mainMenuPanel)
                 {
                     GetComponent<LoadSceneScript>().LoadScene(0);
                 }
@@ -81,6 +82,11 @@ namespace Prototype.NetworkLobby
                     GoBackButton();
                 }
             }
+            if (GetComponent<Canvas>().worldCamera == null)
+            {
+                GetComponent<Canvas>().worldCamera = GameObject.Find("WorldCamera").GetComponent<Camera>();
+            }
+            topPanel.gameObject.SetActive(!mainMenuPanel.gameObject.activeSelf);
         }
 
         void OnLevelWasLoaded()
@@ -260,7 +266,7 @@ namespace Prototype.NetworkLobby
 
             ChangeTo(lobbyPanel);
             backDelegate = StopHostClbk;
-            SetServerInfo("Hosting", networkAddress);
+            SetServerInfo("Hosting", GetLocalIp());
         }
 
         public override void OnMatchCreate(CreateMatchResponse matchInfo)
@@ -424,6 +430,21 @@ namespace Prototype.NetworkLobby
                 backDelegate = StopClientClbk;
                 SetServerInfo("Client", networkAddress);
             }
+        }
+
+        public string GetLocalIp()
+        {
+            IPAddress[] localIPs = Dns.GetHostAddresses(Dns.GetHostName());
+            foreach (IPAddress addr in localIPs)
+            {
+                if (addr.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                {
+                    return addr.ToString();
+
+                }
+
+            }
+            return "error";
         }
 
 
