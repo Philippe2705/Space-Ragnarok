@@ -22,14 +22,18 @@ public class Purchaser : MonoBehaviour, IStoreListener
     public static string kProductIDConsumable = "consumable";
     public static string kProductIDNonConsumable = "nonconsumable";
     public static string kProductIDSubscription = "subscription";
-    public static string kProductIDCreditsPackConsumable = "100000creditsconsumable";
+    public static string kProductIDCreditsPackBigConsumable = "250000creditsconsumable";
+    public static string kProductIDCreditsPackMediumConsumable = "50000creditsconsumable";
+    public static string kProductIDCreditsPackSmallConsumable = "10000creditsconsumable";
 
     // Apple App Store-specific product identifier for the subscription product.
     private static string kProductNameAppleSubscription = "com.unity3d.subscription.new";
 
     // Google Play Store-specific product identifier subscription product.
     private static string kProductNameGooglePlaySubscription = "com.maquingames.subscription.original";
-    private static string kProductNameGooglePlayConsumableCredits = "com.maquin.creditspack";
+    private static string kProductNameGooglePlayConsumableCreditsBig = "com.maquin.creditspack"; // 250 000 credits
+    private static string kProductNameGooglePlayConsumableCreditsMedium = "com.maquin.creditspackmedium"; // 50 000 credits
+    private static string kProductNameGooglePlayConsumableCreditsSmall = "(com.maquin.creditspacksmall"; // 10 000 credits
 
     void Start()
     {
@@ -56,7 +60,9 @@ public class Purchaser : MonoBehaviour, IStoreListener
         // Add a product to sell / restore by way of its identifier, associating the general identifier
         // with its store-specific identifiers.
         builder.AddProduct(kProductIDConsumable, ProductType.Consumable);
-        builder.AddProduct(kProductIDCreditsPackConsumable, ProductType.Consumable, new IDs { { kProductNameGooglePlayConsumableCredits, GooglePlay.Name } });
+        builder.AddProduct(kProductIDCreditsPackBigConsumable, ProductType.Consumable, new IDs { { kProductNameGooglePlayConsumableCreditsBig, GooglePlay.Name } }); // 250 000 credits
+        builder.AddProduct(kProductIDCreditsPackMediumConsumable, ProductType.Consumable, new IDs { { kProductNameGooglePlayConsumableCreditsMedium, GooglePlay.Name } }); // 50 000 credits
+        builder.AddProduct(kProductIDCreditsPackSmallConsumable, ProductType.Consumable, new IDs { { kProductNameGooglePlayConsumableCreditsSmall, GooglePlay.Name } }); // 10 000 credits
         // Continue adding the non-consumable product.
         builder.AddProduct(kProductIDNonConsumable, ProductType.NonConsumable);
         // And finish adding the subscription product. Notice this uses store-specific IDs, illustrating
@@ -79,9 +85,17 @@ public class Purchaser : MonoBehaviour, IStoreListener
         // Only say we are initialized if both the Purchasing references are set.
         return m_StoreController != null && m_StoreExtensionProvider != null;
     }
-    public void BuyCreditsPack()
+    public void BuyBigCreditsPack()
     {
-        BuyProductID(kProductIDCreditsPackConsumable);
+        BuyProductID(kProductIDCreditsPackBigConsumable);
+    }
+    public void BuyMediumCreditsPack()
+    {
+        BuyProductID(kProductIDCreditsPackMediumConsumable);
+    }
+    public void BuySmallCreditsPack()
+    {
+        BuyProductID(kProductIDCreditsPackSmallConsumable);
     }
 
 
@@ -228,10 +242,20 @@ public class Purchaser : MonoBehaviour, IStoreListener
             Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
             // TODO: The subscription item has been successfully purchased, grant this to the player.
         }
-        else if(String.Equals(args.purchasedProduct.definition.id, kProductIDCreditsPackConsumable, StringComparison.Ordinal))
+        else if(String.Equals(args.purchasedProduct.definition.id, kProductIDCreditsPackBigConsumable, StringComparison.Ordinal))
         {
-            print("Sucessfull transaction, adding credits...");
-            UserData.AddCredits(100000);
+            print("Sucessfull transaction, adding 250 000 credits...");
+            UserData.AddCredits(250000);
+        }
+        else if (String.Equals(args.purchasedProduct.definition.id, kProductIDCreditsPackMediumConsumable, StringComparison.Ordinal))
+        {
+            print("Sucessfull transaction, adding 50 000 credits...");
+            UserData.AddCredits(50000);
+        }
+        else if (String.Equals(args.purchasedProduct.definition.id, kProductIDCreditsPackSmallConsumable, StringComparison.Ordinal))
+        {
+            print("Sucessfull transaction, adding 10 000 credits...");
+            UserData.AddCredits(10000);
         }
         // Or ... an unknown product has been purchased by this user. Fill in additional products here....
         else

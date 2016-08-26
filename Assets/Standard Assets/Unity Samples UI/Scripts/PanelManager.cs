@@ -10,13 +10,31 @@ public class PanelManager : MonoBehaviour {
 	private int m_OpenParameterId;
 	private Animator m_Open;
 	private GameObject m_PreviouslySelected;
+    public GameObject confirmErasingDataPopUp;
+    public Button confirmEraseDataButton;
+    public InputField confirmEraseDataField;
 
 	const string k_OpenTransitionName = "Open";
 	const string k_ClosedStateName = "Closed";
 
+
 	void Start()
 	{
 	}
+    void Update()
+    {
+        if (gameObject.name == "PanelManager2")
+        {
+            if (confirmErasingDataPopUp.active == true && confirmEraseDataField.text == "Sure")
+            {
+                confirmEraseDataButton.interactable = true;
+            }
+            else
+            {
+                confirmEraseDataButton.interactable = false;
+            }
+        }
+    }
 	public void OnEnable()
 	{
 		m_OpenParameterId = Animator.StringToHash (k_OpenTransitionName);
@@ -73,6 +91,10 @@ public class PanelManager : MonoBehaviour {
 		StartCoroutine(DisablePanelDeleyed(m_Open));
 		m_Open = null;
 	}
+    public void SetActiveErasingDataPopUp(bool activate)
+    {
+        confirmErasingDataPopUp.SetActive(activate);
+    }
 
 	IEnumerator DisablePanelDeleyed(Animator anim)
 	{
@@ -96,4 +118,5 @@ public class PanelManager : MonoBehaviour {
 	{
 		EventSystem.current.SetSelectedGameObject(go);
 	}
+    
 }

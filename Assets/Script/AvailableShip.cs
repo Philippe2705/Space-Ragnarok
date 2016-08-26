@@ -6,6 +6,7 @@ public class AvailableShip : MonoBehaviour
 {
 
     public Text ExperienceText;
+    public Text ShopExperienceText;
     public Image ShipPreview;
     public Transform ShipContainer;
     public Button BuyButton;
@@ -23,6 +24,11 @@ public class AvailableShip : MonoBehaviour
 
     void Update()
     {
+        if (ShopExperienceText.IsActive())
+        {
+            ShopExperienceText.text = "Credits : " + UserData.GetCredits().ToString();
+            print("printing credits");
+        }
         if (ExperienceText.IsActive())
         {
             ExperienceText.text = "Credits : " + UserData.GetCredits().ToString();
@@ -100,5 +106,10 @@ public class AvailableShip : MonoBehaviour
     {
         UserData.BuyShip(currentShip);
         UserData.SetShipId(currentShip);
+    }
+    public void EraseData()
+    {
+        UserData.Reset();
+        Application.LoadLevel(0);
     }
 }
