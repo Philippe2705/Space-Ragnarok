@@ -107,4 +107,9 @@ public class AvailableShip : MonoBehaviour
         UserData.BuyShip(currentShip);
         UserData.SetShipId(currentShip);
     }
+    public void EraseData()
+    {
+        UserData.Reset();
+        Application.LoadLevel(0);
+    }
 }
