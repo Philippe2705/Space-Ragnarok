@@ -243,6 +243,7 @@
      <Compile Include="Assets\Script\Disconnect.cs" />
      <Compile Include="Assets\Script\EditorScript.cs" />
      <Compile Include="Assets\Script\FPSCounter.cs" />
+     <Compile Include="Assets\Script\Gizmo\DrawArrow.cs" />
      <Compile Include="Assets\Script\Gizmo\Explosion.cs" />
      <Compile Include="Assets\Script\Gizmo\Gun.cs" />
      <Compile Include="Assets\Script\Gizmo\Motor.cs" />
@@ -251,6 +252,7 @@
      <Compile Include="Assets\Script\HealthBar.cs" />
      <Compile Include="Assets\Script\LoadSceneScript.cs" />
      <Compile Include="Assets\Script\MinimapSync.cs" />
+     <Compile Include="Assets\Script\ParticleSystemExtension.cs" />
      <Compile Include="Assets\Script\PlayerScoreDisplayer.cs" />
      <Compile Include="Assets\Script\Purchaser.cs" />
      <Compile Include="Assets\Script\ScoreBoard.cs" />
@@ -261,6 +263,7 @@
      <Compile Include="Assets\Script\SimpleMatchMaker.cs" />
      <Compile Include="Assets\Script\SpawnPlayer.cs" />
      <Compile Include="Assets\Script\UserData.cs" />
+     <Compile Include="Assets\SwpRessources.cs" />
      <None Include="Assets\GooglePlayGames\Editor\Podfile.txt" />
      <None Include="Assets\Lobby\Documentation.txt" />
      <None Include="Assets\GooglePlayGames\Editor\template-GameInfo.txt" />

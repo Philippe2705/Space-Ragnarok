@@ -8,8 +8,11 @@ public class GooglePlayServices : MonoBehaviour {
     public string[] success = new string[] { "CgkIr9XZ1cgTEAIQAQ" /*First Ship*/, "CgkIr9XZ1cgTEAIQAg" /*A warrior begining*/, "CgkIr9XZ1cgTEAIQAw"/*War machine*/, "CgkIr9XZ1cgTEAIQBA"/*Ragnarok*/, "CgkIr9XZ1cgTEAIQBQ"/*Tornado*/ };
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
+        if (Application.isEditor) { return;}
         PlayGamesPlatform.Activate();
+        UpdateLeaderBoard();
 	}
 
     public void ConnectToGooglePlay()
@@ -30,6 +33,12 @@ public class GooglePlayServices : MonoBehaviour {
     public void DisconectFromGooglePlay()
     {
         ((PlayGamesPlatform)Social.Active).SignOut();
+    }
+    public void UpdateLeaderBoard()
+    {
+        Social.ReportScore(UserData.GetCredits(), leaderBoard, (bool success) => {
+            // handle success or failure
+        });
     }
     public void UnlockAchievment(int achievementIDComplete)
     {

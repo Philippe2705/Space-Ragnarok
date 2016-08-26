@@ -91,7 +91,7 @@ public struct ShipProperty
     public readonly float ViewDistance;
     public readonly float BulletDispersion;
     public readonly int Price;
-    public readonly int 
+    //public readonly int    Je sais pas ce que c'est
     public readonly string MaterialColor;
 
     public ShipProperty(int shipID, string shipName, float speedFactor, float turnRate, float armor, float damage, float reloadTime, float viewDistance, float bulletDispersion, int price, string materialColor)
