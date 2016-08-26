@@ -241,7 +241,12 @@
      <Compile Include="Assets\Script\Bullet.cs" />
      <Compile Include="Assets\Script\Constants.cs" />
      <Compile Include="Assets\Script\Disconnect.cs" />
+     <Compile Include="Assets\Script\EditorScript.cs" />
      <Compile Include="Assets\Script\FPSCounter.cs" />
+     <Compile Include="Assets\Script\Gizmo\Explosion.cs" />
+     <Compile Include="Assets\Script\Gizmo\Gun.cs" />
+     <Compile Include="Assets\Script\Gizmo\Motor.cs" />
+     <Compile Include="Assets\Script\Gizmo\Smoke.cs" />
      <Compile Include="Assets\Script\HealthBar.cs" />
      <Compile Include="Assets\Script\LoadSceneScript.cs" />
      <Compile Include="Assets\Script\MinimapSync.cs" />
