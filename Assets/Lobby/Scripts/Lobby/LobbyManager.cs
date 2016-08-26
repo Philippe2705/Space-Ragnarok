@@ -68,6 +68,20 @@ namespace Prototype.NetworkLobby
 
             SetServerInfo("Offline", "None");
         }
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape)) // Return key on Android
+            {
+                if(currentPanel == mainMenuPanel)
+                {
+                    GetComponent<LoadSceneScript>().LoadScene(0);
+                }
+                else
+                {
+                    GoBackButton();
+                }
+            }
+        }
 
         void OnLevelWasLoaded()
         {
