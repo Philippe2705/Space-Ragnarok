@@ -42,11 +42,9 @@ public class Ship : NetworkBehaviour
     GameObject smallExplosionSound;
     GameObject bigExplosionSound;
     GameObject bulletPrefab;
-    //ParticleSystem particleSystem;
 
 
     float reloadTime;
-    Vector2 lastVelocity;
 
 
 
@@ -117,17 +115,6 @@ public class Ship : NetworkBehaviour
         {
             FixedUpdateClient();
         }
-        //Borders
-        var v = rigidbody2D.velocity;
-        if (transform.position.x <= MinPosX || transform.position.x >= MaxPosX)
-        {
-            v.x *= -1;
-        }
-        if (transform.position.y <= MinPosY || transform.position.y >= MaxPosY)
-        {
-            v.y *= -1;
-        }
-        rigidbody2D.velocity = v;
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, MinPosX, MaxPosX), Mathf.Clamp(transform.position.y, MinPosY, MaxPosY), transform.position.z);
     }
 
@@ -192,14 +179,12 @@ public class Ship : NetworkBehaviour
         /*
          * Effects
          */
-        //var rate = 50f * Vector3.Project(rigidbody2D.velocity, transform.up).magnitude / (shipProperty.SpeedFactor * ShipProperties.GetBotProperties(BotLevel).SpeedMultiplier) + 10f;
-        var acceleration = (rigidbody2D.velocity - lastVelocity) / Time.fixedDeltaTime;
-        var rate = 50f * Vector3.Project(acceleration, transform.up).magnitude;
+        var rate = 50f * Vector3.Project(rigidbody2D.velocity, transform.up).magnitude / (shipProperty.SpeedFactor * ShipProperties.GetBotProperties(BotLevel).SpeedMultiplier) + 10f;
+
         foreach (var motor in motors)
         {
             ParticleSystemExtension.SetEmissionRate(motor, rate);
         }
-        lastVelocity = rigidbody2D.velocity;
     }
 
 
@@ -240,36 +225,37 @@ public class Ship : NetworkBehaviour
         /*
          * Move ship
          */
-        if (!(rigidbody2D.velocity.magnitude < shipProperty.SpeedFactor * ShipProperties.GetBotProperties(BotLevel).SpeedMultiplier && vertical > 1))
-        {
-            rigidbody2D.AddForce(transform.up * vertical, ForceMode2D.Force);
-        }
+        rigidbody2D.velocity = transform.up * Mathf.Max(vertical, shipProperty.MinSpeed) * shipProperty.SpeedFactor * ShipProperties.GetBotProperties(BotLevel).SpeedMultiplier;
     }
 
 
     [Command]
-    protected void CmdFire(float fireSide)
+    protected void CmdFire(Vector2 fireVector)
     {
         if (IsDead)
         {
             return;
         }
 
-        if (reloadTime < 0 && fireSide != 0)
+        if (reloadTime < 0 && fireVector.magnitude > Constants.FireTrigger)
         {
             reloadTime = 2;
 
+            var direction = guns[0].parent.InverseTransformVector(transform.TransformVector(fireVector));
 
             foreach (var gun in guns)
             {
-                //Create bullet
-                var bullet = Instantiate(bulletPrefab, gun.transform.position, Quaternion.identity) as GameObject;
-                bullet.GetComponent<Bullet>().speed = Random.Range(2.7f, 3.3f);
-                bullet.GetComponent<Bullet>().direction = gun.transform.rotation * Quaternion.Euler(0, 0, Random.Range(-shipProperty.BulletDispersion, shipProperty.BulletDispersion));
-                bullet.GetComponent<Bullet>().color = shipProperty.MaterialColor;
-                bullet.GetComponent<Bullet>().damage = shipProperty.Damage * ShipProperties.GetBotProperties(BotLevel).DamageMultiplier;
-                bullet.GetComponent<Bullet>().playerName = Pseudo;
-                NetworkServer.Spawn(bullet);
+                if (Vector2.Angle(direction, gun.right) < shipProperty.FireAngleTolerance)
+                {
+                    //Create bullet
+                    var bullet = Instantiate(bulletPrefab, gun.transform.position, Quaternion.identity) as GameObject;
+                    bullet.GetComponent<Bullet>().speed = Random.Range(2.7f, 3.3f);
+                    bullet.GetComponent<Bullet>().direction = gun.transform.rotation * Quaternion.Euler(0, 0, Random.Range(-shipProperty.BulletDispersion, shipProperty.BulletDispersion));
+                    bullet.GetComponent<Bullet>().color = shipProperty.MaterialColor;
+                    bullet.GetComponent<Bullet>().damage = shipProperty.Damage * ShipProperties.GetBotProperties(BotLevel).DamageMultiplier;
+                    bullet.GetComponent<Bullet>().playerName = Pseudo;
+                    NetworkServer.Spawn(bullet);
+                }
             }
         }
     }

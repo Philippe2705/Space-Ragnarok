@@ -82,7 +82,7 @@ namespace Prototype.NetworkLobby
                     GoBackButton();
                 }
             }
-            if (GetComponent<Canvas>().worldCamera == null)
+            if (SceneManager.GetActiveScene().buildIndex == 1 && GetComponent<Canvas>().worldCamera == null)
             {
                 GetComponent<Canvas>().worldCamera = GameObject.Find("WorldCamera").GetComponent<Camera>();
             }

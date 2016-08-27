@@ -18,4 +18,6 @@
     public const float CameraStabilization = 1;
 
     public const float SmokeDensity = 1;
+
+    public const float FireTrigger = 0.1f;
 }

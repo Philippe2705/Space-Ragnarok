@@ -33,9 +33,9 @@ namespace Prototype.NetworkLobby
         public Color OddRowColor = new Color(250.0f / 255.0f, 250.0f / 255.0f, 250.0f / 255.0f, 1.0f);
         public Color EvenRowColor = new Color(180.0f / 255.0f, 180.0f / 255.0f, 180.0f / 255.0f, 1.0f);
 
-        static Color JoinColor = new Color(255.0f / 255.0f, 0.0f, 101.0f / 255.0f, 1.0f);
-        static Color NotReadyColor = new Color(34.0f / 255.0f, 44 / 255.0f, 55.0f / 255.0f, 1.0f);
-        static Color ReadyColor = new Color(0.0f, 204.0f / 255.0f, 204.0f / 255.0f, 1.0f);
+        static Color JoinColor = Color.white;
+        static Color NotReadyColor = Color.white;
+        static Color ReadyColor = Color.white;
         static Color TransparentColor = new Color(0, 0, 0, 0);
 
 
@@ -91,6 +91,14 @@ namespace Prototype.NetworkLobby
         {
             nameInput.interactable = false;
             removePlayerButton.interactable = NetworkServer.active;
+            if (!removePlayerButton.interactable)
+            {
+                removePlayerButton.gameObject.transform.Find("Label").GetComponent<Text>().color = Color.gray;
+            }
+            else
+            {
+                removePlayerButton.gameObject.transform.Find("Label").GetComponent<Text>().color = Color.white;
+            }
 
             ChangeReadyButtonColor(NotReadyColor);
 
@@ -103,8 +111,8 @@ namespace Prototype.NetworkLobby
         void SetupLocalPlayer()
         {
             nameInput.interactable = true;
-            remoteIcone.gameObject.SetActive(false);
-            localIcone.gameObject.SetActive(true);
+            //remoteIcone.gameObject.SetActive(false);
+            //localIcone.gameObject.SetActive(true);
 
             CheckRemoveButton();
 
@@ -128,6 +136,18 @@ namespace Prototype.NetworkLobby
                 }
                 else
                 {
+                    if (NetworkServer.active)
+                    {
+                        removePlayerButton.interactable = false;
+                        if (!removePlayerButton.interactable)
+                        {
+                            removePlayerButton.gameObject.transform.Find("Label").GetComponent<Text>().color = Color.gray;
+                        }
+                        else
+                        {
+                            removePlayerButton.gameObject.transform.Find("Label").GetComponent<Text>().color = Color.white;
+                        }
+                    }
                     CmdNameChanged(PlayerPrefs.GetString("Pseudo", "Player" + (LobbyPlayerList._instance.playerListContentTransform.childCount - 1)));
                 }
             }
@@ -160,6 +180,15 @@ namespace Prototype.NetworkLobby
                 localPlayerCount += (p == null || p.playerControllerId == -1) ? 0 : 1;
 
             removePlayerButton.interactable = IsBot;
+            if (!removePlayerButton.interactable)
+            {
+                removePlayerButton.gameObject.transform.Find("Label").GetComponent<Text>().color = Color.gray;
+            }
+            else
+            {
+                removePlayerButton.gameObject.transform.Find("Label").GetComponent<Text>().color = Color.white;
+            }
+
         }
 
         public override void OnClientReady(bool readyState)
@@ -221,7 +250,8 @@ namespace Prototype.NetworkLobby
             BotLevel = botLevel;
             if (IsBot)
             {
-                ChangeReadyButtonColor(GetColor(botLevel));
+                readyButton.GetComponent<Image>().color = GetColor(botLevel);
+                readyButton.transform.GetChild(0).GetComponent<Text>().color = GetColor(botLevel);
                 readyButton.transform.GetChild(0).GetComponent<Text>().text = GetText(botLevel);
             }
         }
@@ -336,7 +366,7 @@ namespace Prototype.NetworkLobby
 
         Color GetColor(int botLevel)
         {
-            return Color.Lerp(Color.green, Color.red, (float)botLevel / Constants.TotalBotLevel);
+            return Color.Lerp(Color.green, Color.black, (float)botLevel / Constants.TotalBotLevel);
         }
 
         string GetText(int botLevel)

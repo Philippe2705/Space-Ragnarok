@@ -20,11 +20,17 @@ public class PlayerShip : Ship
 
         if (isLocalPlayer)
         {
-            camera = Instantiate(new GameObject(), Vector3.forward * -10, Quaternion.identity) as GameObject;
-            camera.AddComponent<Camera>();
-            camera.GetComponent<Camera>().orthographic = true;
-            camera.GetComponent<Camera>().orthographicSize = ShipProperties.GetShip(ShipId).ViewDistance;
-            camera.tag = "MainCamera";
+            camera = GameObject.Find("PlayerCamera");
+            if (camera == null)
+            {
+                camera = Instantiate(new GameObject(), Vector3.forward * -10, Quaternion.identity) as GameObject;
+                camera.name = "PlayerCamera";
+                camera.AddComponent<AudioListener>();
+                camera.AddComponent<Camera>();
+                camera.GetComponent<Camera>().orthographic = true;
+                camera.GetComponent<Camera>().orthographicSize = ShipProperties.GetShip(ShipId).ViewDistance;
+                camera.tag = "MainCamera";
+            }
             rigidbody2D.interpolation = RigidbodyInterpolation2D.Interpolate;
             OnHealthDelegate(100);
         }
@@ -38,10 +44,10 @@ public class PlayerShip : Ship
             /*
              * Fire
              */
-            var fireSide = CnInputManager.GetAxisRaw("Horizontal1");
-            if (Mathf.Abs(fireSide) > 0.2f)
+            var fireVector = CnInputManager.GetAxisRaw("Horizontal1") * Vector2.right + CnInputManager.GetAxisRaw("Vertical1") * Vector2.up;
+            if (fireVector.magnitude > Constants.FireTrigger)
             {
-                CmdFire(fireSide);
+                CmdFire(fireVector);
             }
 
             /*

@@ -8,17 +8,17 @@ public static class ShipProperties
     {
         switch (shipId)
         {
-            case 0:
-                //TODO: put real values back
-                return new ShipProperty(0, "Destroyer", 5f/*Speed Factor*/, 45/*Turn Rate*/, 2/*Armor*/, 100/*Damage*/, 2f/*Reload Time*/, 7/*View Distance*/, 0/*Bullet Dispersion*/, 0/*Price*/, "Orange");
-            case 1:
-                return new ShipProperty(1, "Frigate", 3.2f/*Speed Factor*/, 22.5f/*Turn Rate*/, 3f/*Armor*/, 12/*Damage*/, 3/*Reload Time*/, 7/*View Distance*/, 10/*Bullet Dispersion*/, 1250/*Price*/, "Orange");
-            case 2:
-                return new ShipProperty(2, "Cruiser", 2.2f/*Speed Factor*/, 22.5f/*Turn Rate*/, 5f/*Armor*/, 14/*Damage*/, 3/*Reload Time*/, 8/*View Distance*/, 10/*Bullet Dispersion*/, 2500/*Price*/, "Red");
+            //case 0:
+            //    //TODO: put real values back
+            //    return new ShipProperty(0, "Destroyer", 5f/*Speed Factor*/, 45/*Turn Rate*/, 2/*Armor*/, 10/*Damage*/, 2f/*Reload Time*/, 7/*View Distance*/, 0/*Bullet Dispersion*/, 0/*Price*/, 80, "Orange");
+            //case 1:
+            //    return new ShipProperty(1, "Frigate", 3.2f/*Speed Factor*/, 22.5f/*Turn Rate*/, 3f/*Armor*/, 12/*Damage*/, 3/*Reload Time*/, 7/*View Distance*/, 10/*Bullet Dispersion*/, 1250/*Price*/, 80, "Orange");
+            //case 2:
+            //    return new ShipProperty(2, "Cruiser", 2.2f/*Speed Factor*/, 22.5f/*Turn Rate*/, 5f/*Armor*/, 14/*Damage*/, 3/*Reload Time*/, 8/*View Distance*/, 10/*Bullet Dispersion*/, 2500/*Price*/, 80, "Red");
             case 3:
-                return new ShipProperty(3, "BattleShip", 1.2f/*Speed Factor*/, 18/*Turn Rate*/, 10f/*Armor*/, 17/*Damage*/, 3/*Reload Time*/, 9/*View Distance*/, 10/*Bullet Dispersion*/, 5000/*Price*/, "Orange");
-            case 4:
-                return new ShipProperty(4, "Ragnarok", 0.6f/*Speed Factor*/, 15/*Turn Rate*/, 50/*Armor*/, 24/*Damage*/, 3/*Reload Time*/, 12/*View Distance*/, 10/*Bullet Dispersion*/, 10000/*Price*/, "Purple");
+                return new ShipProperty(3, "BattleShip", 1.2f/*Speed Factor*/, 18/*Turn Rate*/, 10f/*Armor*/, 17/*Damage*/, 3/*Reload Time*/, 9/*View Distance*/, 10/*Bullet Dispersion*/, 5000/*Price*/, 80, 0.1f, "Orange");
+            //case 4:
+            //    return new ShipProperty(4, "Ragnarok", 0.6f/*Speed Factor*/, 15/*Turn Rate*/, 50/*Armor*/, 24/*Damage*/, 3/*Reload Time*/, 12/*View Distance*/, 10/*Bullet Dispersion*/, 10000/*Price*/, 80, "Purple");
 
             default:
                 Debug.LogError("Incorrect Ship ID");
@@ -91,10 +91,11 @@ public struct ShipProperty
     public readonly float ViewDistance;
     public readonly float BulletDispersion;
     public readonly int Price;
-    //public readonly int    Je sais pas ce que c'est
+    public readonly float FireAngleTolerance;
+    public readonly float MinSpeed;
     public readonly string MaterialColor;
 
-    public ShipProperty(int shipID, string shipName, float speedFactor, float turnRate, float armor, float damage, float reloadTime, float viewDistance, float bulletDispersion, int price, string materialColor)
+    public ShipProperty(int shipID, string shipName, float speedFactor, float turnRate, float armor, float damage, float reloadTime, float viewDistance, float bulletDispersion, int price, float fireAngleTolerance, float minSpeed, string materialColor)
     {
         ShipID = shipID;
         ShipName = shipName;
@@ -109,6 +110,8 @@ public struct ShipProperty
         ViewDistance = viewDistance;
         BulletDispersion = bulletDispersion;
         Price = price;
+        FireAngleTolerance = fireAngleTolerance;
+        MinSpeed = minSpeed;
         MaterialColor = materialColor;
     }
 }
