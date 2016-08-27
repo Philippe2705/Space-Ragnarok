@@ -119,7 +119,7 @@ public class GooglePlayServices : MonoBehaviour
                     googleUserInfos.googleUserID = Social.localUser.id;
                     googleUserInfos.googleAvatar = Social.localUser.image;
                     userInfosUI.transform.FindChild("username").GetComponent<Text>().text = googleUserInfos.googleUserName;
-                    userInfosUI.transform.FindChild("Image").GetComponent<Image>().sprite = Sprite.Create(googleUserInfos.googleAvatar, userInfosUI.transform.FindChild("Image").GetComponent<Rect>(), userInfosUI.transform.FindChild("Image").transform.position);
+                    //userInfosUI.transform.FindChild("Image").GetComponent<Image>().sprite = Sprite.Create(googleUserInfos.googleAvatar, userInfosUI.transform.FindChild("Image").GetComponent<Rect>(), userInfosUI.transform.FindChild("Image").transform.position);
                 }
                 else
                 {
