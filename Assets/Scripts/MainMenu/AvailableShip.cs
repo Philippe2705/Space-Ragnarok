@@ -113,9 +113,4 @@ public class AvailableShip : MonoBehaviour
             GameObject.Find("BuyXPButton").GetComponent<Button>().onClick.Invoke();
         }
     }
-    public void EraseData()
-    {
-        UserData.Reset();
-        SceneManager.LoadScene(0);
-    }
 }

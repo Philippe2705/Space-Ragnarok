@@ -148,7 +148,7 @@ namespace Prototype.NetworkLobby
                             removePlayerButton.gameObject.transform.Find("Label").GetComponent<Text>().color = Color.white;
                         }
                     }
-                    CmdNameChanged(PlayerPrefs.GetString("Pseudo", "Player" + (LobbyPlayerList._instance.playerListContentTransform.childCount - 1)));
+                    CmdNameChanged(Social.localUser.userName);
                 }
             }
             //we switch from simple name display to name input
@@ -288,10 +288,6 @@ namespace Prototype.NetworkLobby
 
         public void OnNameChanged(string str)
         {
-            if (!IsBot)
-            {
-                PlayerPrefs.SetString("Pseudo", str);
-            }
             CmdNameChanged(str);
         }
 

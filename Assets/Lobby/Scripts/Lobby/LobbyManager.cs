@@ -56,7 +56,6 @@ namespace Prototype.NetworkLobby
 
         void Start()
         {
-            PlayerPrefs.SetInt("Bot", 0);
             PlayerPrefs.SetInt("BotCount", 1);
             s_Singleton = this;
             _lobbyHooks = GetComponent<Prototype.NetworkLobby.LobbyHook>();

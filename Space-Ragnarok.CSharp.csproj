@@ -309,6 +309,7 @@
     <Compile Include="Assets\Scripts\Google&amp;Unity\SwpRessources.cs" />
     <Compile Include="Assets\Scripts\LoadSceneScript.cs" />
     <Compile Include="Assets\Scripts\MainMenu\AvailableShip.cs" />
+    <Compile Include="Assets\Scripts\MainMenu\EraseData.cs" />
     <Compile Include="Assets\Scripts\ParticleSystemExtension.cs" />
     <Compile Include="Assets\Scripts\UserData.cs" />
   </ItemGroup>

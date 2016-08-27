@@ -6,24 +6,21 @@ using System.Globalization;
 using UnityEngine.UI;
 
 
-public class AnalyticsScript : MonoBehaviour {
+public class AnalyticsScript : MonoBehaviour
+{
     [System.Runtime.InteropServices.DllImport("KERNEL32.DLL")]
     private static extern int GetSystemDefaultLCID();
-    public Text languagueUI;
 
-    public string language;
-    // Use this for initialization
-    void Start () {
+    public Text LanguageUI;
+    public string Language;
 
+    void Start()
+    {
         var currentCulture = new CultureInfo(GetSystemDefaultLCID());
-        language = currentCulture.ToString();
-        languagueUI.text = language;
+        Language = currentCulture.ToString();
+        LanguageUI.text = Language;
     }
 
-    // Update is called once per frame
-    void Update () {
-	}
-    
     public void SendSystemInfos(string googleName, string googleID)
     {
         if (!Application.isEditor)
@@ -39,7 +36,7 @@ public class AnalyticsScript : MonoBehaviour {
             { "Operating System", SystemInfo.operatingSystem },
             { "Precessor count", SystemInfo.processorCount },
             { "Processor Frequency", SystemInfo.processorFrequency },
-            { "Operating System", language },
+            { "Operating System", Language },
             { "Total credits", UserData.GetCredits()},
             { "Total Experience", UserData.GetExperience()},
             { "Google UserName", googleName},
