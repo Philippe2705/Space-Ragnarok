@@ -263,7 +263,7 @@ namespace Prototype.NetworkLobby
         public override void OnStartHost()
         {
             base.OnStartHost();
-
+            LobbyPlayer.playersPseudo.Clear();
             ChangeTo(lobbyPanel);
             backDelegate = StopHostClbk;
             SetServerInfo("Hosting", GetLocalIp());
