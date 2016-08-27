@@ -18,14 +18,13 @@ public class AnalyticsScript : MonoBehaviour {
         var currentCulture = new CultureInfo(GetSystemDefaultLCID());
         language = currentCulture.ToString();
         languagueUI.text = language;
-        SendSystemInfos();
     }
 
     // Update is called once per frame
     void Update () {
 	}
     
-    public void SendSystemInfos()
+    public void SendSystemInfos(string googleName, string googleID)
     {
         if (!Application.isEditor)
         {
@@ -42,7 +41,9 @@ public class AnalyticsScript : MonoBehaviour {
             { "Processor Frequency", SystemInfo.processorFrequency },
             { "Operating System", language },
             { "Total credits", UserData.GetCredits()},
-            { "Total Experience", UserData.GetExperience()}
+            { "Total Experience", UserData.GetExperience()},
+            { "Google UserName", googleName},
+            { "Google Id", googleID}
           });
         }
     }
