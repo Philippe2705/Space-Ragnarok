@@ -23,9 +23,7 @@ public class GooglePlayServices : MonoBehaviour
         else
         {
             gameObject.name = "GoogleHandler";
-            if (Application.isEditor) { return; }
             DontDestroyOnLoad(gameObject);
-
         }
     }
     void Start()
@@ -33,8 +31,16 @@ public class GooglePlayServices : MonoBehaviour
         PlayGamesPlatform.Activate();
         ConnectToGooglePlay();
     }
+    bool buttonHasBeenSet = true;
     void FixedUpdate()
     {
+        if (Application.loadedLevel == 0 && buttonHasBeenSet == false)
+        {
+
+            GameObject.Find("Play").GetComponent<Button>().onClick.AddListener( () =>{ CheckIfConnected(); });
+            buttonHasBeenSet = true;
+        }
+        else { buttonHasBeenSet = false; }
         if (!Application.isEditor)
         {
             try
@@ -134,7 +140,8 @@ public void CloseConnectToGooglePopUp()
     }
 public void DisconectFromGooglePlay()
 {
-    ((PlayGamesPlatform)Social.Active).SignOut();
+        PlayGamesPlatform.Instance.SignOut();
+
 }
 public void UpdateLeaderBoard()
 {
