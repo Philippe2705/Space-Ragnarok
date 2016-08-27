@@ -23,9 +23,7 @@ public class GooglePlayServices : MonoBehaviour
         else
         {
             gameObject.name = "GoogleHandler";
-            if (Application.isEditor) { return; }
             DontDestroyOnLoad(gameObject);
-
         }
     }
     void Start()
@@ -33,8 +31,16 @@ public class GooglePlayServices : MonoBehaviour
         PlayGamesPlatform.Activate();
         ConnectToGooglePlay();
     }
+    bool buttonHasBeenSet = true;
     void FixedUpdate()
     {
+        if (Application.loadedLevel == 0 && buttonHasBeenSet == false)
+        {
+
+            GameObject.Find("Play").GetComponent<Button>().onClick.AddListener( () =>{ CheckIfConnected(); });
+            buttonHasBeenSet = true;
+        }
+        else { buttonHasBeenSet = false; }
         if (!Application.isEditor)
         {
             try
@@ -113,7 +119,7 @@ public class GooglePlayServices : MonoBehaviour
                     googleUserInfos.googleUserID = Social.localUser.id;
                     googleUserInfos.googleAvatar = Social.localUser.image;
                     userInfosUI.transform.FindChild("username").GetComponent<Text>().text = googleUserInfos.googleUserName;
-                    userInfosUI.transform.FindChild("Image").GetComponent<Image>().sprite = Sprite.Create(googleUserInfos.googleAvatar, userInfosUI.transform.FindChild("Image").GetComponent<Rect>(), userInfosUI.transform.FindChild("Image").transform.position);
+                    //userInfosUI.transform.FindChild("Image").GetComponent<Image>().sprite = Sprite.Create(googleUserInfos.googleAvatar, userInfosUI.transform.FindChild("Image").GetComponent<Rect>(), userInfosUI.transform.FindChild("Image").transform.position);
                 }
                 else
                 {
@@ -134,7 +140,8 @@ public void CloseConnectToGooglePopUp()
     }
 public void DisconectFromGooglePlay()
 {
-    ((PlayGamesPlatform)Social.Active).SignOut();
+        PlayGamesPlatform.Instance.SignOut();
+
 }
 public void UpdateLeaderBoard()
 {
