@@ -9,7 +9,7 @@ namespace Prototype.NetworkLobby
     //Any LobbyHook can then grab it and pass those value to the game player prefab (see the Pong Example in the Samples Scenes)
     public class LobbyPlayer : NetworkLobbyPlayer
     {
-        static List<string> playersPseudo = new List<string>();
+        public static List<string> playersPseudo = new List<string>();
 
         public Button shipButton;
         public InputField nameInput;

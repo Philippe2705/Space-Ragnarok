@@ -48,9 +48,7 @@ public static class UserData
         }
         else
         {
-            playerData = new PlayerData();
-            playerData.BoughtShips[0] = true;
-            SaveData();
+            Reset();
         }
 
     }
@@ -166,10 +164,9 @@ public static class UserData
 
     public static void Reset()
     {
-        if (File.Exists(path))
-        {
-            File.Delete(path);
-        }
+        playerData = new PlayerData();
+        playerData.BoughtShips[0] = true;
+        SaveData();
     }
 }
 
