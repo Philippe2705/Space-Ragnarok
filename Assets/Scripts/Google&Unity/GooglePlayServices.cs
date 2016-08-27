@@ -14,6 +14,7 @@ public class GooglePlayServices : MonoBehaviour
     public Sprite defaultAvatarGoogle;
     public GameObject userInfosUI;
     public GameObject connectPopUp;
+
     void Awake()
     {
         if (GameObject.Find("GoogleHandler") != null)
@@ -37,7 +38,7 @@ public class GooglePlayServices : MonoBehaviour
         if (Application.loadedLevel == 0 && buttonHasBeenSet == false)
         {
 
-            GameObject.Find("Play").GetComponent<Button>().onClick.AddListener( () =>{ CheckIfConnected(); });
+            GameObject.Find("Play").GetComponent<Button>().onClick.AddListener(() => { CheckIfConnected(); });
             buttonHasBeenSet = true;
         }
         else { buttonHasBeenSet = false; }
@@ -62,7 +63,7 @@ public class GooglePlayServices : MonoBehaviour
             }
 
         }
-        if(Application.loadedLevel == 0 && gameObject.name == "GoogleHandler")
+        if (Application.loadedLevel == 0 && gameObject.name == "GoogleHandler")
         {
             if (connectPopUp == null)
             {
@@ -105,7 +106,7 @@ public class GooglePlayServices : MonoBehaviour
 
         if (gameObject.name == "GoogleHandler" && Application.loadedLevel == 0)
         {
-           
+
             if (userInfosUI == null)
             {
                 userInfosUI = GameObject.Find("GoogleInfos");
@@ -133,43 +134,43 @@ public class GooglePlayServices : MonoBehaviour
                 GameObject.Find("ErrorCatcher").GetComponent<Text>().text = "Error Updating Googles infos UI";
             }
         }
-}
-public void CloseConnectToGooglePopUp()
+    }
+    public void CloseConnectToGooglePopUp()
     {
         connectPopUp.SetActive(false);
     }
-public void DisconectFromGooglePlay()
-{
+    public void DisconectFromGooglePlay()
+    {
         PlayGamesPlatform.Instance.SignOut();
 
-}
-public void UpdateLeaderBoard()
-{
-    Social.ReportScore(UserData.GetCredits(), leaderBoard, (bool success) =>
-    {
-        // handle success or failure
-    });
-}
-public void UnlockAchievment(int achievementIDComplete)
-{
-    Social.ReportProgress(success[achievementIDComplete], 100.0f, (bool successfull) =>
-    {
-        Debug.Log("Achievement " + (achievementIDComplete + 1) + " Completed !");
     }
-    );
-}
-public void ShowLeaderBoard()
-{
-    ((PlayGamesPlatform)Social.Active).ShowLeaderboardUI(leaderBoard);
-}
-public void SaveGameToCloud()
-{
+    public void UpdateLeaderBoard()
+    {
+        Social.ReportScore(UserData.GetCredits(), leaderBoard, (bool success) =>
+        {
+            // handle success or failure
+        });
+    }
+    public void UnlockAchievment(int achievementIDComplete)
+    {
+        Social.ReportProgress(success[achievementIDComplete], 100.0f, (bool successfull) =>
+        {
+            Debug.Log("Achievement " + (achievementIDComplete + 1) + " Completed !");
+        }
+        );
+    }
+    public void ShowLeaderBoard()
+    {
+        ((PlayGamesPlatform)Social.Active).ShowLeaderboardUI(leaderBoard);
+    }
+    public void SaveGameToCloud()
+    {
 
-}
-public struct GoogleUserInfos
-{
-    public string googleUserName;
-    public string googleUserID;
-    public Texture2D googleAvatar;
-}
+    }
+    public struct GoogleUserInfos
+    {
+        public string googleUserName;
+        public string googleUserID;
+        public Texture2D googleAvatar;
+    }
 }
