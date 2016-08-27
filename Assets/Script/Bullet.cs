@@ -3,18 +3,20 @@ using UnityEngine.Networking;
 
 public class Bullet : NetworkBehaviour
 {
-    public GameObject ExplosionMobile;
+    public GameObject explosionPrefab;
+    public GameObject explosionSound;
 
-    [SyncVar]
+    [HideInInspector, SyncVar]
     public float speed;
-    [SyncVar]
+    [HideInInspector, SyncVar]
     public Quaternion direction;
-    [SyncVar]
-    public string color;
 
     //Server
+    [HideInInspector]
     public float damage;
+    [HideInInspector]
     public string playerName;
+
     float autoDestruct;
 
 
@@ -23,7 +25,6 @@ public class Bullet : NetworkBehaviour
     {
         autoDestruct = 25;
         transform.rotation = direction;
-        GetComponent<TrailRenderer>().material = Resources.Load<Material>("Materials/Bullet" + color);
     }
 
     // Update is called once per frame
@@ -48,16 +49,19 @@ public class Bullet : NetworkBehaviour
         }
         var player = other.gameObject.GetComponent<PlayerShip>();
         var bot = other.gameObject.GetComponent<BotShip>();
-        Ship ship;
+        Ship ship = null;
         if (player != null)
         {
             ship = player;
         }
-        else
+        else if (bot != null)
         {
             ship = bot;
         }
-        ship.HitByBullet(transform.position, transform.rotation, damage, playerName);
+        if (ship != null)
+        {
+            ship.HitByBullet(transform.position, transform.rotation, damage, playerName);
+        }
         RpcSpawnExplosion();
         NetworkServer.Destroy(gameObject);
     }
@@ -65,6 +69,7 @@ public class Bullet : NetworkBehaviour
     [ClientRpc]
     void RpcSpawnExplosion()
     {
-        Instantiate(ExplosionMobile, transform.position, transform.rotation);
+        Instantiate(explosionSound, transform.position, transform.rotation);
+        Instantiate(explosionPrefab, transform.position, transform.rotation);
     }
 }

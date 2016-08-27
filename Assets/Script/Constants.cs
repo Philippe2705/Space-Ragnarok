@@ -5,7 +5,7 @@
 
     public const float PseudoSize = 0.01f;
 
-    public const float DamageDispersion = 0.5f;
+    public const float DamageDispersion = 5f / 100f;
 
     public const int TotalBotLevel = 9;
 
@@ -20,4 +20,8 @@
     public const float SmokeDensity = 1;
 
     public const float FireTrigger = 0.1f;
+
+    public const float TimeBeforeScoreBoardShows = 5f;
+
+    public const float BulletSpeedDispersion = 10f / 100f;
 }

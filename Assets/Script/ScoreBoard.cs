@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
-
+using System;
 
 public class ScoreBoard : NetworkBehaviour
 {
@@ -52,6 +52,17 @@ public class ScoreBoard : NetworkBehaviour
             NewGameButton.gameObject.SetActive(true);
             QuitButton.gameObject.SetActive(true);
         }
+    }
+
+
+    public void InvokeShowScoreBoardOnAll(float time)
+    {
+        Invoke("InvokeDelegate", time);
+    }
+
+    void InvokeDelegate()
+    {
+        ShowScoreBoard(true);
     }
 
 
@@ -194,6 +205,11 @@ public class ScoreBoard : NetworkBehaviour
     public void OnQuit()
     {
         FindObjectOfType<Disconnect>().StartDisconnect();
+    }
+
+    internal void InvokeShowScoreBoardOnAll(object timeBeforeScoreBoardShows)
+    {
+        throw new NotImplementedException();
     }
 }
 

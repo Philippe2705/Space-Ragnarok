@@ -6,22 +6,23 @@ public class Ship : NetworkBehaviour
 {
 
     public const float MinPosX = -60f, MaxPosX = 60f, MinPosY = -30f, MaxPosY = 30f;
-    public const float VitesseMinimum = 0.1f;
-    public const float VitesseMaximum = 2;
 
+    [HideInInspector]
     public ShipProperty shipProperty;
+    [HideInInspector]
     public new Rigidbody2D rigidbody2D;
 
-    [SyncVar]
+    [HideInInspector, SyncVar]
     public bool IsBot;
-    [SyncVar]
+    [HideInInspector, SyncVar]
     public int BotLevel = -1;
-    [SyncVar]
+    [HideInInspector, SyncVar]
     public bool IsDead = false;
-    [SyncVar(hook = "OnShipId")]
+    [HideInInspector, SyncVar(hook = "OnShipId")]
     public int ShipId;
-    [SyncVar(hook = "OnPseudo")]
+    [HideInInspector, SyncVar(hook = "OnPseudo")]
     public string Pseudo;
+
     [SyncVar(hook = "OnHealth")]
     float health = 100;
 
@@ -38,10 +39,8 @@ public class Ship : NetworkBehaviour
 
     GameObject smallExplosion;
     GameObject bigExplosion;
-    GameObject explosionSound;
     GameObject smallExplosionSound;
     GameObject bigExplosionSound;
-    GameObject bulletPrefab;
 
 
     float reloadTime;
@@ -50,7 +49,7 @@ public class Ship : NetworkBehaviour
 
     protected virtual void Start()
     {
-        Invoke("DelayedScoreBoard", 0.1f);
+        Invoke("DelayedScoreBoard", 1f);
         IsBot = GetType() == typeof(BotShip);
         rigidbody2D = GetComponent<Rigidbody2D>();
 
@@ -83,12 +82,10 @@ public class Ship : NetworkBehaviour
         /*
          * Prefabs
          */
-        smallExplosion = Resources.Load<GameObject>("Prefabs/SmallExplosion");
-        bigExplosion = Resources.Load<GameObject>("Prefabs/BigExplosion");
-        explosionSound = Resources.Load<GameObject>("Prefabs/ExplosionSound");
-        smallExplosionSound = Resources.Load<GameObject>("Prefabs/SmallExplosionSound");
-        bigExplosionSound = Resources.Load<GameObject>("Prefabs/BigExplosionSound");
-        bulletPrefab = Resources.Load<GameObject>("Prefabs/Bullet");
+        smallExplosion = Resources.Load<GameObject>("Prefabs/Sounds/SmallExplosion");
+        bigExplosion = Resources.Load<GameObject>("Prefabs/Sounds/BigExplosion");
+        smallExplosionSound = Resources.Load<GameObject>("Prefabs/Sounds/SmallExplosionSound");
+        bigExplosionSound = Resources.Load<GameObject>("Prefabs/Sounds/BigExplosionSound");
 
         OnHealth(health);
     }
@@ -245,13 +242,13 @@ public class Ship : NetworkBehaviour
 
             foreach (var gun in guns)
             {
+                print(Vector2.Angle(direction, gun.right));
                 if (Vector2.Angle(direction, gun.right) < shipProperty.FireAngleTolerance)
                 {
                     //Create bullet
-                    var bullet = Instantiate(bulletPrefab, gun.transform.position, Quaternion.identity) as GameObject;
-                    bullet.GetComponent<Bullet>().speed = Random.Range(2.7f, 3.3f);
+                    var bullet = Instantiate(shipProperty.BulletPrefab, gun.transform.position, Quaternion.identity) as GameObject;
+                    bullet.GetComponent<Bullet>().speed = shipProperty.BulletSpeed * Random.Range(1 - Constants.BulletSpeedDispersion, 1 + Constants.BulletSpeedDispersion);
                     bullet.GetComponent<Bullet>().direction = gun.transform.rotation * Quaternion.Euler(0, 0, Random.Range(-shipProperty.BulletDispersion, shipProperty.BulletDispersion));
-                    bullet.GetComponent<Bullet>().color = shipProperty.MaterialColor;
                     bullet.GetComponent<Bullet>().damage = shipProperty.Damage * ShipProperties.GetBotProperties(BotLevel).DamageMultiplier;
                     bullet.GetComponent<Bullet>().playerName = Pseudo;
                     NetworkServer.Spawn(bullet);
@@ -285,8 +282,6 @@ public class Ship : NetworkBehaviour
 
             RpcAddXpToPlayer(playerName, health <= 0, Pseudo);
         }
-        //Hit effect
-        RpcHitByBullet(position, rotation);
     }
 
     void BeginDeath()
@@ -318,7 +313,7 @@ public class Ship : NetworkBehaviour
         }
         if (shipsLeft <= 1)
         {
-            FindObjectOfType<ScoreBoard>().ShowScoreBoardOnAll(true);
+            FindObjectOfType<ScoreBoard>().InvokeShowScoreBoardOnAll(Constants.TimeBeforeScoreBoardShows);
         }
     }
 
@@ -332,13 +327,6 @@ public class Ship : NetworkBehaviour
     {
         FindObjectOfType<MinimapSync>().SearchForPlayers();
         hasUpdatedMinimap = true;
-    }
-
-    [ClientRpc]
-    void RpcHitByBullet(Vector3 position, Quaternion rotation)
-    {
-        Instantiate(explosionSound, position, rotation);
-        Instantiate(smallExplosion, position, rotation);
     }
 
     [ClientRpc]

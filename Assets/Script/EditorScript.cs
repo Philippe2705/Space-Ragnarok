@@ -44,11 +44,11 @@ public class EditorScript : MonoBehaviour
         var name = Selection.activeObject.name;
         GameObject go = Instantiate((GameObject)Selection.activeObject) as GameObject;
         go.AddComponent<PlayerShip>();
-        PrefabUtility.CreatePrefab("Assets/Resources/Prefabs/Ships/" + name + "Player.prefab", go);
+        PrefabUtility.CreatePrefab("Assets/Resources/Prefabs/Ships/" + name + " Player.prefab", go);
         DestroyImmediate(go);
         go = Instantiate((GameObject)Selection.activeObject) as GameObject;
         go.AddComponent<BotShip>();
-        PrefabUtility.CreatePrefab("Assets/Resources/Prefabs/Ships/" + name + "Bot.prefab", go);
+        PrefabUtility.CreatePrefab("Assets/Resources/Prefabs/Ships/" + name + " Bot.prefab", go);
         DestroyImmediate(go);
     }
 }
