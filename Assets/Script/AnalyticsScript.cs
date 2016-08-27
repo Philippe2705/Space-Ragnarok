@@ -18,6 +18,7 @@ public class AnalyticsScript : MonoBehaviour {
         var currentCulture = new CultureInfo(GetSystemDefaultLCID());
         language = currentCulture.ToString();
         languagueUI.text = language;
+        SendSystemInfos();
     }
 
     // Update is called once per frame
@@ -45,5 +46,11 @@ public class AnalyticsScript : MonoBehaviour {
           });
         }
     }
-    
+    public void SendErrorInfo()
+    {
+        Analytics.CustomEvent("PurchaseError", new Dictionary<string, object>
+        {
+
+        });
+    }
 }

@@ -2,6 +2,8 @@
 using GooglePlayGames;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SocialPlatforms;
+using System;
 
 public class GooglePlayServices : MonoBehaviour {
 
@@ -18,24 +20,31 @@ public class GooglePlayServices : MonoBehaviour {
         }
         else
         {
-            PlayGamesPlatform.Activate();
             gameObject.name = "GoogleHandler";
             if (Application.isEditor) { return; }
             DontDestroyOnLoad(gameObject);
             UpdateLeaderBoard();
 
-            UpdateUserInfos();
         }
     }
     void Start()
     {
-        try
+        PlayGamesPlatform.Activate();
+        ConnectToGooglePlay();
+    }
+    void FixedUpdate()
+    {
+        if (!Application.isEditor)
         {
-            UpdateUserInfos();
-        }
-        catch
-        {
-            GameObject.Find("ErrorCatcher").GetComponent<Text>().text = "Error Updating Googles infos";
+            try
+            {
+                UpdateUserInfos();
+            }
+            catch(Exception e)
+            {
+                print("Error Updating Googles infos");
+                GameObject.Find("ErrorCatcher").GetComponent<Text>().text = "Error Updating Googles infos";
+            }
         }
     }
 
@@ -57,9 +66,10 @@ public class GooglePlayServices : MonoBehaviour {
     }
     public void UpdateUserInfos()
     {
-        googleUserInfos.googleUserName = Social.localUser.userName;
-        googleUserInfos.googleUserID = Social.localUser.id;
-        googleUserInfos.googleAvatar = Social.localUser.image;
+        //GameObject.Find("ErrorCatcher").GetComponent<Text>().text = ((PlayGamesLocalUser)Social.Active).id;
+        /*googleUserInfos.googleUserName = ((PlayGamesLocalUser)Social.Active).userName;
+        googleUserInfos.googleUserID = ((PlayGamesLocalUser)Social.Active).id;
+        googleUserInfos.googleAvatar = ((PlayGamesLocalUser)Social.Active).image;
         if (gameObject.name == "GoogleHandler" && Application.loadedLevel == 0)
         {
             try {
@@ -67,14 +77,14 @@ public class GooglePlayServices : MonoBehaviour {
                 {
                     userInfosUI = GameObject.Find("GoogleInfos");
                 }
-                if (Social.localUser.authenticated)
-                {
-                    UpdateUserInfos();
-                    userInfosUI.transform.FindChild("username").GetComponent<Text>().text = googleUserInfos.googleUserName;
-                    userInfosUI.transform.FindChild("Image").GetComponent<Image>().sprite = Sprite.Create(googleUserInfos.googleAvatar, userInfosUI.transform.FindChild("Image").GetComponent<Rect>(), userInfosUI.transform.FindChild("Image").transform.position);
+                if (((PlayGamesLocalUser)Social.Active).authenticated)
+                { */
+                    userInfosUI.transform.FindChild("username").GetComponent<Text>().text = Social.localUser.id; /*
+                    //userInfosUI.transform.FindChild("Image").GetComponent<Image>().sprite = Sprite.Create(googleUserInfos.googleAvatar, userInfosUI.transform.FindChild("Image").GetComponent<Rect>(), userInfosUI.transform.FindChild("Image").transform.position);
                 }
                 else
                 {
+                    GameObject.Find("ErrorCatcher").GetComponent<Text>().text = "Not Connected to google";
                     userInfosUI.transform.FindChild("username").GetComponent<Text>().text = "Not connected to Google play";
                     userInfosUI.transform.FindChild("Image").GetComponent<Image>().sprite = defaultAvatarGoogle;
                 }
@@ -83,7 +93,7 @@ public class GooglePlayServices : MonoBehaviour {
             {
                GameObject.Find("ErrorCatcher").GetComponent<Text>().text = "Error Updating Googles infos UI";
             }
-        }
+        } */
     }
     public void DisconectFromGooglePlay()
     {
