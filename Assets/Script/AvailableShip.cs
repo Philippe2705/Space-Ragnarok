@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class AvailableShip : MonoBehaviour
@@ -87,12 +88,9 @@ public class AvailableShip : MonoBehaviour
         BuyButton.gameObject.SetActive(false);
         if (!UserData.HasBoughtShip(id))
         {
-            if (UserData.CanBuyShip(id))
-            {
-                BuyButton.gameObject.SetActive(true);
-                currentShip = id;
-                ShipPreview.sprite = ShipProperties.GetShip(id).ShipSprite;
-            }
+            BuyButton.gameObject.SetActive(true);
+            currentShip = id;
+            ShipPreview.sprite = ShipProperties.GetShip(id).ShipSprite;
         }
         else
         {
@@ -104,13 +102,20 @@ public class AvailableShip : MonoBehaviour
 
     public void OnBuyShip()
     {
-        UserData.BuyShip(currentShip);
-        UserData.SetShipId(currentShip);
-        BuyButton.gameObject.SetActive(false);
+        if (UserData.CanBuyShip(currentShip))
+        {
+            UserData.BuyShip(currentShip);
+            UserData.SetShipId(currentShip);
+            BuyButton.gameObject.SetActive(false);
+        }
+        else
+        {
+            GameObject.Find("BuyXPButton").GetComponent<Button>().onClick.Invoke();
+        }
     }
     public void EraseData()
     {
         UserData.Reset();
-        Application.LoadLevel(0);
+        SceneManager.LoadScene(0);
     }
 }
