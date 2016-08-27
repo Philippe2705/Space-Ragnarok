@@ -1,7 +1,6 @@
 ﻿using UnityEngine.Analytics;
 using UnityEngine;
 using System.Collections;
-using UnityEngine.Purchasing;
 using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine.UI;

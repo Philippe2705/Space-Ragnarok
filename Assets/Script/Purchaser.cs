@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Purchasing;
+using UnityEngine.Purchasing.Security;
 
 // Deriving the Purchaser class from IStoreListener enables it to receive messages from Unity Purchasing.
 public class Purchaser : MonoBehaviour, IStoreListener
@@ -33,7 +35,7 @@ public class Purchaser : MonoBehaviour, IStoreListener
     private static string kProductNameGooglePlaySubscription = "com.maquingames.subscription.original";
     private static string kProductNameGooglePlayConsumableCreditsBig = "com.maquin.creditspack"; // 250 000 credits
     private static string kProductNameGooglePlayConsumableCreditsMedium = "com.maquin.creditspackmedium"; // 50 000 credits
-    private static string kProductNameGooglePlayConsumableCreditsSmall = "(com.maquin.creditspacksmall"; // 10 000 credits
+    private static string kProductNameGooglePlayConsumableCreditsSmall = "com.maquin.creditspacksmall"; // 10 000 credits
 
     void Start()
     {
@@ -222,48 +224,55 @@ public class Purchaser : MonoBehaviour, IStoreListener
 
     public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
     {
-        // A consumable product has been purchased by this user.
-        if (String.Equals(args.purchasedProduct.definition.id, kProductIDConsumable, StringComparison.Ordinal))
-        {
-            Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-            // The consumable item has been successfully purchased, add 100 coins to the player's in-game score.
-            
-            //Acheter Credits
-        }
-        // Or ... a non-consumable product has been purchased by this user.
-        else if (String.Equals(args.purchasedProduct.definition.id, kProductIDNonConsumable, StringComparison.Ordinal))
-        {
-            Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-            // TODO: The non-consumable item has been successfully purchased, grant this item to the player.
-        }
-        // Or ... a subscription product has been purchased by this user.
-        else if (String.Equals(args.purchasedProduct.definition.id, kProductIDSubscription, StringComparison.Ordinal))
-        {
-            Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-            // TODO: The subscription item has been successfully purchased, grant this to the player.
-        }
-        else if(String.Equals(args.purchasedProduct.definition.id, kProductIDCreditsPackBigConsumable, StringComparison.Ordinal))
-        {
-            print("Sucessfull transaction, adding 250 000 credits...");
-            UserData.AddCredits(250000);
-        }
-        else if (String.Equals(args.purchasedProduct.definition.id, kProductIDCreditsPackMediumConsumable, StringComparison.Ordinal))
-        {
-            print("Sucessfull transaction, adding 50 000 credits...");
-            UserData.AddCredits(50000);
-        }
-        else if (String.Equals(args.purchasedProduct.definition.id, kProductIDCreditsPackSmallConsumable, StringComparison.Ordinal))
-        {
-            print("Sucessfull transaction, adding 10 000 credits...");
-            UserData.AddCredits(10000);
-        }
-        // Or ... an unknown product has been purchased by this user. Fill in additional products here....
-        else
-        {
-            Debug.Log(string.Format("ProcessPurchase: FAIL. Unrecognized product: '{0}'", args.purchasedProduct.definition.id));
-        }
+        bool validPurchase = true;
+#if UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE_OSX
+        var validator = new CrossPlatformValidator(GooglePlayTangle.Data(), AppleTangle.Data(), Application.bundleIdentifier);
 
+        try
+        {
+            var result = validator.Validate(args.purchasedProduct.receipt);
+            Debug.Log("Receipt is valid. Contents:");
+            foreach (IPurchaseReceipt productReceipt in result)
+            {
+                Debug.Log(productReceipt.productID);
+                Debug.Log(productReceipt.purchaseDate);
+                Debug.Log(productReceipt.transactionID);
+            }
+        }
+        catch (IAPSecurityException)
+        {
+            Debug.Log("Invalid receipt, not unlocking content");
+            validPurchase = false;
+            GameObject.Find("ErrorCatcher").GetComponent<Text>().text = "Purchase error, if you are cheating, don't.";
+        }
+#endif
 
+        if (validPurchase == true)
+        {
+            //GameObject.Find("ErrorCatcher").GetComponent<Text>().text = "Valid purchase";
+            if (String.Equals(args.purchasedProduct.definition.id, kProductIDCreditsPackBigConsumable, StringComparison.Ordinal))
+            {
+                print("Sucessfull transaction, adding 250 000 credits...");
+                UserData.AddCredits(250000);
+            }
+            else if (String.Equals(args.purchasedProduct.definition.id, kProductIDCreditsPackMediumConsumable, StringComparison.Ordinal))
+            {
+                print("Sucessfull transaction, adding 50 000 credits...");
+                UserData.AddCredits(50000);
+            }
+            else if (String.Equals(args.purchasedProduct.definition.id, kProductIDCreditsPackSmallConsumable, StringComparison.Ordinal))
+            {
+                print("Sucessfull transaction, adding 10 000 credits...");
+                UserData.AddCredits(10000);
+            }
+            // Or ... an unknown product has been purchased by this user. Fill in additional products here....
+            else
+            {
+                Debug.Log(string.Format("ProcessPurchase: FAIL. Unrecognized product: '{0}'", args.purchasedProduct.definition.id));
+            }
+            return PurchaseProcessingResult.Complete;
+
+        }
 
         // Return a flag indicating whether this product has completely been received, or if the application needs 
         // to be reminded of this purchase at next app launch. Use PurchaseProcessingResult.Pending when still 
