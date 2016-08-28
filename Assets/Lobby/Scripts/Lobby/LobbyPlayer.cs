@@ -16,6 +16,7 @@ namespace Prototype.NetworkLobby
         public Button readyButton;
         public Button waitingPlayerButton;
         public Button removePlayerButton;
+        public GameObject shipChoicePrefab;
 
         public GameObject localIcone;
         public GameObject remoteIcone;
@@ -90,6 +91,8 @@ namespace Prototype.NetworkLobby
         void SetupOtherPlayer()
         {
             nameInput.interactable = false;
+            shipButton.interactable = false;
+
             removePlayerButton.interactable = NetworkServer.active;
             if (!removePlayerButton.interactable)
             {
@@ -158,8 +161,8 @@ namespace Prototype.NetworkLobby
             nameInput.onEndEdit.RemoveAllListeners();
             nameInput.onEndEdit.AddListener(OnNameChanged);
 
-            //colorButton.onClick.RemoveAllListeners();
-            //colorButton.onClick.AddListener(OnColorClicked);
+            shipButton.onClick.RemoveAllListeners();
+            shipButton.onClick.AddListener(OnShipClicked);
 
             readyButton.onClick.RemoveAllListeners();
             readyButton.onClick.AddListener(OnReadyClicked);
@@ -260,6 +263,51 @@ namespace Prototype.NetworkLobby
 
         //Note that those handler use Command function, as we need to change the value on the server not locally
         //so that all client get the new value throught syncvar
+        public void OnShipClicked()
+        {
+            var shipChoice = GameObject.Find("ShipChoice");
+            shipChoice.transform.GetChild(0).gameObject.SetActive(true);
+            shipChoice.transform.GetChild(1).gameObject.SetActive(true);
+            shipChoice.transform.GetChild(2).gameObject.SetActive(true);
+            shipChoice.transform.GetChild(3).gameObject.SetActive(true);
+
+            for (int i = 0; i < shipChoice.transform.GetChild(3).childCount; i++)
+            {
+                Destroy(shipChoice.transform.GetChild(3).GetChild(i).gameObject);
+            }
+
+            for (int i = 0; i < Constants.ShipsCount; i++)
+            {
+                if (UserData.HasBoughtShip(i))
+                {
+                    var s = Instantiate(shipChoicePrefab) as GameObject;
+                    s.transform.SetParent(shipChoice.transform.GetChild(3));
+                    s.transform.localScale = Vector3.one;
+                    s.transform.localRotation = Quaternion.identity;
+                    s.transform.localPosition = Vector3.zero;
+                    s.transform.SetAsLastSibling();
+                    s.GetComponentInChildren<Text>().text = ShipProperties.GetShip(i).ShipName;
+                    s.name = ShipProperties.GetShip(i).ShipName;
+                    int x = i;
+                    s.GetComponent<Button>().onClick.AddListener(() => OnShipId(x));
+                    s.GetComponent<Button>().interactable = true;
+                    s.transform.Find("Image").GetComponent<Image>().sprite = ShipProperties.GetShip(i).ShipSprite;
+                }
+            }
+        }
+
+        public void OnShipId(int id)
+        {
+            UserData.SetShipId(id);
+            var shipChoice = GameObject.Find("ShipChoice");
+            shipChoice.transform.GetChild(0).gameObject.SetActive(false);
+            shipChoice.transform.GetChild(1).gameObject.SetActive(false);
+            shipChoice.transform.GetChild(2).gameObject.SetActive(false);
+            shipChoice.transform.GetChild(3).gameObject.SetActive(false);
+            Ship = id;
+        }
+
+
         public void OnReadyClicked()
         {
             if (!IsBot)

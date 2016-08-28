@@ -94,7 +94,7 @@ public static class UserData
         {
             playerData.ShipId = 0;
         }
-        else
+        else if (HasBoughtShip(shipId))
         {
             playerData.ShipId = shipId;
         }
