@@ -20,7 +20,7 @@ public class GooglePlayServices : MonoBehaviour
     AnalyticsScript analytics;
     Button playButton;
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || true
     void Start()
     {
         GameObject.Find("Play").GetComponent<Button>().onClick.AddListener(() => SceneManager.LoadScene(1));
@@ -41,25 +41,8 @@ public class GooglePlayServices : MonoBehaviour
 
         PlayGamesPlatform.Activate();
         ConnectToGooglePlay();
-
-        try
-        {
-            UpdateUserInfos();
-        }
-        catch (Exception e)
-        {
-            errorText.text += "Error Updating Googles infos: " + e.Message + "\n";
-        }
-
-        try
-        {
-            UpdateLeaderBoard();
-        }
-        catch (Exception e)
-        {
-            errorText.text += "Error Updating LeaderBoard: " + e.Message + "\n";
-        }
     }
+
 
     void OnLevelWasLoaded()
     {
@@ -86,6 +69,10 @@ public class GooglePlayServices : MonoBehaviour
             if (success)
             {
                 analytics.SendSystemInfos(Social.localUser.userName, Social.localUser.id);
+
+                UpdateUserInfos();
+
+                UpdateLeaderBoard();
             }
             else
             {
@@ -139,8 +126,8 @@ public class GooglePlayServices : MonoBehaviour
     {
         Social.ReportScore(UserData.GetCredits(), leaderBoard, (bool success) =>
         {
-        // handle success or failure
-    });
+            // handle success or failure
+        });
     }
     public void UnlockAchievment(int achievementIDComplete)
     {

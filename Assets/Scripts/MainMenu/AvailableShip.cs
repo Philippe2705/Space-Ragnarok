@@ -25,48 +25,57 @@ public class AvailableShip : MonoBehaviour
 
     void Update()
     {
+        if (ShipContainer.childCount != Constants.ShipsCount)
+        {
+            for (int i = 0; i < ShipContainer.childCount; i++)
+            {
+                Destroy(ShipContainer.GetChild(i).gameObject);
+            }
+            for (int i = 0; i < Constants.ShipsCount; i++)
+            {
+                var s = Instantiate(ShipBuyPrefab) as GameObject;
+                s.transform.SetParent(ShipContainer);
+                s.transform.localScale = Vector3.one;
+                s.transform.localRotation = Quaternion.identity;
+                s.transform.localPosition = Vector3.zero;
+                s.transform.SetAsLastSibling();
+                s.GetComponentInChildren<Text>().text = ShipProperties.GetShip(i).ShipName;
+                s.name = ShipProperties.GetShip(i).ShipName;
+                int x = i;
+                s.GetComponent<Button>().onClick.AddListener(() => OnShipId(x));
+                s.GetComponent<Button>().interactable = true;
+            }
+            UpdateShips();
+            UpdateCredits();
+        }
+    }
+
+
+    void UpdateShips()
+    {
+        for (int i = 0; i < Constants.ShipsCount; i++)
+        {
+            SetShipBought(i, UserData.HasBoughtShip(i));
+            SetShipLocked(i, !(UserData.CanBuyShip(i) || UserData.HasBoughtShip(i)));
+        }
+    }
+
+    public void UpdateCredits()
+    {
         if (ShopExperienceText.IsActive())
         {
             ShopExperienceText.text = "Credits : " + UserData.GetCredits().ToString();
-            print("printing credits");
         }
         if (ExperienceText.IsActive())
         {
             ExperienceText.text = "Credits : " + UserData.GetCredits().ToString();
-
-            if (ShipContainer.childCount != Constants.ShipsCount)
-            {
-                for (int i = 0; i < ShipContainer.childCount; i++)
-                {
-                    Destroy(ShipContainer.GetChild(i).gameObject);
-                }
-                for (int i = 0; i < Constants.ShipsCount; i++)
-                {
-                    var s = Instantiate(ShipBuyPrefab) as GameObject;
-                    s.transform.SetParent(ShipContainer);
-                    s.transform.localScale = Vector3.one;
-                    s.transform.localRotation = Quaternion.identity;
-                    s.transform.localPosition = Vector3.zero;
-                    s.transform.SetAsLastSibling();
-                    s.GetComponentInChildren<Text>().text = ShipProperties.GetShip(i).ShipName;
-                    s.name = ShipProperties.GetShip(i).ShipName;
-                    int x = i;
-                    s.GetComponent<Button>().onClick.AddListener(() => OnShipId(x));
-                    s.GetComponent<Button>().interactable = true;
-                }
-            }
-
-
-            for (int i = 0; i < Constants.ShipsCount; i++)
-            {
-                SetShipBought(i, UserData.HasBoughtShip(i));
-                SetShipLocked(i, !(UserData.CanBuyShip(i) || UserData.HasBoughtShip(i)));
-            }
         }
     }
-    public void AddXP(int xp)
+
+    public void AddCredits(int credits)
     {
-        UserData.AddExperience(xp);
+        UserData.AddCredits(credits);
+        UpdateCredits();
     }
 
     void SetShipBought(int shipId, bool active)
@@ -98,6 +107,7 @@ public class AvailableShip : MonoBehaviour
             ShipPreview.sprite = ShipProperties.GetShip(id).ShipSprite;
             UserData.SetShipId(id);
         }
+        UpdateShips();
     }
 
     public void OnBuyShip()
@@ -112,5 +122,6 @@ public class AvailableShip : MonoBehaviour
         {
             GameObject.Find("BuyXPButton").GetComponent<Button>().onClick.Invoke();
         }
+        UpdateShips();
     }
 }
