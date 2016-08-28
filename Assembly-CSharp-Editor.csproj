@@ -73,12 +73,6 @@
      <Compile Include="Assets\PlayServicesResolver\Editor\ResolverVer1_2.cs" />
      <Compile Include="Assets\PlayServicesResolver\Editor\SampleDependencies.cs" />
      <Compile Include="Assets\PlayServicesResolver\Editor\SettingsDialog.cs" />
-     <Compile Include="Assets\Scripts\Editor\DrawArrow.cs" />
-     <Compile Include="Assets\Scripts\Editor\EditorScript.cs" />
-     <Compile Include="Assets\Scripts\Editor\Explosion.cs" />
-     <Compile Include="Assets\Scripts\Editor\Gun.cs" />
-     <Compile Include="Assets\Scripts\Editor\Motor.cs" />
-     <Compile Include="Assets\Scripts\Editor\Smoke.cs" />
      <None Include="Assets\GooglePlayGames\Editor\Podfile.txt" />
      <None Include="Assets\Lobby\Documentation.txt" />
      <None Include="Assets\GooglePlayGames\Editor\template-GameInfo.txt" />

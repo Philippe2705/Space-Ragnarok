@@ -58,8 +58,11 @@ public class GooglePlayServices : MonoBehaviour
         {
             playButton = GameObject.Find("Play").GetComponent<Button>();
         }
-        playButton.onClick.RemoveAllListeners();
-        playButton.onClick.AddListener(CheckIfConnected);
+        playButton.onClick.AddListener(() => {CheckIfConnected(); });
+        GameObject.Find("ShowleaderBoard").getcomponent<Button>().onClick.AddListener(() => {ShowLeaderBoard(); });
+        GameObject.Find("DisconnectFromGooglePlay").getcomponent<Button>().onClick.AddListener(() => {DisconnectFromGooglePlay(); });
+        GameObject.Find("ConnecttoGooglePlay").getcomponent<Button>().onClick.AddListener(() => {ConnectToGooglePlay(); });
+    
     }
 
     public void ConnectToGooglePlay()

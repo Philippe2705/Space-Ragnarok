@@ -249,6 +249,12 @@
      <Compile Include="Assets\Scripts\Game\Ship.cs" />
      <Compile Include="Assets\Scripts\Game\ShipProperties.cs" />
      <Compile Include="Assets\Scripts\Game\SpawnPlayer.cs" />
+     <Compile Include="Assets\Scripts\Gizmos\DrawArrow.cs" />
+     <Compile Include="Assets\Scripts\Gizmos\EditorScript.cs" />
+     <Compile Include="Assets\Scripts\Gizmos\Explosion.cs" />
+     <Compile Include="Assets\Scripts\Gizmos\Gun.cs" />
+     <Compile Include="Assets\Scripts\Gizmos\Motor.cs" />
+     <Compile Include="Assets\Scripts\Gizmos\Smoke.cs" />
      <Compile Include="Assets\Scripts\Google&amp;Unity\AnalyticsScript.cs" />
      <Compile Include="Assets\Scripts\Google&amp;Unity\GooglePlayServices.cs" />
      <Compile Include="Assets\Scripts\Google&amp;Unity\Purchaser.cs" />
