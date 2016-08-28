@@ -19,13 +19,6 @@ public class GooglePlayServices : MonoBehaviour
 
     AnalyticsScript analytics;
     Button playButton;
-
-#if UNITY_EDITOR || true
-    void Start()
-    {
-        GameObject.Find("Play").GetComponent<Button>().onClick.AddListener(() => SceneManager.LoadScene(1));
-    }
-#else
     void Awake()
     {
         if (FindObjectsOfType<GooglePlayServices>().Length > 1)
@@ -41,6 +34,10 @@ public class GooglePlayServices : MonoBehaviour
 
         PlayGamesPlatform.Activate();
         ConnectToGooglePlay();
+    }
+    void Update()
+    {
+        UpdateUserInfos();
     }
 
 
@@ -59,9 +56,6 @@ public class GooglePlayServices : MonoBehaviour
             playButton = GameObject.Find("Play").GetComponent<Button>();
         }
         playButton.onClick.AddListener(() => {CheckIfConnected(); });
-        GameObject.Find("ShowleaderBoard").getcomponent<Button>().onClick.AddListener(() => {ShowLeaderBoard(); });
-        GameObject.Find("DisconnectFromGooglePlay").getcomponent<Button>().onClick.AddListener(() => {DisconnectFromGooglePlay(); });
-        GameObject.Find("ConnecttoGooglePlay").getcomponent<Button>().onClick.AddListener(() => {ConnectToGooglePlay(); });
     
     }
 
@@ -88,7 +82,7 @@ public class GooglePlayServices : MonoBehaviour
 
     public void CheckIfConnected()
     {
-        if (Social.localUser.authenticated)
+        if (Social.localUser.authenticated || Application.isEditor)
         {
             SceneManager.LoadScene(1);
         }
@@ -148,7 +142,6 @@ public class GooglePlayServices : MonoBehaviour
     {
 
     }
-#endif
 
     public struct GoogleUserInfos
     {

@@ -11,6 +11,7 @@ public class PanelManager : MonoBehaviour
     private int m_OpenParameterId;
     private Animator m_Open;
     private GameObject m_PreviouslySelected;
+    public GameObject userInfosUI;
 
     const string k_OpenTransitionName = "Open";
     const string k_ClosedStateName = "Closed";
