@@ -25,7 +25,7 @@ public class AvailableShip : MonoBehaviour
 
     void Update()
     {
-        if (ShipContainer.childCount != Constants.ShipsCount)
+        if (ShipContainer.childCount != Constants.ShipsCount && ExperienceText.IsActive())
         {
             for (int i = 0; i < ShipContainer.childCount; i++)
             {
