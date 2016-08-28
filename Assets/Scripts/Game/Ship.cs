@@ -244,13 +244,12 @@ public class Ship : NetworkBehaviour
 
             for (int i = 0; i < guns.Length; i++)
             {
+                var gun = guns[i];
                 if (reloadTimes[i] < 0)
                 {
-                    reloadTimes[i] = shipProperty.ReloadTime;
-                    var gun = guns[i];
-                    print(Vector2.Angle(direction, gun.right));
                     if (Vector2.Angle(direction, gun.right) < shipProperty.FireAngleTolerance)
                     {
+                        reloadTimes[i] = shipProperty.ReloadTime;
                         //Create bullet
                         var bullet = Instantiate(shipProperty.BulletPrefab, gun.transform.position, Quaternion.identity) as GameObject;
                         bullet.GetComponent<Bullet>().speed = shipProperty.BulletSpeed * Random.Range(1 - Constants.BulletSpeedDispersion, 1 + Constants.BulletSpeedDispersion);

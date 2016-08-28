@@ -42,15 +42,6 @@ public class PlayerShip : Ship
         if (isLocalPlayer)
         {
             /*
-             * Fire
-             */
-            var fireVector = CnInputManager.GetAxisRaw("Horizontal1") * Vector2.right + CnInputManager.GetAxisRaw("Vertical1") * Vector2.up;
-            if (fireVector.magnitude > Constants.FireTrigger)
-            {
-                CmdFire(fireVector);
-            }
-
-            /*
              * Move
              */
             float horizontal = -CnInputManager.GetAxis("Horizontal");
@@ -67,6 +58,18 @@ public class PlayerShip : Ship
         camPos.y = Mathf.Lerp(camPos.y, transform.position.y, Constants.CameraStabilization);
         camera.transform.position = camPos;
         camera.transform.rotation = Quaternion.Lerp(camera.transform.rotation, transform.rotation, Constants.CameraStabilization);
+
+        if (isLocalPlayer)
+        {
+            /*
+             * Fire
+             */
+            var fireVector = CnInputManager.GetAxisRaw("Horizontal1") * Vector2.right + CnInputManager.GetAxisRaw("Vertical1") * Vector2.up;
+            if (fireVector.magnitude > Constants.FireTrigger)
+            {
+                CmdFire(fireVector);
+            }
+        }
     }
 
 
