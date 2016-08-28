@@ -107,6 +107,7 @@ public class GooglePlayServices : MonoBehaviour
             connectPopup.SetActive(true);
         }
     }
+
     public void UpdateUserInfos()
     {
         if (Social.localUser.authenticated)

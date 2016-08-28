@@ -36,14 +36,13 @@ public class Ship : NetworkBehaviour
     ParticleSystem[] motors;
     Transform[] explosions;
 
+    float[] reloadTimes;
+
 
     GameObject smallExplosion;
     GameObject bigExplosion;
     GameObject smallExplosionSound;
     GameObject bigExplosionSound;
-
-
-    float reloadTime;
 
 
 
@@ -78,6 +77,8 @@ public class Ship : NetworkBehaviour
         {
             explosions[i] = transform.FindChild("Explosions").GetChild(i);
         }
+
+        reloadTimes = new float[guns.Length];
 
         /*
          * Prefabs
@@ -140,9 +141,12 @@ public class Ship : NetworkBehaviour
     protected virtual void UpdateServer()
     {
         /*
-         * Temp
+         * Reload times
          */
-        reloadTime -= Time.deltaTime;
+        for (var i = 0; i < reloadTimes.Length; i++)
+        {
+            reloadTimes[i] -= Time.deltaTime;
+        }
 
         /*
          * Death
@@ -234,24 +238,27 @@ public class Ship : NetworkBehaviour
             return;
         }
 
-        if (reloadTime < 0 && fireVector.magnitude > Constants.FireTrigger)
+        if (fireVector.magnitude > Constants.FireTrigger)
         {
-            reloadTime = 2;
-
             var direction = guns[0].parent.InverseTransformVector(transform.TransformVector(fireVector));
 
-            foreach (var gun in guns)
+            for (int i = 0; i < guns.Length; i++)
             {
-                print(Vector2.Angle(direction, gun.right));
-                if (Vector2.Angle(direction, gun.right) < shipProperty.FireAngleTolerance)
+                if (reloadTimes[i] < 0)
                 {
-                    //Create bullet
-                    var bullet = Instantiate(shipProperty.BulletPrefab, gun.transform.position, Quaternion.identity) as GameObject;
-                    bullet.GetComponent<Bullet>().speed = shipProperty.BulletSpeed * Random.Range(1 - Constants.BulletSpeedDispersion, 1 + Constants.BulletSpeedDispersion);
-                    bullet.GetComponent<Bullet>().direction = gun.transform.rotation * Quaternion.Euler(0, 0, Random.Range(-shipProperty.BulletDispersion, shipProperty.BulletDispersion));
-                    bullet.GetComponent<Bullet>().damage = shipProperty.Damage * ShipProperties.GetBotProperties(BotLevel).DamageMultiplier;
-                    bullet.GetComponent<Bullet>().playerName = Pseudo;
-                    NetworkServer.Spawn(bullet);
+                    reloadTimes[i] = shipProperty.ReloadTime;
+                    var gun = guns[i];
+                    print(Vector2.Angle(direction, gun.right));
+                    if (Vector2.Angle(direction, gun.right) < shipProperty.FireAngleTolerance)
+                    {
+                        //Create bullet
+                        var bullet = Instantiate(shipProperty.BulletPrefab, gun.transform.position, Quaternion.identity) as GameObject;
+                        bullet.GetComponent<Bullet>().speed = shipProperty.BulletSpeed * Random.Range(1 - Constants.BulletSpeedDispersion, 1 + Constants.BulletSpeedDispersion);
+                        bullet.GetComponent<Bullet>().direction = gun.transform.rotation * Quaternion.Euler(0, 0, Random.Range(-shipProperty.BulletDispersion, shipProperty.BulletDispersion));
+                        bullet.GetComponent<Bullet>().damage = shipProperty.Damage * ShipProperties.GetBotProperties(BotLevel).DamageMultiplier;
+                        bullet.GetComponent<Bullet>().playerName = Pseudo;
+                        NetworkServer.Spawn(bullet);
+                    }
                 }
             }
         }
