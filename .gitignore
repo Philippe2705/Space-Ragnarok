@@ -244,3 +244,4 @@ Temp
 >>>>>>> origin/master
 *.keystore
 Assets/Standard Assets/KeysStore/user.keystore.meta
+/Assets/Plugins/Android
