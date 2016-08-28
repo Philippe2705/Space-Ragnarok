@@ -34,6 +34,10 @@ public class GooglePlayServices : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
     }
+    void Update()
+    {
+    UpdateUserInfos();
+    }
     void Start()
     {
         SetupPlayButton();
@@ -86,6 +90,7 @@ public class GooglePlayServices : MonoBehaviour
             if (success)
             {
                 analytics.SendSystemInfos(Social.localUser.userName, Social.localUser.id);
+                UpdateUserInfos();
             }
             else
             {
