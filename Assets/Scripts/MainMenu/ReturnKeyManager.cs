@@ -15,8 +15,10 @@ public class ReturnKeyManager : MonoBehaviour {
     public GameObject connectToGoogle;
     // Use this for initialization
     void Start () {
-	
-	}
+        var hostName = System.Net.Dns.GetHostName();
+        var hostEntry = System.Net.Dns.GetHostEntry(hostName);
+        print("Country : " + hostEntry);
+    }
 	
 	// Update is called once per frame
 	void Update () {
