@@ -38,87 +38,101 @@ public static class ShipProperties
         float fireAngleTolerance;
         int price;
 
-        switch (shipId % 5)
+        var classe = shipId / 4 + 1;
+        if (shipId < 50)
         {
-            case 0:
-                shipName = "Destroyer";
-                speedFactor = 7f;
-                turnRate = 65;
-                armor = 2;
-                damage = 10;
-                reloadTime = 6;
-                viewDistance = 12;
-                price = 0;
-                minSpeed = 0.1f;
-                break;
-            case 1:
-                shipName = "Frigate";
-                speedFactor = 5.5f;
-                turnRate = 40f;
-                armor = 3;
-                damage = 12;
-                reloadTime = 8;
-                viewDistance = 14;
-                price = 1250;
-                minSpeed = 0.3f;
-                break;
-            case 2:
-                shipName = "Cruiser";
-                speedFactor = 3f;
-                turnRate = 32f;
-                armor = 5;
-                damage = 14;
-                reloadTime = 8;
-                viewDistance = 15;
-                price = 2500;
-                minSpeed = 0.2f;
-                break;
-            case 3:
-                shipName = "BattleShip";
-                speedFactor = 2f;
-                turnRate = 25;
-                armor = 10;
-                damage = 17;
-                reloadTime = 6;
-                viewDistance = 20;
-                price = 5000;
-                minSpeed = 0.1f;
-                break;
-            case 4:
-                shipName = "Ragnarok";
-                speedFactor = 1f;
-                turnRate = 15;
-                armor = 25;
-                damage = 30;
-                reloadTime = 5;
-                viewDistance = 35;
-                price = 15000;
-                minSpeed = 0.05f;
-                break;
-            default:
-                shipName = "Error";
-                speedFactor = 0f;
-                turnRate = 0;
-                armor = 0;
-                damage = 0;
-                reloadTime = 0;
-                viewDistance = 0;
-                price = 0;
-                minSpeed = 0;
-                break;
+            switch (shipId % 4)
+            {
+                case 0:
+                    shipName = "Destroyer";
+                    speedFactor = 7f;
+                    turnRate = 65;
+                    armor = 2;
+                    damage = 10;
+                    reloadTime = 6;
+                    viewDistance = 12;
+                    price = 0;
+                    minSpeed = 0.1f;
+                    break;
+                case 1:
+                    shipName = "Frigate";
+                    speedFactor = 5.5f;
+                    turnRate = 40f;
+                    armor = 3;
+                    damage = 12;
+                    reloadTime = 8;
+                    viewDistance = 14;
+                    price = 1250;
+                    minSpeed = 0.3f;
+                    break;
+                case 2:
+                    shipName = "Cruiser";
+                    speedFactor = 3f;
+                    turnRate = 32f;
+                    armor = 5;
+                    damage = 14;
+                    reloadTime = 8;
+                    viewDistance = 15;
+                    price = 2500;
+                    minSpeed = 0.2f;
+                    break;
+                case 3:
+                    shipName = "BattleShip";
+                    speedFactor = 2f;
+                    turnRate = 25;
+                    armor = 10;
+                    damage = 17;
+                    reloadTime = 6;
+                    viewDistance = 20;
+                    price = 5000;
+                    minSpeed = 0.1f;
+                    break;
+                default:
+                    shipName = "Error";
+                    speedFactor = 0f;
+                    turnRate = 0;
+                    armor = 0;
+                    damage = 0;
+                    reloadTime = 0;
+                    viewDistance = 0;
+                    price = 0;
+                    minSpeed = 0;
+                    break;
+            }
+
+            speedFactor *= classe * 0.5f;
+            turnRate *= classe * 0.5f;
+            armor *= classe * 0.5f;
+            damage *= classe * 0.5f;
+            reloadTime *= classe * 0.5f;
+            viewDistance *= classe * 0.5f;
+            price *= classe * 2;
+            minSpeed /= classe * 0.5f;
         }
-        var classe = shipId / 5 + 1;
-        shipName += " Class " + classe.ToString();
-
-        speedFactor *= classe * 0.5f;
-        turnRate *= classe * 0.5f;
-        armor *= classe * 0.5f;
-        damage *= classe * 0.5f;
-        reloadTime *= classe * 0.5f;
-        viewDistance *= classe * 0.5f;
-        price *= classe * 2;
-        minSpeed /= classe * 0.5f;
-
+        else if (shipId == 51)
+        {
+            shipName = "Ragnarok";
+            speedFactor = 1f;
+            turnRate = 15;
+            armor = 25;
+            damage = 30;
+            reloadTime = 5;
+            viewDistance = 35;
+            price = 15000;
+            minSpeed = 0.05f;
+        }
+        else
+        {
+            shipName = "Error";
+            speedFactor = 0f;
+            turnRate = 0;
+            armor = 0;
+            damage = 0;
+            reloadTime = 0;
+            viewDistance = 0;
+            price = 0;
+            minSpeed = 0;
+        }
         switch (classe)
         {
             case 1:

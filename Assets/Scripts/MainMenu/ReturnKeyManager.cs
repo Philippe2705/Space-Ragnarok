@@ -12,6 +12,7 @@ public class ReturnKeyManager : MonoBehaviour {
     public GameObject settingsMenu;
     public GameObject infoWindow1;
 
+    public GameObject connectToGoogle;
     // Use this for initialization
     void Start () {
 	
@@ -21,7 +22,11 @@ public class ReturnKeyManager : MonoBehaviour {
 	void Update () {
 	if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (profileMenu.active)
+            if(connectToGoogle.active)
+            {
+                connectToGoogle.SetActive(false);
+            }
+            else if (profileMenu.active)
             {
                 if (infoWindow.active && !shopWindow.active)
                 {
