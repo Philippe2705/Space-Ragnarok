@@ -12,16 +12,23 @@ public class ReturnKeyManager : MonoBehaviour {
     public GameObject settingsMenu;
     public GameObject infoWindow1;
 
+    public GameObject connectToGoogle;
     // Use this for initialization
     void Start () {
-	
-	}
+        var hostName = System.Net.Dns.GetHostName();
+        var hostEntry = System.Net.Dns.GetHostEntry(hostName);
+        print("Country : " + hostEntry);
+    }
 	
 	// Update is called once per frame
 	void Update () {
 	if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (profileMenu.active)
+            if(connectToGoogle.active)
+            {
+                connectToGoogle.SetActive(false);
+            }
+            else if (profileMenu.active)
             {
                 if (infoWindow.active && !shopWindow.active)
                 {

@@ -19,6 +19,8 @@ public class AnalyticsScript : MonoBehaviour
         var currentCulture = new CultureInfo(GetSystemDefaultLCID());
         Language = currentCulture.ToString();
         LanguageUI.text = Language;
+
+        
     }
 
     public void SendSystemInfos(string googleName, string googleID)

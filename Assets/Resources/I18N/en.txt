@@ -1,1 +1,3 @@
-Yolo = Bonjour
+Play = Jouer
+Settings = Options
+Quit = Quitter
