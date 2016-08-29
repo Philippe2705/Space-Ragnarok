@@ -64,7 +64,7 @@ public class PlayerShip : Ship
             /*
              * Fire
              */
-            var fireVector = CnInputManager.GetAxisRaw("Horizontal1") * transform.right + CnInputManager.GetAxisRaw("Vertical1") * transform.right;
+            var fireVector = CnInputManager.GetAxisRaw("Horizontal1") * Vector2.right + CnInputManager.GetAxisRaw("Vertical1") * Vector2.up;
             if (fireVector.magnitude > Constants.FireTrigger)
             {
                 CmdFire(fireVector);
