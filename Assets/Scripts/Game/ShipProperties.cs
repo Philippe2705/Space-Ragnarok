@@ -47,7 +47,7 @@ public static class ShipProperties
                 armor = 2;
                 damage = 10;
                 reloadTime = 6;
-                viewDistance = 15;
+                viewDistance = 12;
                 price = 0;
                 minSpeed = 0.1f;
                 break;
@@ -58,7 +58,7 @@ public static class ShipProperties
                 armor = 3;
                 damage = 12;
                 reloadTime = 8;
-                viewDistance = 19;
+                viewDistance = 14;
                 price = 1250;
                 minSpeed = 0.3f;
                 break;
@@ -69,7 +69,7 @@ public static class ShipProperties
                 armor = 5;
                 damage = 14;
                 reloadTime = 8;
-                viewDistance = 21;
+                viewDistance = 15;
                 price = 2500;
                 minSpeed = 0.2f;
                 break;
@@ -80,7 +80,7 @@ public static class ShipProperties
                 armor = 10;
                 damage = 17;
                 reloadTime = 6;
-                viewDistance = 30;
+                viewDistance = 20;
                 price = 5000;
                 minSpeed = 0.1f;
                 break;
@@ -91,7 +91,7 @@ public static class ShipProperties
                 armor = 25;
                 damage = 30;
                 reloadTime = 5;
-                viewDistance = 40;
+                viewDistance = 35;
                 price = 15000;
                 minSpeed = 0.05f;
                 break;
