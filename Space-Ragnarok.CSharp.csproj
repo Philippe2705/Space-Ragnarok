@@ -383,6 +383,7 @@
     <Compile Include="Assets\Scripts\Google&amp;Unity\SettingsGoogle.cs" />
     <Compile Include="Assets\Scripts\Google&amp;Unity\SwpRessources.cs" />
     <Compile Include="Assets\Scripts\I18N.cs" />
+    <Compile Include="Assets\Scripts\Language.cs" />
     <Compile Include="Assets\Scripts\LoadSceneScript.cs" />
     <Compile Include="Assets\Scripts\MainMenu\AvailableShip.cs" />
     <Compile Include="Assets\Scripts\MainMenu\EraseData.cs" />
@@ -467,7 +468,8 @@
     <None Include="Assets\Lobby\Documentation.txt" />
     <None Include="Assets\Lobby\Instruction.txt" />
     <None Include="Assets\Plugins\Android\MainLibProj\AndroidManifest.xml" />
-    <None Include="Assets\Resources\I18N\en.txt" />
+    <None Include="Assets\Resources\I18N\english.txt" />
+    <None Include="Assets\Resources\I18N\french.txt" />
     <None Include="Assets\Standard Assets\KY_effects\MagicEffectsPackFree\ReadMe.txt" />
     <None Include="Assets\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />
     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />

@@ -38,7 +38,6 @@ public static class ShipProperties
         float fireAngleTolerance;
         int price;
 
-        var classe = shipId / 4 + 1;
         if (shipId < 50)
         {
             switch (shipId % 4)
@@ -100,6 +99,8 @@ public static class ShipProperties
                     break;
             }
 
+            var classe = shipId / 4 + 1;
+
             speedFactor *= classe * 0.5f;
             turnRate *= classe * 0.5f;
             armor *= classe * 0.5f;
@@ -108,6 +109,22 @@ public static class ShipProperties
             viewDistance *= classe * 0.5f;
             price *= classe * 2;
             minSpeed /= classe * 0.5f;
+
+            switch (classe)
+            {
+                case 1:
+                    bulletName = "BulletOrange";
+                    bulletDispersion = 10;
+                    bulletSpeed = 3;
+                    fireAngleTolerance = 80;
+                    break;
+                default:
+                    bulletName = "";
+                    bulletDispersion = 0;
+                    bulletSpeed = 0;
+                    fireAngleTolerance = 0;
+                    break;
+            }
         }
         else if (shipId == 51)
         {
@@ -120,6 +137,10 @@ public static class ShipProperties
             viewDistance = 35;
             price = 15000;
             minSpeed = 0.05f;
+            bulletName = "BulletOrange";
+            bulletDispersion = 0;
+            bulletSpeed = 3;
+            fireAngleTolerance = 30;
         }
         else
         {
@@ -132,21 +153,10 @@ public static class ShipProperties
             viewDistance = 0;
             price = 0;
             minSpeed = 0;
-        }
-        switch (classe)
-        {
-            case 1:
-                bulletName = "BulletOrange";
-                bulletDispersion = 10;
-                bulletSpeed = 3;
-                fireAngleTolerance = 80;
-                break;
-            default:
-                bulletName = "";
-                bulletDispersion = 0;
-                bulletSpeed = 0;
-                fireAngleTolerance = 0;
-                break;
+            bulletName = "";
+            bulletDispersion = 0;
+            bulletSpeed = 0;
+            fireAngleTolerance = 0;
         }
         return new ShipProperty(shipId, shipName, speedFactor, minSpeed, turnRate, armor, damage, reloadTime, viewDistance, bulletName, bulletDispersion, bulletSpeed, fireAngleTolerance, price);
     }

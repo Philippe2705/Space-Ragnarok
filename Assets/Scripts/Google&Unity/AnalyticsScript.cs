@@ -11,14 +11,14 @@ public class AnalyticsScript : MonoBehaviour
     [System.Runtime.InteropServices.DllImport("KERNEL32.DLL")]
     private static extern int GetSystemDefaultLCID();
 
-    public Text LanguageUI;
-    public string Language;
+    //public Text LanguageUI;
+    //public string Language;
 
     void Start()
     {
-        var currentCulture = new CultureInfo(GetSystemDefaultLCID());
-        Language = currentCulture.ToString();
-        LanguageUI.text = Language;
+        //var currentCulture = new CultureInfo(GetSystemDefaultLCID());
+        //Language = currentCulture.ToString();
+        //LanguageUI.text = Language;
 
         
     }
@@ -38,7 +38,7 @@ public class AnalyticsScript : MonoBehaviour
             { "Operating System", SystemInfo.operatingSystem },
             { "Precessor count", SystemInfo.processorCount },
             { "Processor Frequency", SystemInfo.processorFrequency },
-            { "Operating System", Language },
+            { "Operating System", Application.systemLanguage },
             { "Total credits", UserData.GetCredits()},
             { "Total Experience", UserData.GetExperience()},
             { "Google UserName", googleName},

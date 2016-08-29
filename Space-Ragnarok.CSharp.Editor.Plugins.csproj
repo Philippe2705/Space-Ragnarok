@@ -215,7 +215,8 @@
     <None Include="Assets\Lobby\Documentation.txt" />
     <None Include="Assets\Lobby\Instruction.txt" />
     <None Include="Assets\Plugins\Android\MainLibProj\AndroidManifest.xml" />
-    <None Include="Assets\Resources\I18N\en.txt" />
+    <None Include="Assets\Resources\I18N\english.txt" />
+    <None Include="Assets\Resources\I18N\french.txt" />
     <None Include="Assets\Standard Assets\KY_effects\MagicEffectsPackFree\ReadMe.txt" />
     <None Include="Assets\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />
     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />

@@ -1,0 +1,39 @@
+﻿Quit=Quitter
+Not connected=non connecté
+Space Ragnarok=Space Ragnarok
+Profile=Profile
+Play=Jouer
+Settings=Paramètres
+Back=Retour
+Language=Language
+Infos=Infos
+Disconnect from Google Play=Déconnecté de Google Play
+Connect to Google Play=Connecté à Google Play
+Show Leaderboard=Afficher le Leaderboard
+Save Game on Cloud=Enregistrer dans le Could
+Erase local data=Effacer les données locales
+Italiano=Italiano
+Languages=Languages
+English=English
+Espanol=Espanol
+Deutsch=Deutsch
+한국의=한국의
+русский=русский
+Portugues=Portugues
+Francais=Francais
+Splash screen: Arthur Maquin=Splash screen: Arthur Maquin
+Many updates coming up,
+stay tuned :)
+Please, rate our app.=Many updates coming up,
+stay tuned :)
+Please, rate our app.
+Remove xp=Remove xp
+Creator: Philippe Maquin=Creator: Philippe Maquin
+Infos:=Infos:
+Have fun with this game !=Have fun with this game !
+Sprites: MillionthVector=Sprites: MillionthVector
+Add xp=Add xp
+Special Thanks to Phyronnaz=Special Thanks to Phyronnaz
+Contact Email: 
+maquingames@gmail.com=Contact Email: 
+maquingames@gmail.com
