@@ -102,7 +102,7 @@ public class GooglePlayServices : MonoBehaviour
             userInfosUI.GetComponentInChildren<Text>().text = googleUserInfos.googleUserName;
             //userInfosUI.transform.FindChild("Image").GetComponent<Image>().sprite = Sprite.Create(googleUserInfos.googleAvatar, userInfosUI.transform.FindChild("Image").GetComponent<Rect>(), userInfosUI.transform.FindChild("Image").transform.position);
         }
-        else
+        else if (!Application.isEditor)
         {
             errorText.text += "Not Connected to Google Play\n";
             userInfosUI.GetComponentInChildren<Text>().text = "Not connected";

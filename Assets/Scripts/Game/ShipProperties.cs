@@ -46,7 +46,7 @@ public static class ShipProperties
                 turnRate = 45;
                 armor = 2;
                 damage = 10;
-                reloadTime = 2;
+                reloadTime = 6;
                 viewDistance = 5;
                 price = 0;
                 minSpeed = 0.5f;
