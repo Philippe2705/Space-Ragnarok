@@ -47,7 +47,10 @@ public class Language : MonoBehaviour
 
     void OnLevelWasLoaded()
     {
-        UpdateButtons();
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            UpdateButtons();
+        }
     }
 
     public void SetLanguage(string lang)

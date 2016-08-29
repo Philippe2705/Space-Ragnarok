@@ -37,3 +37,8 @@ Special Thanks to Phyronnaz=Special Thanks to Phyronnaz
 Contact Email: 
 maquingames@gmail.com=Contact Email: 
 maquingames@gmail.com
+Ship selected:=Ship selected:
+Ships:=Ships:
+Buy Experience=Buy Experience
+Credits : 71084=Credits : 71084
+Buy=Buy

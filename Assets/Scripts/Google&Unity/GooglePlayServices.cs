@@ -23,7 +23,7 @@ public class GooglePlayServices : MonoBehaviour
 #if UNITY_EDITOR || UNITY_STANDALONE_WIN
     void Start()
     {
-        GameObject.Find("Play").GetComponent<Button>().onClick.AddListener(() => SceneManager.LoadScene(1));
+        GameObject.Find("Play").GetComponent<Button>().onClick.AddListener(() => { SceneManager.LoadScene(1); });
     }
     void Awake()
     {
