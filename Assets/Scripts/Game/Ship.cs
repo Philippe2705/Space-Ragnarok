@@ -240,7 +240,7 @@ public class Ship : NetworkBehaviour
 
         if (fireVector.magnitude > Constants.FireTrigger)
         {
-            var direction = guns[0].parent.InverseTransformVector(transform.TransformVector(fireVector));
+            var direction = transform.TransformVector(fireVector);
 
             for (int i = 0; i < guns.Length; i++)
             {
