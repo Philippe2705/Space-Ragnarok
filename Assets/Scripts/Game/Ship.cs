@@ -77,15 +77,6 @@ public class Ship : NetworkBehaviour
         OnBotLevel(BotLevel);
     }
 
-    private void AddChildsToArray<T>(out T[] array, string name)
-    {
-        array = new T[transform.FindChild(name).childCount];
-        for (int i = 0; i < transform.FindChild(name).childCount; i++)
-        {
-            array[i] = transform.FindChild(name).GetChild(i).GetComponent<T>();
-        }
-    }
-
 
     /*
      * Fixed Update
@@ -138,6 +129,11 @@ public class Ship : NetworkBehaviour
         /*
          * Death
          */
+
+        if (health <= 0)
+        {
+            Explode();
+        }
         if (isExploding && explosionTimer > 0)
         {
             explosionTimer -= Time.deltaTime;
@@ -263,17 +259,11 @@ public class Ship : NetworkBehaviour
         if (!IsDead && playerName != Pseudo)
         {
             health -= damage * Random.Range(1 - Constants.DamageDispersion, 1 + Constants.DamageDispersion) / (shipProperty.Armor * ShipProperties.GetBotProperties(BotLevel).ArmorMultiplier);
-
-            if (health <= 0)
-            {
-                BeginDeath();
-            }
-
             RpcAddXpToPlayer(playerName, health <= 0, Pseudo);
         }
     }
 
-    void BeginDeath()
+    void Explode()
     {
         IsDead = true;
         isExploding = true;
@@ -282,8 +272,10 @@ public class Ship : NetworkBehaviour
 
     void Die()
     {
-        IsDead = true;
         RpcDie();
+        /*
+         * Check if round over
+         */
         int shipsLeft = 0;
         foreach (var playerShip in FindObjectsOfType<PlayerShip>())
         {
@@ -312,7 +304,7 @@ public class Ship : NetworkBehaviour
      */
 
     [ClientRpc]
-    protected void RpcUpdateMinimap()
+    void RpcUpdateMinimap()
     {
         FindObjectOfType<MinimapSync>().SearchForPlayers();
         hasUpdatedMinimap = true;
@@ -322,13 +314,6 @@ public class Ship : NetworkBehaviour
     void RpcBeginSmallExplosions()
     {
         InvokeRepeating("SmallExplosion", 0, 0.25f);
-    }
-
-    void SmallExplosion()
-    {
-        var randomPos = explosions[Random.Range(0, explosions.Length)].position;
-        Instantiate(smallExplosion, randomPos, transform.rotation);
-        Instantiate(smallExplosionSound, randomPos, transform.rotation);
     }
 
     [ClientRpc]
@@ -413,11 +398,13 @@ public class Ship : NetworkBehaviour
         OnHealthDelegate(value);
     }
 
+    /*
+     * Others
+     */
     protected virtual void OnHealthDelegate(float value)
     {
 
     }
-
 
     void DelayedScoreBoard()
     {
@@ -430,5 +417,21 @@ public class Ship : NetworkBehaviour
     public void Respawn()
     {
         CmdRespawnPlayer();
+    }
+
+    void SmallExplosion()
+    {
+        var randomPos = explosions[Random.Range(0, explosions.Length)].position;
+        Instantiate(smallExplosion, randomPos, transform.rotation);
+        Instantiate(smallExplosionSound, randomPos, transform.rotation);
+    }
+
+    private void AddChildsToArray<T>(out T[] array, string name)
+    {
+        array = new T[transform.FindChild(name).childCount];
+        for (int i = 0; i < transform.FindChild(name).childCount; i++)
+        {
+            array[i] = transform.FindChild(name).GetChild(i).GetComponent<T>();
+        }
     }
 }
