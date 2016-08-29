@@ -35,6 +35,7 @@ namespace Prototype.NetworkLobby
         protected RectTransform currentPanel;
 
         public Button backButton;
+        public GameObject shipChoice;
 
         public Text statusInfo;
         public Text hostInfo;
@@ -72,7 +73,14 @@ namespace Prototype.NetworkLobby
         {
             if (Input.GetKeyDown(KeyCode.Escape)) // Return key on Android
             {
-                if (currentPanel == mainMenuPanel)
+                if(shipChoice.transform.GetChild(0).gameObject.active)
+                {
+                    shipChoice.transform.GetChild(0).gameObject.SetActive(false);
+                    shipChoice.transform.GetChild(1).gameObject.SetActive(false);
+                    shipChoice.transform.GetChild(2).gameObject.SetActive(false);
+                    shipChoice.transform.GetChild(3).gameObject.SetActive(false);
+                }
+                else if (currentPanel == mainMenuPanel)
                 {
                     GetComponent<LoadSceneScript>().LoadScene(0);
                 }
