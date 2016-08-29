@@ -38,7 +38,7 @@ public static class ShipProperties
         float fireAngleTolerance;
         int price;
 
-        switch (shipId % 4)
+        switch (shipId % 5)
         {
             case 0:
                 shipName = "Destroyer";
@@ -107,7 +107,7 @@ public static class ShipProperties
                 minSpeed = 0;
                 break;
         }
-        var classe = shipId / 4 + 1;
+        var classe = shipId / 5 + 1;
         shipName += " Class " + classe.ToString();
 
         speedFactor *= classe * 0.5f;
