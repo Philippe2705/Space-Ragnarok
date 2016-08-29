@@ -84,6 +84,17 @@ public static class ShipProperties
                 price = 5000;
                 minSpeed = 0.1f;
                 break;
+            case 4:
+                shipName = "Ragnarok";
+                speedFactor = 1f;
+                turnRate = 15;
+                armor = 25;
+                damage = 30;
+                reloadTime = 5;
+                viewDistance = 40;
+                price = 15000;
+                minSpeed = 0.05f;
+                break;
             default:
                 shipName = "Error";
                 speedFactor = 0f;
