@@ -312,6 +312,7 @@
     <Compile Include="Assets\Scripts\Google&amp;Unity\AnalyticsScript.cs" />
     <Compile Include="Assets\Scripts\Google&amp;Unity\GooglePlayServices.cs" />
     <Compile Include="Assets\Scripts\Google&amp;Unity\Purchaser.cs" />
+    <Compile Include="Assets\Scripts\Google&amp;Unity\SettingsGoogle.cs" />
     <Compile Include="Assets\Scripts\Google&amp;Unity\SwpRessources.cs" />
     <Compile Include="Assets\Scripts\LoadSceneScript.cs" />
     <Compile Include="Assets\Scripts\MainMenu\AvailableShip.cs" />
