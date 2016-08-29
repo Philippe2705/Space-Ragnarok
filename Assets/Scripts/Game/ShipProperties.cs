@@ -38,51 +38,62 @@ public static class ShipProperties
         float fireAngleTolerance;
         int price;
 
-        switch (shipId % 4)
+        switch (shipId % 5)
         {
             case 0:
                 shipName = "Destroyer";
-                speedFactor = 5f;
-                turnRate = 45;
+                speedFactor = 7f;
+                turnRate = 65;
                 armor = 2;
                 damage = 10;
                 reloadTime = 6;
-                viewDistance = 5;
+                viewDistance = 15;
                 price = 0;
-                minSpeed = 0.5f;
+                minSpeed = 0.1f;
                 break;
             case 1:
                 shipName = "Frigate";
-                speedFactor = 3.2f;
-                turnRate = 22.5f;
+                speedFactor = 5.5f;
+                turnRate = 40f;
                 armor = 3;
                 damage = 12;
                 reloadTime = 8;
-                viewDistance = 9;
+                viewDistance = 19;
                 price = 1250;
                 minSpeed = 0.3f;
                 break;
             case 2:
                 shipName = "Cruiser";
-                speedFactor = 2.2f;
-                turnRate = 22.5f;
+                speedFactor = 3f;
+                turnRate = 32f;
                 armor = 5;
                 damage = 14;
                 reloadTime = 8;
-                viewDistance = 11;
+                viewDistance = 21;
                 price = 2500;
                 minSpeed = 0.2f;
                 break;
             case 3:
                 shipName = "BattleShip";
-                speedFactor = 1.2f;
-                turnRate = 18;
+                speedFactor = 2f;
+                turnRate = 25;
                 armor = 10;
                 damage = 17;
                 reloadTime = 6;
-                viewDistance = 15;
+                viewDistance = 30;
                 price = 5000;
                 minSpeed = 0.1f;
+                break;
+            case 4:
+                shipName = "Ragnarok";
+                speedFactor = 1f;
+                turnRate = 15;
+                armor = 25;
+                damage = 30;
+                reloadTime = 5;
+                viewDistance = 40;
+                price = 15000;
+                minSpeed = 0.05f;
                 break;
             default:
                 shipName = "Error";
@@ -96,7 +107,7 @@ public static class ShipProperties
                 minSpeed = 0;
                 break;
         }
-        var classe = shipId / 4 + 1;
+        var classe = shipId / 5 + 1;
         shipName += " Class " + classe.ToString();
 
         speedFactor *= classe * 0.5f;

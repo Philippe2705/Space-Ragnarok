@@ -9,7 +9,7 @@
 
     public const int TotalBotLevel = 9;
 
-    public const int ShipsCount = 4;
+    public const int ShipsCount = 5;
 
     public const float ExplosionDurationBeforeDeath = 2;
 

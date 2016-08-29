@@ -263,6 +263,7 @@
      <Compile Include="Assets\Scripts\LoadSceneScript.cs" />
      <Compile Include="Assets\Scripts\MainMenu\AvailableShip.cs" />
      <Compile Include="Assets\Scripts\MainMenu\EraseData.cs" />
+     <Compile Include="Assets\Scripts\MainMenu\ReturnKeyManager.cs" />
      <Compile Include="Assets\Scripts\ParticleSystemExtension.cs" />
      <Compile Include="Assets\Scripts\UserData.cs" />
      <None Include="Assets\GooglePlayGames\Editor\Podfile.txt" />
