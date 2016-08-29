@@ -33,7 +33,6 @@ public static class I18N
 
     public static string GetTranslation(string word)
     {
-        fields.Add("Yolo", "Bonjour");
         string t;
         if (fields.TryGetValue(word, out t))
         {

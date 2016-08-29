@@ -19,7 +19,7 @@ public class TextI18N : Text
 
         set
         {
-            return;
+            m_Text = value;
         }
     }
 }
