@@ -65,7 +65,6 @@ namespace Prototype.NetworkLobby
             OnMyShip(Ship);
             OnIsBot(IsBot);
             OnBotLevel(BotLevel);
-            SetDirtyBit(0xFFFFFF);
         }
 
         public override void OnStartAuthority()

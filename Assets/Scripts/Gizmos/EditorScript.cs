@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEditor;
 using System.Collections.Generic;
+using UnityEditor.SceneManagement;
 
 public class EditorScript : MonoBehaviour
 {
@@ -50,6 +51,35 @@ public class EditorScript : MonoBehaviour
         go.AddComponent<BotShip>();
         PrefabUtility.CreatePrefab("Assets/Resources/Prefabs/Ships/" + name + " Bot.prefab", go);
         DestroyImmediate(go);
+    }
+
+    [MenuItem("Ships/Add Ships and Bullets to Lobby")]
+    static void AddSpawnableToLobby()
+    {
+        if (EditorSceneManager.GetActiveScene() != EditorSceneManager.GetSceneByName("Lobby"))
+        {
+            Debug.LogError("Lobby scene needs to be open");
+        }
+        else
+        {
+            var so = new SerializedObject(FindObjectOfType<Prototype.NetworkLobby.LobbyManager>());
+            var p = so.FindProperty("m_SpawnPrefabs");
+            while (p.arraySize != 0)
+            {
+                p.DeleteArrayElementAtIndex(0);
+            }
+            foreach (var go in Resources.LoadAll<GameObject>("Prefabs/Ships/"))
+            {
+                p.InsertArrayElementAtIndex(0);
+                p.GetArrayElementAtIndex(0).objectReferenceValue = go;
+            }
+            foreach (var go in Resources.LoadAll<GameObject>("Prefabs/Bullets/"))
+            {
+                p.InsertArrayElementAtIndex(0);
+                p.GetArrayElementAtIndex(0).objectReferenceValue = go;
+            }
+            so.ApplyModifiedProperties();
+        }
     }
 }
 

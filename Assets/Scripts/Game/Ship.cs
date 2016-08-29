@@ -30,13 +30,13 @@ public class Ship : NetworkBehaviour
     float explosionTimer = Constants.ExplosionDurationBeforeDeath;
     bool isExploding = false;
 
+
+    float[] reloadTimes;
     Transform playerName;
     Transform[] guns;
     ParticleSystem[] smokes;
     ParticleSystem[] motors;
     Transform[] explosions;
-
-    float[] reloadTimes;
 
 
     GameObject smallExplosion;
@@ -45,38 +45,20 @@ public class Ship : NetworkBehaviour
     GameObject bigExplosionSound;
 
 
-
+    /*
+     * Start
+     */
     protected virtual void Start()
     {
         Invoke("DelayedScoreBoard", 1f);
         IsBot = GetType() == typeof(BotShip);
         rigidbody2D = GetComponent<Rigidbody2D>();
-
         playerName = transform.FindChild("Player_name");
 
-        guns = new Transform[transform.FindChild("Guns").childCount];
-        for (int i = 0; i < transform.FindChild("Guns").childCount; i++)
-        {
-            guns[i] = transform.FindChild("Guns").GetChild(i);
-        }
-
-        smokes = new ParticleSystem[transform.FindChild("Smokes").childCount];
-        for (int i = 0; i < transform.FindChild("Smokes").childCount; i++)
-        {
-            smokes[i] = transform.FindChild("Smokes").GetChild(i).GetComponent<ParticleSystem>();
-        }
-
-        motors = new ParticleSystem[transform.FindChild("Motors").childCount];
-        for (int i = 0; i < transform.FindChild("Motors").childCount; i++)
-        {
-            motors[i] = transform.FindChild("Motors").GetChild(i).GetComponent<ParticleSystem>();
-        }
-
-        explosions = new Transform[transform.FindChild("Explosions").childCount];
-        for (int i = 0; i < transform.FindChild("Explosions").childCount; i++)
-        {
-            explosions[i] = transform.FindChild("Explosions").GetChild(i);
-        }
+        AddChildsToArray(out guns, "Guns");
+        AddChildsToArray(out smokes, "Smokes");
+        AddChildsToArray(out motors, "Motors");
+        AddChildsToArray(out explosions, "Explosions");
 
         reloadTimes = new float[guns.Length];
 
@@ -89,21 +71,26 @@ public class Ship : NetworkBehaviour
         bigExplosionSound = Resources.Load<GameObject>("Prefabs/Sounds/BigExplosionSound");
 
         OnHealth(health);
+        OnPseudo(Pseudo);
+        OnShipId(ShipId);
+        OnIsBot(IsBot);
+        OnBotLevel(BotLevel);
     }
 
-    public override void OnStartClient()
+    private void AddChildsToArray<T>(out T[] array, string name)
     {
-        if (!isLocalPlayer)
+        array = new T[transform.FindChild(name).childCount];
+        for (int i = 0; i < transform.FindChild(name).childCount; i++)
         {
-            SetDirtyBit(syncVarDirtyBits);
-            syncVarHookGuard = false;
+            array[i] = transform.FindChild(name).GetChild(i).GetComponent<T>();
         }
     }
 
+
     /*
-     * Update
+     * Fixed Update
      */
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         if (isServer)
         {
@@ -115,18 +102,19 @@ public class Ship : NetworkBehaviour
         }
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, MinPosX, MaxPosX), Mathf.Clamp(transform.position.y, MinPosY, MaxPosY), transform.position.z);
     }
-
     protected virtual void FixedUpdateServer()
     {
 
     }
-
     protected virtual void FixedUpdateClient()
     {
 
     }
 
-    void Update()
+    /*
+     * Update
+     */
+    private void Update()
     {
         if (isServer)
         {
@@ -137,7 +125,6 @@ public class Ship : NetworkBehaviour
             UpdateClient();
         }
     }
-
     protected virtual void UpdateServer()
     {
         /*
@@ -193,7 +180,7 @@ public class Ship : NetworkBehaviour
      * Commands
      */
     [Command]
-    void CmdRespawnPlayer()
+    private void CmdRespawnPlayer()
     {
         var player = Instantiate(NetworkManager.singleton.playerPrefab) as GameObject;
         player.GetComponent<SpawnPlayer>().Pseudo = Pseudo;
@@ -205,7 +192,6 @@ public class Ship : NetworkBehaviour
         {
             NetworkServer.Destroy(gameObject);
         }
-
     }
 
     [Command]
@@ -228,7 +214,6 @@ public class Ship : NetworkBehaviour
          */
         rigidbody2D.velocity = transform.up * Mathf.Max(vertical, shipProperty.MinSpeed) * shipProperty.SpeedFactor * ShipProperties.GetBotProperties(BotLevel).SpeedMultiplier;
     }
-
 
     [Command]
     protected void CmdFire(Vector2 fireVector)
@@ -279,12 +264,10 @@ public class Ship : NetworkBehaviour
         {
             health -= damage * Random.Range(1 - Constants.DamageDispersion, 1 + Constants.DamageDispersion) / (shipProperty.Armor * ShipProperties.GetBotProperties(BotLevel).ArmorMultiplier);
 
-
             if (health <= 0)
             {
                 BeginDeath();
             }
-
 
             RpcAddXpToPlayer(playerName, health <= 0, Pseudo);
         }
@@ -401,7 +384,8 @@ public class Ship : NetworkBehaviour
     {
         playerName = transform.FindChild("Player_name");
         playerName.GetComponent<TextMesh>().text = value;
-        playerName.GetComponent<TextMesh>().characterSize = isLocalPlayer ? 0f : Constants.PseudoSize;
+        playerName.GetComponent<TextMesh>().characterSize = isLocalPlayer && playerControllerId == 0 ? 0f : Constants.PseudoSize;
+        Pseudo = value;
     }
 
     void OnShipId(int value)
@@ -409,8 +393,19 @@ public class Ship : NetworkBehaviour
         shipProperty = ShipProperties.GetShip(value);
     }
 
+    void OnIsBot(bool value)
+    {
+        IsBot = value;
+    }
+
+    void OnBotLevel(int value)
+    {
+        BotLevel = value;
+    }
+
     void OnHealth(float value)
     {
+        health = value;
         foreach (var smoke in smokes)
         {
             ParticleSystemExtension.SetEmissionRate(smoke, (100 - value) / 5 * Constants.SmokeDensity);

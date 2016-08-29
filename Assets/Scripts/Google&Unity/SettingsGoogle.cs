@@ -4,13 +4,14 @@ using GooglePlayGames;
 using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
 
-public class SettingsGoogle : MonoBehaviour {
+public class SettingsGoogle : MonoBehaviour
+{
     public string leaderBoard = "CgkIr9XZ1cgTEAIQBg";
     AnalyticsScript analytics;
     public GoogleUserInfos googleUserInfos;
     public GameObject userInfosUI;
 
-    // Use this for initialization
+#if !UNITY_EDITOR && !UNITY_STANDALONE_WIN
     void Awake()
     {
         analytics = GetComponent<AnalyticsScript>();
@@ -18,11 +19,12 @@ public class SettingsGoogle : MonoBehaviour {
         GameObject.Find("DisconnectFromGooglePlay").GetComponent<Button>().onClick.AddListener(() => { DisconnectFromGooglePlay(); });
         GameObject.Find("ConnecttoGooglePlay").GetComponent<Button>().onClick.AddListener(() => { ConnectToGooglePlay(); });
     }
+
     public void DisconnectFromGooglePlay()
     {
         PlayGamesPlatform.Instance.SignOut();
-
     }
+
     public void ConnectToGooglePlay()
     {
         Social.localUser.Authenticate((bool success) =>
@@ -43,10 +45,12 @@ public class SettingsGoogle : MonoBehaviour {
         }
         );
     }
+
     public void ShowLeaderBoard()
     {
         ((PlayGamesPlatform)Social.Active).ShowLeaderboardUI(leaderBoard);
     }
+
     public void UpdateLeaderBoard()
     {
         Social.ReportScore(UserData.GetCredits(), leaderBoard, (bool success) =>
@@ -54,6 +58,7 @@ public class SettingsGoogle : MonoBehaviour {
             // handle success or failure
         });
     }
+
     public void UpdateUserInfos()
     {
         if (Social.localUser.authenticated)
@@ -70,10 +75,5 @@ public class SettingsGoogle : MonoBehaviour {
             userInfosUI.GetComponentInChildren<Text>().text = "Not connected";
         }
     }
-    public struct GoogleUserInfos
-    {
-        public string googleUserName;
-        public string googleUserID;
-        public Texture2D googleAvatar;
-    }
+#endif
 }

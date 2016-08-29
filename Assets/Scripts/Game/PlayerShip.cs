@@ -53,14 +53,16 @@ public class PlayerShip : Ship
     protected override void UpdateClient()
     {
         base.UpdateClient();
-        var camPos = camera.transform.position;
-        camPos.x = Mathf.Lerp(camPos.x, transform.position.x, Constants.CameraStabilization);
-        camPos.y = Mathf.Lerp(camPos.y, transform.position.y, Constants.CameraStabilization);
-        camera.transform.position = camPos;
-        camera.transform.rotation = Quaternion.Lerp(camera.transform.rotation, transform.rotation, Constants.CameraStabilization);
-
         if (isLocalPlayer)
         {
+            /*
+             * Camera position
+             */
+            var camPos = camera.transform.position;
+            camPos.x = Mathf.Lerp(camPos.x, transform.position.x, Constants.CameraStabilization);
+            camPos.y = Mathf.Lerp(camPos.y, transform.position.y, Constants.CameraStabilization);
+            camera.transform.position = camPos;
+            camera.transform.rotation = Quaternion.Lerp(camera.transform.rotation, transform.rotation, Constants.CameraStabilization);
             /*
              * Fire
              */
