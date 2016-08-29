@@ -14,7 +14,14 @@ public class TextI18N : Text
     {
         get
         {
-            return I18N.GetTranslation(m_Text);
+            if (Application.isPlaying)
+            {
+                return I18N.GetTranslation(m_Text);
+            }
+            else
+            {
+                return m_Text;
+            }
         }
 
         set

@@ -19,6 +19,13 @@ public class GooglePlayServices : MonoBehaviour
 
     AnalyticsScript analytics;
     Button playButton;
+
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
+    void Start()
+    {
+        GameObject.Find("Play").GetComponent<Button>().onClick.AddListener(() => SceneManager.LoadScene(1));
+    }
+#else
     void Awake()
     {
         if (FindObjectsOfType<GooglePlayServices>().Length > 1)
@@ -142,11 +149,11 @@ public class GooglePlayServices : MonoBehaviour
     {
 
     }
-
-    public struct GoogleUserInfos
-    {
-        public string googleUserName;
-        public string googleUserID;
-        public Texture2D googleAvatar;
-    }
+#endif
+}
+public struct GoogleUserInfos
+{
+    public string googleUserName;
+    public string googleUserID;
+    public Texture2D googleAvatar;
 }
