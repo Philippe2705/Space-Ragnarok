@@ -13,13 +13,10 @@ public class PlayerShip : Ship
     protected override void Start()
     {
         base.Start();
-        rightGunReloadingBar = GameObject.Find("RightReloading").GetComponent<Slider>();
-        leftGunReloadingBar = GameObject.Find("LeftReloading").GetComponent<Slider>();
-        healthBar = FindObjectOfType<HealthBar>();
-
 
         if (isLocalPlayer)
         {
+            healthBar = FindObjectOfType<HealthBar>();
             camera = GameObject.Find("PlayerCamera");
             if (camera == null)
             {
@@ -66,7 +63,7 @@ public class PlayerShip : Ship
             /*
              * Fire
              */
-            var fireVector = CnInputManager.GetAxisRaw("Horizontal1") * Vector2.right + CnInputManager.GetAxisRaw("Vertical1") * Vector2.up;
+            var fireVector = CnInputManager.GetAxisRaw("HorizontalFire") * Vector2.right + CnInputManager.GetAxisRaw("VerticalFire") * Vector2.up;
             if (fireVector.magnitude > Constants.FireTrigger)
             {
                 CmdFire(fireVector);

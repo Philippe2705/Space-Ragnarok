@@ -81,6 +81,35 @@ public class EditorScript : MonoBehaviour
             so.ApplyModifiedProperties();
         }
     }
+
+    [MenuItem("Tools/Replace Text by TextI18N")]
+    static void ReplaceText()
+    {
+        foreach (var text in Resources.FindObjectsOfTypeAll<Text>())
+        {
+            if (text.gameObject.scene == EditorSceneManager.GetActiveScene())
+            {
+                var save = Instantiate(text);
+                var go = text.gameObject;
+                DestroyImmediate(text);
+                var i18n = go.AddComponent<TextI18N>();
+                i18n.text = save.text;
+                i18n.font = save.font;
+                i18n.fontSize = save.fontSize;
+                i18n.lineSpacing = save.lineSpacing;
+                i18n.supportRichText = save.supportRichText;
+                i18n.alignment = save.alignment;
+                i18n.alignByGeometry = save.alignByGeometry;
+                i18n.horizontalOverflow = save.horizontalOverflow;
+                i18n.verticalOverflow = save.verticalOverflow;
+                i18n.resizeTextForBestFit = save.resizeTextForBestFit;
+                i18n.color = save.color;
+                i18n.material = save.material;
+                i18n.raycastTarget = save.raycastTarget;
+                DestroyImmediate(save.gameObject);
+            }
+        }
+    }
 }
 
 #endif
