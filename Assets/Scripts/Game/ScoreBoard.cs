@@ -62,7 +62,7 @@ public class ScoreBoard : NetworkBehaviour
 
     void InvokeDelegate()
     {
-        ShowScoreBoard(true);
+        RpcShowScoreBoard(true);
     }
 
 

@@ -32,7 +32,7 @@ public class EffectsHandler : MonoBehaviour
         bigExplosion = Resources.Load<GameObject>("Prefabs/Explosions/BigExplosion");
 
         playerName = transform.Find("Player_name");
-        SetPlayerName(ship.isLocalPlayer, false, ship.Pseudo);
+        SetPlayerName(ship.isLocalPlayer, false, ship.playerControllerId > 0, ship.Pseudo);
 
         UpdateSmokes(100);
     }
@@ -57,9 +57,9 @@ public class EffectsHandler : MonoBehaviour
         }
     }
 
-    public void SetPlayerName(bool localPlayer, bool dead, string pseudo)
+    public void SetPlayerName(bool localPlayer, bool dead, bool isBot, string pseudo)
     {
-        playerName.GetComponent<TextMesh>().characterSize = (localPlayer && !dead) ? Constants.PseudoSize : 0;
+        playerName.GetComponent<TextMesh>().characterSize = (localPlayer && !dead && !isBot) ? 0 : Constants.PseudoSize;
         playerName.GetComponent<TextMesh>().text = pseudo;
     }
 

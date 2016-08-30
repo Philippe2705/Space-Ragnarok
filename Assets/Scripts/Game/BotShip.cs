@@ -67,14 +67,14 @@ public class BotShip : Ship
 
         if (Vector3.Angle(transform.right, deltaPos) < Vector3.Angle(-transform.right, deltaPos))
         {
-            if (Vector3.Angle(transform.right, deltaPos) < 25)
+            if (Vector3.Angle(transform.right, deltaPos) < 10)
             {
                 fireSide = 1;
             }
         }
         else
         {
-            if (Vector3.Angle(-transform.right, deltaPos) < 25)
+            if (Vector3.Angle(-transform.right, deltaPos) < 10)
             {
                 fireSide = -1;
             }

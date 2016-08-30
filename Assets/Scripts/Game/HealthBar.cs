@@ -1,26 +1,22 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthBar : MonoBehaviour {
+public class HealthBar : MonoBehaviour
+{
 
     Image background;
-    Slider slider;
+    RectTransform rect;
 
     void Start()
     {
-        background = GetComponentInChildren<Image>();
-        slider = GetComponent<Slider>();
+        background = GetComponent<Image>();
+        rect = GetComponent<RectTransform>();
     }
 
 
-	public void UpdateHealth(float vie)
+    public void UpdateHealth(float vie)
     {
-        slider.value = (vie / 100f);
-        Color couleur;
-        couleur.r = (1f - (vie / 100f));
-        couleur.g = (vie / 100f);
-        couleur.b = 0f;
-        couleur.a = 1f;
-        background.color = couleur;
+        background.color = Color.Lerp(Color.red, Color.blue, vie / 100f);
+        rect.sizeDelta = vie * 2 * Vector2.up + rect.sizeDelta.x * Vector2.right;
     }
 }

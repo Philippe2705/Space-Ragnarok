@@ -14,12 +14,12 @@ public class MinimapSync : MonoBehaviour
 
     public void SearchForPlayers()
     {
-        playerIcon.GetComponent<Image>().color = Color.green;
+        playerIcon.GetComponent<_2dxFX_Hologram3>()._ColorX = Color.green;
         parent = playerIcon.parent;
         enemies = new List<Ship>();
         foreach (var enemyIcon in enemiesIcons)
         {
-            enemyIcon.GetComponent<Image>().color = Color.red;
+            enemyIcon.GetComponent<_2dxFX_Hologram3>()._ColorX = Color.red;
         }
 
         foreach (var playerShip in FindObjectsOfType<PlayerShip>())
@@ -47,7 +47,7 @@ public class MinimapSync : MonoBehaviour
         {
             var go = Instantiate(playerIcon);
             go.transform.SetParent(parent);
-            go.GetComponent<Image>().color = Color.red;
+            go.GetComponent<_2dxFX_Hologram3>()._ColorX = Color.red;
             enemiesIcons.Add(go.GetComponent<RectTransform>());
         }
         for (var i = 0; i < enemies.Count; i++)
@@ -65,9 +65,10 @@ public class MinimapSync : MonoBehaviour
         {
             playerIcon.localPosition = player.transform.position * 2;
             playerIcon.localRotation = player.transform.rotation;
+            playerIcon.localScale = player.transform.localScale * 0.15f;
             if (player.IsDead)
             {
-                playerIcon.GetComponent<Image>().color = Color.gray;
+                playerIcon.GetComponent<_2dxFX_Hologram3>()._ColorX = Color.gray;
             }
         }
         if (enemies != null)
@@ -80,10 +81,11 @@ public class MinimapSync : MonoBehaviour
                     var enemyIcon = enemiesIcons[i];
                     if (enemy.IsDead)
                     {
-                        enemyIcon.GetComponent<Image>().color = Color.gray;
+                        enemyIcon.GetComponent<_2dxFX_Hologram3>()._ColorX = Color.gray;
                     }
                     enemyIcon.localPosition = enemy.transform.position * 2;
                     enemyIcon.localRotation = enemy.transform.rotation;
+                    enemyIcon.localScale = enemy.transform.localScale * 0.15f;
                 }
             }
         }

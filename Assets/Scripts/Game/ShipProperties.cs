@@ -136,7 +136,7 @@ public static class ShipProperties
             reloadTime = 5;
             viewDistance = 15;
             price = 15000;
-            minSpeed = 0.05f;
+            minSpeed = -1f;
             bulletName = "BulletOrange";
             bulletDispersion = 0;
             bulletSpeed = 3;

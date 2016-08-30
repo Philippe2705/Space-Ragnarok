@@ -252,6 +252,7 @@ public class Ship : NetworkBehaviour
     void RpcDie()
     {
         effectsHandler.EndSmallExplosions();
+        effectsHandler.Explode();
         effectsHandler.Die();
     }
 
@@ -294,7 +295,7 @@ public class Ship : NetworkBehaviour
             effectsHandler = gameObject.AddComponent<EffectsHandler>();
             effectsHandler.Start();
         }
-        effectsHandler.SetPlayerName(isLocalPlayer, IsDead, Pseudo);
+        effectsHandler.SetPlayerName(isLocalPlayer, IsDead, playerControllerId > 0, Pseudo);
         Pseudo = value;
     }
 
