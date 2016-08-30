@@ -9,7 +9,6 @@ public class LobbyCustomHook : LobbyHook
     {
         gamePlayer.GetComponent<SpawnPlayer>().ShipId = lobbyPlayer.GetComponent<LobbyPlayer>().Ship;
         gamePlayer.GetComponent<SpawnPlayer>().Pseudo = lobbyPlayer.GetComponent<LobbyPlayer>().Pseudo;
-        gamePlayer.GetComponent<SpawnPlayer>().IsBot = lobbyPlayer.GetComponent<LobbyPlayer>().IsBot;
         gamePlayer.GetComponent<SpawnPlayer>().BotLevel = lobbyPlayer.GetComponent<LobbyPlayer>().BotLevel;
     }
 }

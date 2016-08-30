@@ -59,7 +59,9 @@ public static class I18N
             }
             else
             {
-#if UNITY_EDITOR
+                Debug.LogError("No translation for " + word + " !");
+                return word;
+#if UNITY_EDITOR && false
                 LoadLanguage(currentLanguage);
                 word = word.Trim();
                 if (fields.TryGetValue(word, out t))

@@ -1,0 +1,84 @@
+﻿Settings=설정
+
+Play=놀이
+
+Profile=윤곽
+
+Space Ragnarok=Space Ragnarok
+
+Not connected=분리
+
+Quit=떠나다
+
+Language=언어
+
+Infos=정보
+
+Back=뒤로
+
+Show Leaderboard=리더
+
+Connect to Google Play= GooglePlay에 연결
+
+Disconnect from Google Play=GooglePlay에서 분리
+
+Save Game on Cloud=클라우드에 게임을 저장
+
+Erase local data=로컬 데이터 삭제
+
+Francais=Francais
+
+Italiano=Italiano
+
+Deutsch=Deutsch
+
+Portugues=Portugues
+
+Espanol=Espanol
+
+English=English
+
+русский=русский
+
+한국의=한국의
+
+Ship selected:=선박 선택
+
+Ships:=배들:
+
+Buy Experience=크레딧 구매 :
+
+Buy=사다
+
+10 000c : 0.99$=10 000c : 0.99$
+
+Experience : 777=Experience : 777
+
+250 000c : 4.49$=250 000c : 4.49$
+
+50 000c : 2.49$=50 000c : 2.49$
+Shop :=가게 :
+
+Splash screen: Arthur Maquin=Splash screen: Arthur Maquin
+
+Many updates coming up,
+stay tuned :)
+Please, rate our app.=많은 업데이트가 올라오고
+계속 지켜봐 주시기 바랍니다 :)
+우리의 응용 프로그램을 평가하십시오.
+
+Remove xp=Remove xp
+
+Creator: Philippe Maquin=작성자 : Philippe Maquin
+
+Have fun with this game !=이 게임에 재미를!
+
+Sprites: MillionthVector=Sprites: MillionthVector
+
+Add xp=Add xp
+
+Special Thanks to Phyronnaz=Phyronnaz 특별 감사
+
+Contact Email: 
+maquingames@gmail.com=Contact Email: 
+maquingames@gmail.com

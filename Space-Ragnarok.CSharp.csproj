@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>5.3.6f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -363,14 +365,17 @@
     <Compile Include="Assets\Scripts\Game\BotShip.cs" />
     <Compile Include="Assets\Scripts\Game\Bullet.cs" />
     <Compile Include="Assets\Scripts\Game\Disconnect.cs" />
+    <Compile Include="Assets\Scripts\Game\EffectsHandler.cs" />
     <Compile Include="Assets\Scripts\Game\HealthBar.cs" />
     <Compile Include="Assets\Scripts\Game\MinimapSync.cs" />
     <Compile Include="Assets\Scripts\Game\PlayerScoreDisplayer.cs" />
     <Compile Include="Assets\Scripts\Game\PlayerShip.cs" />
     <Compile Include="Assets\Scripts\Game\ScoreBoard.cs" />
+    <Compile Include="Assets\Scripts\Game\Shield.cs" />
     <Compile Include="Assets\Scripts\Game\Ship.cs" />
     <Compile Include="Assets\Scripts\Game\ShipProperties.cs" />
     <Compile Include="Assets\Scripts\Game\SpawnPlayer.cs" />
+    <Compile Include="Assets\Scripts\Game\Utility.cs" />
     <Compile Include="Assets\Scripts\Gizmos\DrawArrow.cs" />
     <Compile Include="Assets\Scripts\Gizmos\EditorScript.cs" />
     <Compile Include="Assets\Scripts\Gizmos\Explosion.cs" />
@@ -470,6 +475,12 @@
     <None Include="Assets\Plugins\Android\MainLibProj\AndroidManifest.xml" />
     <None Include="Assets\Resources\I18N\english.txt" />
     <None Include="Assets\Resources\I18N\french.txt" />
+    <None Include="Assets\Resources\I18N\german.txt" />
+    <None Include="Assets\Resources\I18N\italian.txt" />
+    <None Include="Assets\Resources\I18N\korean.txt" />
+    <None Include="Assets\Resources\I18N\portuguese.txt" />
+    <None Include="Assets\Resources\I18N\russian.txt" />
+    <None Include="Assets\Resources\I18N\spanish.txt" />
     <None Include="Assets\Standard Assets\KY_effects\MagicEffectsPackFree\ReadMe.txt" />
     <None Include="Assets\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />
     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />

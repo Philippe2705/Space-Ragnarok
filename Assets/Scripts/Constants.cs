@@ -24,4 +24,5 @@
     public const float TimeBeforeScoreBoardShows = 5f;
 
     public const float BulletSpeedDispersion = 10f / 100f;
+    public const float SmallExplosionsRate = 0.25f;
 }

@@ -3,9 +3,6 @@ using UnityEngine.Networking;
 
 public class Bullet : NetworkBehaviour
 {
-    public GameObject explosionPrefab;
-    public GameObject explosionSound;
-
     [HideInInspector, SyncVar]
     public float speed;
     [HideInInspector, SyncVar]
@@ -16,6 +13,8 @@ public class Bullet : NetworkBehaviour
     public float damage;
     [HideInInspector]
     public string playerName;
+    [HideInInspector]
+    public string bulletName;
 
     float autoDestruct;
 
@@ -60,16 +59,16 @@ public class Bullet : NetworkBehaviour
         }
         if (ship != null)
         {
-            ship.HitByBullet(transform.position, transform.rotation, damage, playerName);
+            ship.HitByBullet(transform.position, transform.rotation, damage, playerName, bulletName);
         }
-        RpcSpawnExplosion();
+        else
+        {
+            var shield = GetComponent<Shield>();
+            if (shield != null)
+            {
+                shield.HitByBullet();
+            }
+        }
         NetworkServer.Destroy(gameObject);
-    }
-
-    [ClientRpc]
-    void RpcSpawnExplosion()
-    {
-        Instantiate(explosionSound, transform.position, transform.rotation);
-        Instantiate(explosionPrefab, transform.position, transform.rotation);
     }
 }

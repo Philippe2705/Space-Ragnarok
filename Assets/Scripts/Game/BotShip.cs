@@ -55,14 +55,14 @@ public class BotShip : Ship
         {
             var angle = forwardAngle;
 
-            horizontal = angle / shipProperty.TurnRate / Time.fixedDeltaTime;
+            horizontal = angle / ShipProperty.TurnRate / Time.fixedDeltaTime;
         }
         else
         {
 
             var angle = Mathf.Min(deltaPos.magnitude > 2.5f ? forwardAngle : Mathf.Infinity, Mathf.Min(rightAngle, leftAngle));
 
-            horizontal = angle / shipProperty.TurnRate / Time.fixedDeltaTime;
+            horizontal = angle / ShipProperty.TurnRate / Time.fixedDeltaTime;
         }
 
         if (Vector3.Angle(transform.right, deltaPos) < Vector3.Angle(-transform.right, deltaPos))

@@ -208,6 +208,12 @@
     <None Include="Assets\Plugins\Android\MainLibProj\AndroidManifest.xml" />
     <None Include="Assets\Resources\I18N\english.txt" />
     <None Include="Assets\Resources\I18N\french.txt" />
+    <None Include="Assets\Resources\I18N\german.txt" />
+    <None Include="Assets\Resources\I18N\italian.txt" />
+    <None Include="Assets\Resources\I18N\korean.txt" />
+    <None Include="Assets\Resources\I18N\portuguese.txt" />
+    <None Include="Assets\Resources\I18N\russian.txt" />
+    <None Include="Assets\Resources\I18N\spanish.txt" />
     <None Include="Assets\Standard Assets\KY_effects\MagicEffectsPackFree\ReadMe.txt" />
     <None Include="Assets\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />
     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />

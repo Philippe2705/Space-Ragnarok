@@ -73,7 +73,7 @@ namespace Prototype.NetworkLobby
         {
             if (Input.GetKeyDown(KeyCode.Escape)) // Return key on Android
             {
-                if(shipChoice.transform.GetChild(0).gameObject.active)
+                if(shipChoice.transform.GetChild(0).gameObject.activeSelf)
                 {
                     shipChoice.transform.GetChild(0).gameObject.SetActive(false);
                     shipChoice.transform.GetChild(1).gameObject.SetActive(false);

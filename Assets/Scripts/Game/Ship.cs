@@ -8,12 +8,10 @@ public class Ship : NetworkBehaviour
     public const float MinPosX = -60f, MaxPosX = 60f, MinPosY = -30f, MaxPosY = 30f;
 
     [HideInInspector]
-    public ShipProperty shipProperty;
+    public ShipProperty ShipProperty;
     [HideInInspector]
     public new Rigidbody2D rigidbody2D;
 
-    [HideInInspector, SyncVar]
-    public bool IsBot;
     [HideInInspector, SyncVar]
     public int BotLevel = -1;
     [HideInInspector, SyncVar]
@@ -27,22 +25,11 @@ public class Ship : NetworkBehaviour
     float health = 100;
 
     bool hasUpdatedMinimap;
-    float explosionTimer = Constants.ExplosionDurationBeforeDeath;
-    bool isExploding = false;
 
 
     float[] reloadTimes;
-    Transform playerName;
     Transform[] guns;
-    ParticleSystem[] smokes;
-    ParticleSystem[] motors;
-    Transform[] explosions;
-
-
-    GameObject smallExplosion;
-    GameObject bigExplosion;
-    GameObject smallExplosionSound;
-    GameObject bigExplosionSound;
+    EffectsHandler effectsHandler;
 
 
     /*
@@ -50,30 +37,20 @@ public class Ship : NetworkBehaviour
      */
     protected virtual void Start()
     {
-        Invoke("DelayedScoreBoard", 1f);
-        IsBot = GetType() == typeof(BotShip);
+        if (isServer)
+        {
+            Invoke("DelayedScoreBoard", 1f);
+        }
         rigidbody2D = GetComponent<Rigidbody2D>();
-        playerName = transform.FindChild("Player_name");
 
-        AddChildsToArray(out guns, "Guns");
-        AddChildsToArray(out smokes, "Smokes");
-        AddChildsToArray(out motors, "Motors");
-        AddChildsToArray(out explosions, "Explosions");
-
+        Utility.AddChildsToArray(out guns, "Guns", transform);
         reloadTimes = new float[guns.Length];
 
-        /*
-         * Prefabs
-         */
-        smallExplosion = Resources.Load<GameObject>("Prefabs/Sounds/SmallExplosion");
-        bigExplosion = Resources.Load<GameObject>("Prefabs/Sounds/BigExplosion");
-        smallExplosionSound = Resources.Load<GameObject>("Prefabs/Sounds/SmallExplosionSound");
-        bigExplosionSound = Resources.Load<GameObject>("Prefabs/Sounds/BigExplosionSound");
+        effectsHandler = gameObject.AddComponent<EffectsHandler>();
 
         OnHealth(health);
         OnPseudo(Pseudo);
         OnShipId(ShipId);
-        OnIsBot(IsBot);
         OnBotLevel(BotLevel);
     }
 
@@ -93,10 +70,12 @@ public class Ship : NetworkBehaviour
         }
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, MinPosX, MaxPosX), Mathf.Clamp(transform.position.y, MinPosY, MaxPosY), transform.position.z);
     }
+    [Server]
     protected virtual void FixedUpdateServer()
     {
 
     }
+    [Client]
     protected virtual void FixedUpdateClient()
     {
 
@@ -116,6 +95,7 @@ public class Ship : NetworkBehaviour
             UpdateClient();
         }
     }
+    [Server]
     protected virtual void UpdateServer()
     {
         /*
@@ -129,20 +109,12 @@ public class Ship : NetworkBehaviour
         /*
          * Death
          */
-
         if (health <= 0)
         {
             Explode();
         }
-        if (isExploding && explosionTimer > 0)
-        {
-            explosionTimer -= Time.deltaTime;
-            if (explosionTimer <= 0)
-            {
-                Die();
-            }
-        }
     }
+    [Client]
     protected virtual void UpdateClient()
     {
         /*
@@ -151,23 +123,6 @@ public class Ship : NetworkBehaviour
         if (!hasUpdatedMinimap)
         {
             CmdUpdateMinimap();
-        }
-
-        /*
-         * Update pseudo rotation
-         */
-        if (playerName != null && Camera.main != null)
-        {
-            playerName.transform.rotation = Camera.main.transform.rotation;
-        }
-        /*
-         * Effects
-         */
-        var rate = 50f * Vector3.Project(rigidbody2D.velocity, transform.up).magnitude / (shipProperty.SpeedFactor * ShipProperties.GetBotProperties(BotLevel).SpeedMultiplier) + 10f;
-
-        foreach (var motor in motors)
-        {
-            ParticleSystemExtension.SetEmissionRate(motor, rate);
         }
     }
 
@@ -182,7 +137,6 @@ public class Ship : NetworkBehaviour
         player.GetComponent<SpawnPlayer>().Pseudo = Pseudo;
         player.GetComponent<SpawnPlayer>().ShipId = ShipId;
         player.GetComponent<SpawnPlayer>().BotLevel = BotLevel;
-        player.GetComponent<SpawnPlayer>().IsBot = IsBot;
         NetworkServer.ReplacePlayerForConnection(connectionToClient, player, playerControllerId);
         if (!IsDead)
         {
@@ -203,12 +157,12 @@ public class Ship : NetworkBehaviour
         /*
          * Rotate along Z axis 
          */
-        rigidbody2D.angularVelocity = horizontal * shipProperty.TurnRate * ShipProperties.GetBotProperties(BotLevel).TurnRateMultiplier;
+        rigidbody2D.angularVelocity = horizontal * ShipProperty.TurnRate * ShipProperties.GetBotProperties(BotLevel).TurnRateMultiplier;
 
         /*
          * Move ship
          */
-        rigidbody2D.velocity = transform.up * Mathf.Max(vertical, shipProperty.MinSpeed) * shipProperty.SpeedFactor * ShipProperties.GetBotProperties(BotLevel).SpeedMultiplier;
+        rigidbody2D.velocity = transform.up * Mathf.Max(vertical, ShipProperty.MinSpeed) * ShipProperty.SpeedFactor * ShipProperties.GetBotProperties(BotLevel).SpeedMultiplier;
     }
 
     [Command]
@@ -228,15 +182,16 @@ public class Ship : NetworkBehaviour
                 var gun = guns[i];
                 if (reloadTimes[i] < 0)
                 {
-                    if (Vector2.Angle(direction, gun.right) < shipProperty.FireAngleTolerance)
+                    if (Vector2.Angle(direction, gun.right) < ShipProperty.FireAngleTolerance)
                     {
-                        reloadTimes[i] = shipProperty.ReloadTime;
+                        reloadTimes[i] = ShipProperty.ReloadTime;
                         //Create bullet
-                        var bullet = Instantiate(shipProperty.BulletPrefab, gun.transform.position, Quaternion.identity) as GameObject;
-                        bullet.GetComponent<Bullet>().speed = shipProperty.BulletSpeed * Random.Range(1 - Constants.BulletSpeedDispersion, 1 + Constants.BulletSpeedDispersion);
-                        bullet.GetComponent<Bullet>().direction = gun.transform.rotation * Quaternion.Euler(0, 0, Random.Range(-shipProperty.BulletDispersion, shipProperty.BulletDispersion));
-                        bullet.GetComponent<Bullet>().damage = shipProperty.Damage * ShipProperties.GetBotProperties(BotLevel).DamageMultiplier;
+                        var bullet = Instantiate(ShipProperty.BulletPrefab, gun.transform.position, Quaternion.identity) as GameObject;
+                        bullet.GetComponent<Bullet>().speed = ShipProperty.BulletSpeed * Random.Range(1 - Constants.BulletSpeedDispersion, 1 + Constants.BulletSpeedDispersion);
+                        bullet.GetComponent<Bullet>().direction = gun.transform.rotation * Quaternion.Euler(0, 0, Random.Range(-ShipProperty.BulletDispersion, ShipProperty.BulletDispersion));
+                        bullet.GetComponent<Bullet>().damage = ShipProperty.Damage * ShipProperties.GetBotProperties(BotLevel).DamageMultiplier;
                         bullet.GetComponent<Bullet>().playerName = Pseudo;
+                        bullet.GetComponent<Bullet>().bulletName = ShipProperties.GetShip(ShipId).BulletPrefab.name;
                         NetworkServer.Spawn(bullet);
                     }
                 }
@@ -254,54 +209,25 @@ public class Ship : NetworkBehaviour
      * Hit
      */
     [Server]
-    public void HitByBullet(Vector3 position, Quaternion rotation, float damage, string playerName)
+    public void HitByBullet(Vector3 position, Quaternion rotation, float damage, string playerName, string bulletName)
     {
         if (!IsDead && playerName != Pseudo)
         {
-            health -= damage * Random.Range(1 - Constants.DamageDispersion, 1 + Constants.DamageDispersion) / (shipProperty.Armor * ShipProperties.GetBotProperties(BotLevel).ArmorMultiplier);
+            health -= damage * Random.Range(1 - Constants.DamageDispersion, 1 + Constants.DamageDispersion) / (ShipProperty.Armor * ShipProperties.GetBotProperties(BotLevel).ArmorMultiplier);
             RpcAddXpToPlayer(playerName, health <= 0, Pseudo);
         }
-    }
-
-    void Explode()
-    {
-        IsDead = true;
-        isExploding = true;
-        RpcBeginSmallExplosions();
-    }
-
-    void Die()
-    {
-        RpcDie();
-        /*
-         * Check if round over
-         */
-        int shipsLeft = 0;
-        foreach (var playerShip in FindObjectsOfType<PlayerShip>())
-        {
-            if (!playerShip.IsDead)
-            {
-                shipsLeft++;
-            }
-        }
-        foreach (var botShip in FindObjectsOfType<BotShip>())
-        {
-            if (!botShip.IsDead)
-            {
-                shipsLeft++;
-                break;
-            }
-        }
-        if (shipsLeft <= 1)
-        {
-            FindObjectOfType<ScoreBoard>().InvokeShowScoreBoardOnAll(Constants.TimeBeforeScoreBoardShows);
-        }
+        RpcHit(position, rotation, bulletName);
     }
 
 
     /*
      * Rpcs
      */
+    [ClientRpc]
+    void RpcHit(Vector3 position, Quaternion rotation, string bulletName)
+    {
+        effectsHandler.HitByBullet(position, rotation, bulletName, ShipId);
+    }
 
     [ClientRpc]
     void RpcUpdateMinimap()
@@ -311,26 +237,16 @@ public class Ship : NetworkBehaviour
     }
 
     [ClientRpc]
-    void RpcBeginSmallExplosions()
+    void RpcStartToExplode()
     {
-        InvokeRepeating("SmallExplosion", 0, 0.25f);
+        effectsHandler.BeginSmallExplosions();
     }
 
     [ClientRpc]
     void RpcDie()
     {
-        CancelInvoke("SmallExplosion");
-        Instantiate(bigExplosion, transform.position, transform.rotation);
-        Instantiate(bigExplosionSound, transform.position, transform.rotation);
-
-        GetComponent<SpriteRenderer>().material = Resources.Load<Material>("Materials/Death");
-
-        foreach (var motor in motors)
-        {
-            motor.EnableEmission(false);
-        }
-        playerName.GetComponent<TextMesh>().text = Pseudo;
-        playerName.GetComponent<TextMesh>().characterSize = Constants.PseudoSize;
+        effectsHandler.EndSmallExplosions();
+        effectsHandler.Die();
     }
 
     [ClientRpc]
@@ -367,20 +283,13 @@ public class Ship : NetworkBehaviour
      */
     void OnPseudo(string value)
     {
-        playerName = transform.FindChild("Player_name");
-        playerName.GetComponent<TextMesh>().text = value;
-        playerName.GetComponent<TextMesh>().characterSize = isLocalPlayer && playerControllerId == 0 ? 0f : Constants.PseudoSize;
+        effectsHandler.SetPlayerName(isLocalPlayer, IsDead, Pseudo);
         Pseudo = value;
     }
 
     void OnShipId(int value)
     {
-        shipProperty = ShipProperties.GetShip(value);
-    }
-
-    void OnIsBot(bool value)
-    {
-        IsBot = value;
+        ShipProperty = ShipProperties.GetShip(value);
     }
 
     void OnBotLevel(int value)
@@ -391,10 +300,7 @@ public class Ship : NetworkBehaviour
     void OnHealth(float value)
     {
         health = value;
-        foreach (var smoke in smokes)
-        {
-            ParticleSystemExtension.SetEmissionRate(smoke, (100 - value) / 5 * Constants.SmokeDensity);
-        }
+        effectsHandler.UpdateSmokes(value);
         OnHealthDelegate(value);
     }
 
@@ -406,12 +312,10 @@ public class Ship : NetworkBehaviour
 
     }
 
+    [Server]
     void DelayedScoreBoard()
     {
-        if (isServer)
-        {
-            FindObjectOfType<ScoreBoard>().AddPlayerOnAll(Pseudo);
-        }
+        FindObjectOfType<ScoreBoard>().AddPlayerOnAll(Pseudo);
     }
 
     public void Respawn()
@@ -419,19 +323,41 @@ public class Ship : NetworkBehaviour
         CmdRespawnPlayer();
     }
 
-    void SmallExplosion()
+
+    [Server]
+    void Explode()
     {
-        var randomPos = explosions[Random.Range(0, explosions.Length)].position;
-        Instantiate(smallExplosion, randomPos, transform.rotation);
-        Instantiate(smallExplosionSound, randomPos, transform.rotation);
+        IsDead = true;
+        RpcStartToExplode();
+        Invoke("Die", Constants.ExplosionDurationBeforeDeath);
     }
 
-    private void AddChildsToArray<T>(out T[] array, string name)
+    [Server]
+    void Die()
     {
-        array = new T[transform.FindChild(name).childCount];
-        for (int i = 0; i < transform.FindChild(name).childCount; i++)
+        RpcDie();
+        /*
+         * Check if round over
+         */
+        int shipsLeft = 0;
+        foreach (var playerShip in FindObjectsOfType<PlayerShip>())
         {
-            array[i] = transform.FindChild(name).GetChild(i).GetComponent<T>();
+            if (!playerShip.IsDead)
+            {
+                shipsLeft++;
+            }
+        }
+        foreach (var botShip in FindObjectsOfType<BotShip>())
+        {
+            if (!botShip.IsDead)
+            {
+                shipsLeft++;
+                break;
+            }
+        }
+        if (shipsLeft <= 1)
+        {
+            FindObjectOfType<ScoreBoard>().InvokeShowScoreBoardOnAll(Constants.TimeBeforeScoreBoardShows);
         }
     }
 }

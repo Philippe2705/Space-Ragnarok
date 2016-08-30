@@ -1,44 +1,83 @@
-﻿Quit=Quitter
-Not connected=non connecté
-Space Ragnarok=Space Ragnarok
-Profile=Profile
+﻿Settings=Options
+
 Play=Jouer
-Settings=Paramètres
-Back=Retour
-Language=Language
+
+Profile=Profil
+
+Space Ragnarok=Space Ragnarok
+
+Not connected=Deconnecte
+
+Quit=Quitter
+
+Language=Langue
+
 Infos=Infos
-Disconnect from Google Play=Déconnecté de Google Play
-Connect to Google Play=Connecté à Google Play
-Show Leaderboard=Afficher le Leaderboard
-Save Game on Cloud=Enregistrer dans le Could
-Erase local data=Effacer les données locales
-Italiano=Italiano
-Languages=Languages
-English=English
-Espanol=Espanol
-Deutsch=Deutsch
-한국의=한국의
-русский=русский
-Portugues=Portugues
+
+Back=Retour
+
+Show Leaderboard=Classement
+
+Connect to Google Play=Se connecter a Google Play
+
+Disconnect from Google Play=Se deconnecter de Google Play
+
+Save Game on Cloud=Sauvegarder les donnees sur le Cloud
+
+Erase local data=Effacer les données local
+
 Francais=Francais
+
+Italiano=Italiano
+
+Deutsch=Deutsch
+
+Portugues=Portugues
+
+Espanol=Espanol
+
+English=English
+
+русский=русский
+
+한국의=한국의
+
+Ship selected:=Vaisseau selectionne:
+
+Ships:=Vaisseaux:
+
+Buy Experience=Acheter des credits
+
+Buy=Acheter
+10 000c : 0.99$=10 000c : 1.19€
+
+Experience : 777=Experience : 777
+
+250 000c : 4.49$=250 000c : 4.79€
+
+50 000c : 2.49$=50 000c : 2.39€
+
+Shop :=Magasin :
+
 Splash screen: Arthur Maquin=Splash screen: Arthur Maquin
+
 Many updates coming up,
 stay tuned :)
-Please, rate our app.=Many updates coming up,
-stay tuned :)
-Please, rate our app.
+Please, rate our app.=Plein de mises a jour arrivent, restez dans le coup :)
+Prenez le temps de noter notre application.
+
 Remove xp=Remove xp
-Creator: Philippe Maquin=Creator: Philippe Maquin
-Infos:=Infos:
-Have fun with this game !=Have fun with this game !
+
+Creator: Philippe Maquin=Createur: Philippe Maquin
+
+Have fun with this game !=Amusez vous avec ce jeu !
+
 Sprites: MillionthVector=Sprites: MillionthVector
+
 Add xp=Add xp
-Special Thanks to Phyronnaz=Special Thanks to Phyronnaz
+
+Special Thanks to Phyronnaz= Remerciment special a Phyronnaz
+
 Contact Email: 
-maquingames@gmail.com=Contact Email: 
+maquingames@gmail.com=Email de contact : 
 maquingames@gmail.com
-Ship selected:=Ship selected:
-Ships:=Ships:
-Buy Experience=Buy Experience
-Credits : 71084=Credits : 71084
-Buy=Buy

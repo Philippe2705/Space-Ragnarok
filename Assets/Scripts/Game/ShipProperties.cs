@@ -99,7 +99,7 @@ public static class ShipProperties
                     break;
             }
 
-            var classe = shipId / 4 + 1;
+            var classe = GetClass(shipId);
 
             speedFactor *= classe * 0.5f;
             turnRate *= classe * 0.5f;
@@ -161,6 +161,22 @@ public static class ShipProperties
         return new ShipProperty(shipId, shipName, speedFactor, minSpeed, turnRate, armor, damage, reloadTime, viewDistance, bulletName, bulletDispersion, bulletSpeed, fireAngleTolerance, price);
     }
 
+    public static int GetClass(int shipId)
+    {
+        if (shipId < 50)
+        {
+            return shipId / 4 + 1;
+        }
+        else if (shipId == 51)
+        {
+            return 7;
+        }
+        else
+        {
+            Debug.LogError("Wrong id");
+            return 0;
+        }
+    }
 
     public static BotProperties GetBotProperties(int level)
     {

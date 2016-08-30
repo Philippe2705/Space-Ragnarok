@@ -1,0 +1,85 @@
+﻿Settings=Einstellungen
+
+Play= Spielen
+
+Profile=Profil
+
+Space Ragnarok=Space Ragnarok
+
+Not connected=Nicht verbunden
+
+Quit=Verlassen
+
+Language=Sprache
+
+Infos=Information
+
+Back=Zurück
+
+Show Leaderboard=Bestenliste
+
+Connect to Google Play=Eine Verbindung zu Google Play
+
+Disconnect from Google Play=Trennen zu Google Play
+
+Save Game on Cloud=Speichern Spiel auf Wolke
+
+Erase local data= Löschen Sie lokale Daten
+
+Francais=Francais
+
+Italiano=Italiano
+
+Deutsch=Deutsch
+
+Portugues=Portugues
+
+Espanol=Espanol
+
+English=English
+
+русский=русский
+
+한국의=한국의
+
+Ship selected:=Schiff ausgewählt:
+
+Ships:=Schiff:
+
+Buy Experience=Guthaben kaufen
+
+Buy=Kaufen
+
+10 000c : 0.99$=10 000c : 1.19€
+
+Experience : 777=Experience : 777
+
+250 000c : 4.49$=250 000c : 4.79€
+
+50 000c : 2.49$=50 000c : 2.39€
+
+Shop :=Geschäft:
+
+Splash screen: Arthur Maquin=Splash screen: Arthur Maquin
+
+Many updates coming up,
+stay tuned :)
+Please, rate our app.=Viele Updates kommen,
+Bleib dran :)
+Bitte bewerten Sie unsere App.
+
+Remove xp=Remove xp
+
+Creator: Philippe Maquin=Schöpfer: Philippe Maquin
+
+Have fun with this game !=Viel Spaß mit diesem Spiel!
+
+Sprites: MillionthVector=Sprites: MillionthVector
+
+Add xp=Add xp
+
+Special Thanks to Phyronnaz=Besonderer Dank geht an Phyronnaz
+
+Contact Email: 
+maquingames@gmail.com=Kontakt email : 
+maquingames@gmail.com

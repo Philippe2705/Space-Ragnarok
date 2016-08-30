@@ -5,8 +5,6 @@ using CnControls;
 
 public class PlayerShip : Ship
 {
-    Slider rightGunReloadingBar;
-    Slider leftGunReloadingBar;
     HealthBar healthBar;
     new GameObject camera;
 
@@ -29,7 +27,6 @@ public class PlayerShip : Ship
                 camera.tag = "MainCamera";
             }
             rigidbody2D.interpolation = RigidbodyInterpolation2D.Interpolate;
-            OnHealthDelegate(100);
         }
     }
 
@@ -71,10 +68,9 @@ public class PlayerShip : Ship
         }
     }
 
-
     protected override void OnHealthDelegate(float value)
     {
-        if (isLocalPlayer && !IsBot && healthBar != null)
+        if (isLocalPlayer && playerControllerId == 0 && healthBar != null)
         {
             healthBar.UpdateHealth(value);
         }
