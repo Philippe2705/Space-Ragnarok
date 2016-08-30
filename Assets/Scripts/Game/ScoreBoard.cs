@@ -17,7 +17,7 @@ public class ScoreBoard : NetworkBehaviour
     Dictionary<string, PlayerScore> playerScores = new Dictionary<string, PlayerScore>();
 
 
-    void Start()
+    void Awake()
     {
         playerScores.Clear();
         NewGameButton.onClick.AddListener(OnNewGame);
@@ -185,7 +185,7 @@ public class ScoreBoard : NetworkBehaviour
         {
             return;
         }
-        Start();
+        Awake();
         if (isServer)
         {
             foreach (var bs in FindObjectsOfType<BotShip>())

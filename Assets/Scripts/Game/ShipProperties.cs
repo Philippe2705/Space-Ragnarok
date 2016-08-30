@@ -169,7 +169,7 @@ public static class ShipProperties
         }
         else if (shipId == 51)
         {
-            return 0;
+            return 1;
         }
         else
         {

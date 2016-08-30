@@ -37,10 +37,6 @@ public class Ship : NetworkBehaviour
      */
     protected virtual void Start()
     {
-        if (isServer)
-        {
-            Invoke("DelayedScoreBoard", 1f);
-        }
         rigidbody2D = GetComponent<Rigidbody2D>();
 
         Utility.AddChildsToArray(out guns, "Guns", transform);
@@ -57,6 +53,13 @@ public class Ship : NetworkBehaviour
         OnBotLevel(BotLevel);
     }
 
+    protected virtual void OnLevelWasLoaded()
+    {
+        if (isServer)
+        {
+            DelayedScoreBoard();
+        }
+    }
 
     /*
      * Fixed Update
@@ -297,7 +300,9 @@ public class Ship : NetworkBehaviour
 
     void OnShipId(int value)
     {
+        ShipId = value;
         ShipProperty = ShipProperties.GetShip(value);
+        OnShipIdDelegate(value);
     }
 
     void OnBotLevel(int value)
@@ -316,6 +321,11 @@ public class Ship : NetworkBehaviour
      * Others
      */
     protected virtual void OnHealthDelegate(float value)
+    {
+
+    }
+
+    protected virtual void OnShipIdDelegate(int id)
     {
 
     }

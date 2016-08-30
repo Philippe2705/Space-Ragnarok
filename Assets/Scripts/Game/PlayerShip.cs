@@ -67,6 +67,14 @@ public class PlayerShip : Ship
         }
     }
 
+    protected override void OnShipIdDelegate(int id)
+    {
+        if (isLocalPlayer)
+        {
+            FindObjectOfType<Reload>().SetTransform(ShipId, transform);
+        }
+    }
+
     protected override void OnHealthDelegate(float value)
     {
         if (isLocalPlayer && playerControllerId == 0)

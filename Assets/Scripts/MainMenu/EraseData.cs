@@ -10,6 +10,7 @@ public class EraseData : MonoBehaviour
 
     public void ShowConfirm(bool show)
     {
+        transform.root.Find("Settings").gameObject.SetActive(false);
         confirmPanel.SetActive(show);
         eraseConfirmation.text = "";
     }
