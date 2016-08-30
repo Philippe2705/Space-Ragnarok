@@ -45,13 +45,13 @@ public class BotShip : Ship
         var leftAngle = Vector3.Angle(-transform.right, deltaPos) * Mathf.Sign(Vector3.Dot(Vector3.Cross(-transform.right, deltaPos), Vector3.forward));
 
 
-        if (deltaPos.magnitude < 15 && currentPlayer.rigidbody2D != null)
+        if (deltaPos.magnitude < 30 && currentPlayer.rigidbody2D != null)
         {
             deltaPos += currentPlayer.transform.up * currentPlayer.rigidbody2D.velocity.magnitude / 3 * deltaPos.magnitude;
         }
 
 
-        if (deltaPos.magnitude > 5)
+        if (deltaPos.magnitude > 15)
         {
             var angle = forwardAngle;
 
@@ -60,7 +60,7 @@ public class BotShip : Ship
         else
         {
 
-            var angle = Mathf.Min(deltaPos.magnitude > 2.5f ? forwardAngle : Mathf.Infinity, Mathf.Min(rightAngle, leftAngle));
+            var angle = Mathf.Min(deltaPos.magnitude > 5f ? forwardAngle : Mathf.Infinity, Mathf.Min(rightAngle, leftAngle));
 
             horizontal = angle / ShipProperty.TurnRate / Time.fixedDeltaTime;
         }
