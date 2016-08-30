@@ -38,7 +38,7 @@ public static class ShipProperties
         float fireAngleTolerance;
         int price;
 
-        if (shipId < 50)
+        if (shipId <= 50)
         {
             switch (shipId % 4)
             {
@@ -134,7 +134,7 @@ public static class ShipProperties
             armor = 25;
             damage = 30;
             reloadTime = 5;
-            viewDistance = 35;
+            viewDistance = 15;
             price = 15000;
             minSpeed = 0.05f;
             bulletName = "BulletOrange";
@@ -163,13 +163,13 @@ public static class ShipProperties
 
     public static int GetClass(int shipId)
     {
-        if (shipId < 50)
+        if (shipId <= 50)
         {
             return shipId / 4 + 1;
         }
         else if (shipId == 51)
         {
-            return 7;
+            return 0;
         }
         else
         {

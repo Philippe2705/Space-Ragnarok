@@ -14,7 +14,6 @@ public class PlayerShip : Ship
 
         if (isLocalPlayer)
         {
-            healthBar = FindObjectOfType<HealthBar>();
             camera = GameObject.Find("PlayerCamera");
             if (camera == null)
             {
@@ -70,8 +69,12 @@ public class PlayerShip : Ship
 
     protected override void OnHealthDelegate(float value)
     {
-        if (isLocalPlayer && playerControllerId == 0 && healthBar != null)
+        if (isLocalPlayer && playerControllerId == 0)
         {
+            if (healthBar == null)
+            {
+                healthBar = FindObjectOfType<HealthBar>();
+            }
             healthBar.UpdateHealth(value);
         }
     }

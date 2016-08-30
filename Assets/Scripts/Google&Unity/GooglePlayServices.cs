@@ -25,6 +25,15 @@ public class GooglePlayServices : MonoBehaviour
     {
         GameObject.Find("Play").GetComponent<Button>().onClick.AddListener(() => { SceneManager.LoadScene(1); });
     }
+
+    void OnLevelWasLoaded()
+    {
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            GameObject.Find("Play").GetComponent<Button>().onClick.AddListener(() => { SceneManager.LoadScene(1); });
+        }
+    }
+
     void Awake()
     {
         if (FindObjectsOfType<GooglePlayServices>().Length > 1)

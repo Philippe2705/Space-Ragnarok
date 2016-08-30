@@ -1,25 +1,20 @@
 ﻿using UnityEngine;
-using UnityEngine.Networking;
 
-class Shield : NetworkBehaviour
+[RequireComponent(typeof(_2dxFX_PlasmaShield))]
+class Shield : MonoBehaviour
 {
     _2dxFX_PlasmaShield plasmaShield;
-    float alpha = 1;
+    float alpha = 0;
 
     void Start()
     {
         plasmaShield = GetComponent<_2dxFX_PlasmaShield>();
+        plasmaShield._Alpha = 0;
     }
 
-    [Server]
     public void HitByBullet()
     {
-        RpcHitByBullet();
-    }
-
-    [ClientRpc]
-    void RpcHitByBullet()
-    {
+        print("HitByBullet");
         alpha = 1;
         plasmaShield.enabled = true;
     }

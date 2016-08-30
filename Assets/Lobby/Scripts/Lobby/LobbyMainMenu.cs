@@ -1,11 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System;
 
 namespace Prototype.NetworkLobby
 {
     //Main menu, mainly only a bunch of callback called by the UI (setup throught the Inspector)
-    public class LobbyMainMenu : MonoBehaviour 
+    public class LobbyMainMenu : MonoBehaviour
     {
         public LobbyManager lobbyManager;
 
@@ -56,26 +57,40 @@ namespace Prototype.NetworkLobby
 
         public void OnClickCreateMatchmakingGame()
         {
-            lobbyManager.StartMatchMaker();
-            lobbyManager.matchMaker.CreateMatch(
-                matchNameInput.text,
-                (uint)lobbyManager.maxPlayers,
-                true,
-                "",
-                lobbyManager.OnMatchCreate);
+            try
+            {
+                lobbyManager.StartMatchMaker();
+                lobbyManager.matchMaker.CreateMatch(
+                    matchNameInput.text,
+                    (uint)lobbyManager.maxPlayers,
+                    true,
+                    "",
+                    lobbyManager.OnMatchCreate);
 
-            lobbyManager.backDelegate = lobbyManager.StopHost;
-            lobbyManager._isMatchmaking = true;
-            lobbyManager.DisplayIsConnecting();
+                lobbyManager.backDelegate = lobbyManager.StopHost;
+                lobbyManager._isMatchmaking = true;
+                lobbyManager.DisplayIsConnecting();
 
-            lobbyManager.SetServerInfo("Matchmaker Host", lobbyManager.matchHost);
+                lobbyManager.SetServerInfo("Matchmaker Host", lobbyManager.matchHost);
+            }
+            catch (Exception e)
+            {
+                GameObject.Find("ErrorCatcher").GetComponent<Text>().text += "Server full!\n";
+            }
         }
 
         public void OnClickOpenServerList()
         {
-            lobbyManager.StartMatchMaker();
-            lobbyManager.backDelegate = lobbyManager.SimpleBackClbk;
-            lobbyManager.ChangeTo(lobbyServerList);
+            try
+            {
+                lobbyManager.StartMatchMaker();
+                lobbyManager.backDelegate = lobbyManager.SimpleBackClbk;
+                lobbyManager.ChangeTo(lobbyServerList);
+            }
+            catch (Exception e)
+            {
+                GameObject.Find("ErrorCatcher").GetComponent<Text>().text += "Server full!\n";
+            }
         }
 
         void onEndEditIP(string text)

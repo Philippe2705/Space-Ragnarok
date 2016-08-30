@@ -46,7 +46,10 @@ public class Ship : NetworkBehaviour
         Utility.AddChildsToArray(out guns, "Guns", transform);
         reloadTimes = new float[guns.Length];
 
-        effectsHandler = gameObject.AddComponent<EffectsHandler>();
+        if (effectsHandler == null)
+        {
+            effectsHandler = gameObject.AddComponent<EffectsHandler>();
+        }
 
         OnHealth(health);
         OnPseudo(Pseudo);
@@ -109,7 +112,7 @@ public class Ship : NetworkBehaviour
         /*
          * Death
          */
-        if (health <= 0)
+        if (health <= 0 && !IsDead)
         {
             Explode();
         }
@@ -283,6 +286,11 @@ public class Ship : NetworkBehaviour
      */
     void OnPseudo(string value)
     {
+        if (effectsHandler == null)
+        {
+            effectsHandler = gameObject.AddComponent<EffectsHandler>();
+            effectsHandler.Start();
+        }
         effectsHandler.SetPlayerName(isLocalPlayer, IsDead, Pseudo);
         Pseudo = value;
     }

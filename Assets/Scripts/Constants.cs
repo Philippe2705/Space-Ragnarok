@@ -9,8 +9,6 @@
 
     public const int TotalBotLevel = 9;
 
-    public const int ShipsCount = 5;
-
     public const float ExplosionDurationBeforeDeath = 2;
 
     public const float TimeBeforeButtonsScoreBoard = 10;
@@ -25,4 +23,7 @@
 
     public const float BulletSpeedDispersion = 10f / 100f;
     public const float SmallExplosionsRate = 0.25f;
+
+    public static readonly int ShipsCount = 52;
+    public static readonly int ClassCount = 2;
 }

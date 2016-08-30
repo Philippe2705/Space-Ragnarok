@@ -46,8 +46,10 @@ public class Bullet : NetworkBehaviour
         {
             return;
         }
-        var player = other.gameObject.GetComponent<PlayerShip>();
-        var bot = other.gameObject.GetComponent<BotShip>();
+        var player = other.collider.gameObject.GetComponent<PlayerShip>();
+        var bot = other.collider.gameObject.GetComponent<BotShip>();
+        var shield = other.collider.gameObject.GetComponent<Shield>();
+
         Ship ship = null;
         if (player != null)
         {
@@ -61,14 +63,11 @@ public class Bullet : NetworkBehaviour
         {
             ship.HitByBullet(transform.position, transform.rotation, damage, playerName, bulletName);
         }
-        else
+        else if (shield != null)
         {
-            var shield = GetComponent<Shield>();
-            if (shield != null)
-            {
-                shield.HitByBullet();
-            }
+            shield.transform.root.GetComponent<NetworkShield>().SendRpcHitByBullet(shield.name);
         }
+
         NetworkServer.Destroy(gameObject);
     }
 }

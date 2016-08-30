@@ -79,7 +79,6 @@ namespace Prototype.NetworkLobby
                     shipChoice.transform.GetChild(1).gameObject.SetActive(false);
                     shipChoice.transform.GetChild(2).gameObject.SetActive(false);
                     shipChoice.transform.GetChild(3).gameObject.SetActive(false);
-                    shipChoice.transform.GetChild(5).gameObject.SetActive(false);
                 }
                 else if (currentPanel == mainMenuPanel)
                 {

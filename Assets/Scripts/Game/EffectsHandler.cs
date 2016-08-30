@@ -17,6 +17,10 @@ public class EffectsHandler : MonoBehaviour
 
     public void Start()
     {
+        if (rigidbody2D != null)
+        {
+            return;
+        }
         rigidbody2D = GetComponent<Rigidbody2D>();
         ship = GetComponent<PlayerShip>() ?? (Ship)GetComponent<BotShip>();
 

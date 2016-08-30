@@ -25,25 +25,24 @@ public class AvailableShip : MonoBehaviour
 
     void Update()
     {
-        if (ShipContainer.childCount != Constants.ShipsCount && ExperienceText.IsActive())
+        if (ShipContainer.childCount == 0 && ExperienceText.IsActive())
         {
-            for (int i = 0; i < ShipContainer.childCount; i++)
-            {
-                Destroy(ShipContainer.GetChild(i).gameObject);
-            }
             for (int i = 0; i < Constants.ShipsCount; i++)
             {
-                var s = Instantiate(ShipBuyPrefab) as GameObject;
-                s.transform.SetParent(ShipContainer);
-                s.transform.localScale = Vector3.one;
-                s.transform.localRotation = Quaternion.identity;
-                s.transform.localPosition = Vector3.zero;
-                s.transform.SetAsLastSibling();
-                s.GetComponentInChildren<Text>().text = ShipProperties.GetShip(i).ShipName;
-                s.name = ShipProperties.GetShip(i).ShipName;
-                int x = i;
-                s.GetComponent<Button>().onClick.AddListener(() => OnShipId(x));
-                s.GetComponent<Button>().interactable = true;
+                if (ShipProperties.GetShip(i).ShipName != "Error" && ShipProperties.GetClass(i) < Constants.ClassCount)
+                {
+                    var s = Instantiate(ShipBuyPrefab) as GameObject;
+                    s.transform.SetParent(ShipContainer);
+                    s.transform.localScale = Vector3.one;
+                    s.transform.localRotation = Quaternion.identity;
+                    s.transform.localPosition = Vector3.zero;
+                    s.transform.SetAsLastSibling();
+                    s.GetComponentInChildren<Text>().text = ShipProperties.GetShip(i).ShipName;
+                    s.name = ShipProperties.GetShip(i).ShipName;
+                    int x = i;
+                    s.GetComponent<Button>().onClick.AddListener(() => OnShipId(x));
+                    s.GetComponent<Button>().interactable = true;
+                }
             }
             UpdateShips();
             UpdateCredits();
@@ -55,8 +54,11 @@ public class AvailableShip : MonoBehaviour
     {
         for (int i = 0; i < Constants.ShipsCount; i++)
         {
-            SetShipBought(i, UserData.HasBoughtShip(i));
-            SetShipLocked(i, !(UserData.CanBuyShip(i) || UserData.HasBoughtShip(i)));
+            if (ShipProperties.GetShip(i).ShipName != "Error" && ShipProperties.GetClass(i) < Constants.ClassCount)
+            {
+                SetShipBought(i, UserData.HasBoughtShip(i));
+                SetShipLocked(i, !(UserData.CanBuyShip(i) || UserData.HasBoughtShip(i)));
+            }
         }
     }
 
