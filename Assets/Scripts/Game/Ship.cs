@@ -47,8 +47,8 @@ public class Ship : NetworkBehaviour
             effectsHandler = gameObject.AddComponent<EffectsHandler>();
         }
 
-        OnHealth(health);
         OnPseudo(Pseudo);
+        OnHealth(health);
         OnShipId(ShipId);
         OnBotLevel(BotLevel);
     }
