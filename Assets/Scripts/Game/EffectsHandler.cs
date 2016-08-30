@@ -33,6 +33,8 @@ public class EffectsHandler : MonoBehaviour
 
         playerName = transform.Find("Player_name");
         SetPlayerName(ship.isLocalPlayer, false, ship.Pseudo);
+
+        UpdateSmokes(100);
     }
 
     public void Update()
