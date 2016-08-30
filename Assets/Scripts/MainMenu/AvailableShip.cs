@@ -110,6 +110,7 @@ public class AvailableShip : MonoBehaviour
             UserData.SetShipId(id);
         }
         UpdateShips();
+        UpdateCredits();
     }
 
     public void OnBuyShip()
@@ -125,5 +126,6 @@ public class AvailableShip : MonoBehaviour
             GameObject.Find("BuyXPButton").GetComponent<Button>().onClick.Invoke();
         }
         UpdateShips();
+        UpdateCredits();
     }
 }
