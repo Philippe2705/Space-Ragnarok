@@ -96,7 +96,7 @@ public class BotShip : Ship
             PlayerShip nearestPlayer = currentPlayer;
             foreach (var ps in players)
             {
-                if (!ps.IsDead)
+                if (!ps.IsDead && ps != null)
                 {
                     if (Vector3.Distance(ps.transform.position, transform.position) < Vector3.Distance(nearestPlayer.transform.position, transform.position) || nearestPlayer.IsDead)
                     {

@@ -302,7 +302,6 @@ public class Ship : NetworkBehaviour
     {
         ShipId = value;
         ShipProperty = ShipProperties.GetShip(value);
-        OnShipIdDelegate(value);
     }
 
     void OnBotLevel(int value)
@@ -321,11 +320,6 @@ public class Ship : NetworkBehaviour
      * Others
      */
     protected virtual void OnHealthDelegate(float value)
-    {
-
-    }
-
-    protected virtual void OnShipIdDelegate(int id)
     {
 
     }
