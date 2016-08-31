@@ -45,18 +45,23 @@ public static class ShipProperties
             {
                 case 0:
                     shipName = "Destroyer";
+                    price = 0;
                     break;
                 case 1:
                     shipName = "Frigate";
+                    price = 1250;
                     break;
                 case 2:
                     shipName = "Cruiser";
+                    price = 2500;
                     break;
                 case 3:
                     shipName = "BattleShip";
+                    price = 5000;
                     break;
                 default:
                     shipName = "error";
+                    price = 0;
                     break;
             }
         }
@@ -66,18 +71,23 @@ public static class ShipProperties
             {
                 case 0:
                     shipName = "pathfinder";
+                    price = 250;
                     break;
                 case 1:
                     shipName = "patroller";
+                    price = 1500;
                     break;
                 case 2:
                     shipName = "fighter";
+                    price = 2750;
                     break;
                 case 3:
                     shipName = "invasion ship";
+                    price = 5250;
                     break;
                 default:
                     shipName = "error";
+                    price = 0;
                     break;
             }
         }
@@ -87,18 +97,23 @@ public static class ShipProperties
             {
                 case 0:
                     shipName = "transporter";
+                    price = 300;
                     break;
                 case 1:
                     shipName = "fighter";
+                    price = 1600;
                     break;
                 case 2:
                     shipName = "cruisader";
+                    price = 2800;
                     break;
                 case 3:
                     shipName = "elite ship";
+                    price = 5400;
                     break;
                 default:
                     shipName = "error";
+                    price = 0;
                     break;
             }
         }
@@ -108,18 +123,23 @@ public static class ShipProperties
             {
                 case 0:
                     shipName = "explorer";
+                    price = 350;
                     break;
                 case 1:
                     shipName = "protector";
+                    price = 1650;
                     break;
                 case 2:
                     shipName = "corvette";
+                    price = 2850;
                     break;
                 case 3:
                     shipName = "dreadnought";
+                    price = 5450;
                     break;
                 default:
                     shipName = "error";
+                    price = 0;
                     break;
             }
         }
@@ -129,22 +149,27 @@ public static class ShipProperties
             {
                 case 0:
                     shipName = "shuttle";
+                    price = 400;
                     break;
                 case 1:
                     shipName = "blocker";
+                    price = 1700;
                     break;
                 case 2:
                     shipName = "assault ship";
+                    price = 2900;
                     break;
                 case 3:
-                    shipName = "inavder";
+                    shipName = "invader";
+                    price = 5500;
                     break;
                 default:
                     shipName = "error";
+                    price = 0;
                     break;
             }
         }
-        else { shipName = "error"; }
+        else { shipName = "error"; price = 0; }
 
         switch (classe)
         {
@@ -201,7 +226,6 @@ public static class ShipProperties
                     damage = 10;
                     reloadTime = 6;
                     viewDistance = 12;
-                    price = 0;
                     minSpeed = 0.1f;
                     break;
                 case 1:
@@ -211,7 +235,6 @@ public static class ShipProperties
                     damage = 12;
                     reloadTime = 8;
                     viewDistance = 14;
-                    price = 1250;
                     minSpeed = 0.3f;
                     break;
                 case 2:
@@ -221,7 +244,6 @@ public static class ShipProperties
                     damage = 14;
                     reloadTime = 8;
                     viewDistance = 15;
-                    price = 2500;
                     minSpeed = 0.2f;
                     break;
                 case 3:
@@ -231,7 +253,6 @@ public static class ShipProperties
                     damage = 17;
                     reloadTime = 6;
                     viewDistance = 20;
-                    price = 5000;
                     minSpeed = 0.1f;
                     break;
                 default:
@@ -241,19 +262,18 @@ public static class ShipProperties
                     damage = 0;
                     reloadTime = 0;
                     viewDistance = 0;
-                    price = 0;
                     minSpeed = 0;
                     break;
             }
 
-            speedFactor *= classe * 0.5f;
-            turnRate *= classe * 0.5f;
-            armor *= classe * 0.5f;
-            damage *= classe * 0.5f;
-            reloadTime *= classe * 0.5f;
-            viewDistance *= classe * 0.5f;
-            price *= classe * 2;
-            minSpeed /= classe * 0.5f;
+            speedFactor *= 0.5f;
+            turnRate *= 0.5f;
+            armor *= 0.5f;
+            damage *= 0.5f;
+            reloadTime *= 0.5f;
+            viewDistance *= 0.5f;
+            price *=  2;
+            minSpeed /= 0.5f;
 
 
         }

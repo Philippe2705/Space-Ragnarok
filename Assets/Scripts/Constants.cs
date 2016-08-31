@@ -25,5 +25,5 @@
     public const float SmallExplosionsRate = 0.25f;
 
     public static readonly int ShipsCount = 52;
-    public static readonly int ClassCount = 2;
+    public static readonly int ClassCount = 6;
 }
