@@ -24,6 +24,6 @@
     public const float BulletSpeedDispersion = 10f / 100f;
     public const float SmallExplosionsRate = 0.25f;
 
-    public static readonly int ShipsCount = 52;
+    public static readonly int ShipsCount = 53;
     public static readonly int ClassCount = 6;
 }

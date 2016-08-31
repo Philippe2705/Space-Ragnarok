@@ -94,6 +94,7 @@ public class GooglePlayServices : MonoBehaviour
                 UpdateUserInfos();
 
                 UpdateLeaderBoard();
+                 errorText.text = "";
             }
             else
             {
@@ -112,7 +113,8 @@ public class GooglePlayServices : MonoBehaviour
         }
         else
         {
-            connectPopup.SetActive(true);
+            SceneManager.LoadScene(1);
+            //connectPopup.SetActive(true);
         }
     }
 

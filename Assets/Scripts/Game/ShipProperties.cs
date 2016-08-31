@@ -6,25 +6,7 @@ public static class ShipProperties
 {
     public static ShipProperty GetShip(int shipId)
     {
-        //switch (shipId)
-        //{
-        //    //case 0:
-        //    //    //TODO: put real values back
-        //    //    return new ShipProperty(0, "Destroyer", 5f/*Speed Factor*/, 45/*Turn Rate*/, 2/*Armor*/, 10/*Damage*/, 2f/*Reload Time*/, 7/*View Distance*/, 0/*Bullet Dispersion*/, 0/*Price*/, 80, "Orange");
-        //    //case 1:
-        //    //    return new ShipProperty(1, "Frigate", 3.2f/*Speed Factor*/, 22.5f/*Turn Rate*/, 3f/*Armor*/, 12/*Damage*/, 3/*Reload Time*/, 7/*View Distance*/, 10/*Bullet Dispersion*/, 1250/*Price*/, 80, "Orange");
-        //    //case 2:
-        //    //    return new ShipProperty(2, "Cruiser", 2.2f/*Speed Factor*/, 22.5f/*Turn Rate*/, 5f/*Armor*/, 14/*Damage*/, 3/*Reload Time*/, 8/*View Distance*/, 10/*Bullet Dispersion*/, 2500/*Price*/, 80, "Red");
-        //    case 3:
-        //        return new ShipProperty(3, "BattleShip", "Bullet", 1.2f/*Speed Factor*/, 18/*Turn Rate*/, 10f/*Armor*/, 17/*Damage*/, 3/*Reload Time*/, 9/*View Distance*/, 10/*Bullet Dispersion*/, 5000/*Price*/, 80, 0.1f, 3f, "Orange");
-        //    //case 4:
-        //    //    return new ShipProperty(4, "Ragnarok", 0.6f/*Speed Factor*/, 15/*Turn Rate*/, 50/*Armor*/, 24/*Damage*/, 3/*Reload Time*/, 12/*View Distance*/, 10/*Bullet Dispersion*/, 10000/*Price*/, 80, "Purple");
-
-        //    default:
-        //        Debug.LogError("Incorrect Ship ID");
-        //        return new ShipProperty();
-        //}
-        string shipName;
+        string shipName = "";
         float speedFactor;
         float minSpeed;
         float turnRate;
@@ -36,192 +18,151 @@ public static class ShipProperties
         float bulletDispersion;
         float bulletSpeed;
         float fireAngleTolerance;
-        int price;
+        int price = 0;
 
         var classe = GetClass(shipId);
-        if (classe == 1)
-        {
-            bulletName = "BulletOrange";
-            switch (shipId % 4) //human
-            {
-                case 0:
-                    shipName = "Destroyer";
-                    price = 0;
-                    break;
-                case 1:
-                    shipName = "Frigate";
-                    price = 1250;
-                    break;
-                case 2:
-                    shipName = "Cruiser";
-                    price = 2500;
-                    break;
-                case 3:
-                    shipName = "BattleShip";
-                    price = 5000;
-                    break;
-                default:
-                    shipName = "error";
-                    price = 0;
-                    break;
-            }
-        }
-        else if (classe == 2) //alien
-        {
-            bulletName = "BulletOrange";
-            switch (shipId % 4)
-            {
-                case 0:
-                    shipName = "Pathfinder";
-                    price = 250;
-                    break;
-                case 1:
-                    shipName = "patroller";
-                    price = 1500;
-                    break;
-                case 2:
-                    shipName = "fighter";
-                    price = 2750;
-                    break;
-                case 3:
-                    shipName = "invasion ship";
-                    price = 5250;
-                    break;
-                default:
-                    shipName = "error";
-                    price = 0;
-                    break;
-            }
-        }
-        else if (classe == 3) //cyborg
-        {
-            bulletName = "BulletOrange";
-            switch (shipId % 4)
-            {
-                case 0:
-                    shipName = "transporter";
-                    price = 300;
-                    break;
-                case 1:
-                    shipName = "fighter";
-                    price = 1600;
-                    break;
-                case 2:
-                    shipName = "cruisader";
-                    price = 2800;
-                    break;
-                case 3:
-                    shipName = "elite ship";
-                    price = 5400;
-                    break;
-                default:
-                    shipName = "error";
-                    price = 0;
-                    break;
-            }
-        }
-        else if (classe == 4) //asgard
-        {
-            bulletName = "BulletOrange";
-            switch (shipId % 4)
-            {
-                case 0:
-                    shipName = "explorer";
-                    price = 350;
-                    break;
-                case 1:
-                    shipName = "protector";
-                    price = 1650;
-                    break;
-                case 2:
-                    shipName = "corvette";
-                    price = 2850;
-                    break;
-                case 3:
-                    shipName = "dreadnought";
-                    price = 5450;
-                    break;
-                default:
-                    shipName = "error";
-                    price = 0;
-                    break;
-            }
-        }
-        else if (classe == 5) //pirate
-        {
-            bulletName = "BulletOrange";
-            switch (shipId % 4)
-            {
-                case 0:
-                    shipName = "shuttle";
-                    price = 400;
-                    break;
-                case 1:
-                    shipName = "blocker";
-                    price = 1700;
-                    break;
-                case 2:
-                    shipName = "assault ship";
-                    price = 2900;
-                    break;
-                case 3:
-                    shipName = "invader";
-                    price = 5500;
-                    break;
-                default:
-                    shipName = "error";
-                    price = 0;
-                    break;
-            }
-        }
-        else { shipName = "error"; price = 0; }
 
-        switch (classe)
-        {
-            case 1:
-                bulletName = "BulletOrange";
-                bulletDispersion = 10;
-                bulletSpeed = 3;
-                fireAngleTolerance = 80;
-                shipName = "Human " + shipName;
-                break;
-            case 2:
-                bulletName = "BulletOrange";
-                bulletDispersion = 10;
-                bulletSpeed = 3;
-                fireAngleTolerance = 80;
-                shipName = "Alien " + shipName;
-                break;
-            case 3:
-                bulletName = "BulletOrange";
-                bulletDispersion = 10;
-                bulletSpeed = 3;
-                fireAngleTolerance = 80;
-                shipName = "Cyborg " + shipName;
-                break;
-            case 4:
-                bulletName = "BulletOrange";
-                bulletDispersion = 10;
-                bulletSpeed = 3;
-                fireAngleTolerance = 80;
-                shipName = "Asgard " + shipName;
-                break;
-            case 5:
-                bulletName = "BulletOrange";
-                bulletDispersion = 10;
-                bulletSpeed = 3;
-                fireAngleTolerance = 80;
-                shipName = "Pirate " + shipName;
-                break;
-            default:
-                bulletName = "";
-                bulletDispersion = 0;
-                bulletSpeed = 0;
-                fireAngleTolerance = 0;
-                break;
-        }
         if (shipId <= 50)
         {
+            switch (classe)
+            {
+                case 1:
+                    switch (shipId % 4) //human
+                    {
+                        case 0:
+                            shipName = "Destroyer";
+                            price = 0;
+                            break;
+                        case 1:
+                            shipName = "Frigate";
+                            price = 1250;
+                            break;
+                        case 2:
+                            shipName = "Cruiser";
+                            price = 2500;
+                            break;
+                        case 3:
+                            shipName = "BattleShip";
+                            price = 5000;
+                            break;
+                    }
+                    bulletName = "BulletOrange";
+                    bulletDispersion = 10;
+                    bulletSpeed = 3;
+                    fireAngleTolerance = 80;
+                    shipName = "Human " + shipName;
+                    break;
+                case 2:
+                    switch (shipId % 4)
+                    {
+                        case 0:
+                            shipName = "Pathfinder";
+                            price = 250;
+                            break;
+                        case 1:
+                            shipName = "Patroller";
+                            price = 1500;
+                            break;
+                        case 2:
+                            shipName = "Fighter";
+                            price = 2750;
+                            break;
+                        case 3:
+                            shipName = "Invasion Ship";
+                            price = 5250;
+                            break;
+                    }
+                    bulletName = "BulletOrange";
+                    bulletDispersion = 10;
+                    bulletSpeed = 3;
+                    fireAngleTolerance = 80;
+                    shipName = "Alien " + shipName;
+                    break;
+                case 3:
+                    switch (shipId % 4)
+                    {
+                        case 0:
+                            shipName = "Transporter";
+                            price = 300;
+                            break;
+                        case 1:
+                            shipName = "Fighter";
+                            price = 1600;
+                            break;
+                        case 2:
+                            shipName = "Cruisader";
+                            price = 2800;
+                            break;
+                        case 3:
+                            shipName = "Elite Ship";
+                            price = 5400;
+                            break;
+                    }
+                    bulletName = "BulletOrange";
+                    bulletDispersion = 10;
+                    bulletSpeed = 3;
+                    fireAngleTolerance = 80;
+                    shipName = "Cyborg " + shipName;
+                    break;
+                case 4:
+                    switch (shipId % 4)
+                    {
+                        case 0:
+                            shipName = "Explorer";
+                            price = 350;
+                            break;
+                        case 1:
+                            shipName = "Protector";
+                            price = 1650;
+                            break;
+                        case 2:
+                            shipName = "Corvette";
+                            price = 2850;
+                            break;
+                        case 3:
+                            shipName = "Dreadnought";
+                            price = 5450;
+                            break;
+                    }
+                    bulletName = "BulletOrange";
+                    bulletDispersion = 10;
+                    bulletSpeed = 3;
+                    fireAngleTolerance = 80;
+                    shipName = "Asgard " + shipName;
+                    break;
+                case 5:
+                    switch (shipId % 4)
+                    {
+                        case 0:
+                            shipName = "Shuttle";
+                            price = 400;
+                            break;
+                        case 1:
+                            shipName = "Blocker";
+                            price = 1700;
+                            break;
+                        case 2:
+                            shipName = "Assault Ship";
+                            price = 2900;
+                            break;
+                        case 3:
+                            shipName = "Invader";
+                            price = 5500;
+                            break;
+                    }
+                    bulletName = "BulletOrange";
+                    bulletDispersion = 10;
+                    bulletSpeed = 3;
+                    fireAngleTolerance = 80;
+                    shipName = "Pirate " + shipName;
+                    break;
+                default:
+                    bulletName = "";
+                    bulletDispersion = 0;
+                    bulletSpeed = 0;
+                    fireAngleTolerance = 0;
+                    break;
+            }
             switch (shipId % 4)
             {
                 case 0:
@@ -270,17 +211,6 @@ public static class ShipProperties
                     minSpeed = 0;
                     break;
             }
-
-            speedFactor *= 0.5f;
-            turnRate *= 0.5f;
-            armor *= 0.5f;
-            damage *= 0.5f;
-            reloadTime *= 0.5f;
-            viewDistance *= 0.5f;
-            price *=  2;
-            minSpeed /= 0.5f;
-
-
         }
         else if (shipId == 51)
         {
@@ -343,6 +273,10 @@ public static class ShipProperties
         {
             return 1;
         }
+        else if (shipId == 52)
+        {
+            return 1;
+        }
         else
         {
             Debug.LogError("Wrong id");
@@ -365,13 +299,13 @@ public static class ShipProperties
             case 4:
                 return new BotProperties(3, 3, 3, 3, "Advanced");
             case 5:
-                return new BotProperties(4f, 4f, 4f, 4f, "Hard");
+                return new BotProperties(4.5f, 4.5f, 4.5f, 4.5f, "Hard");
             case 6:
-                return new BotProperties(5, 5, 5, 5, "Very hard");
+                return new BotProperties(6, 6, 6, 6, "Very hard");
             case 7:
-                return new BotProperties(8, 8, 8, 8, "Hardcore");
+                return new BotProperties(9, 9, 9, 9, "Hardcore");
             case 8:
-                return new BotProperties(10, 10, 10, 10, "Incredible");
+                return new BotProperties(12, 12, 12, 12, "Incredible");
             case 9:
                 return new BotProperties(20, 20, 20, 20, "Chuck Norris");
             default:

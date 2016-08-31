@@ -24,7 +24,7 @@ Disconnect from Google Play=Se deconnecter de Google Play
 
 Save Game on Cloud=Sauvegarder les donnees sur le Cloud
 
-Erase local data=Effacer les données local
+Erase local data=Effacer les donnees local
 
 Francais=Francais
 
