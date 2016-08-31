@@ -38,12 +38,163 @@ public static class ShipProperties
         float fireAngleTolerance;
         int price;
 
+        var classe = GetClass(shipId);
+        if (classe == 1)
+        {
+            switch (shipId % 4) //human
+            {
+                case 0:
+                    shipName = "Destroyer";
+                    break;
+                case 1:
+                    shipName = "Frigate";
+                    break;
+                case 2:
+                    shipName = "Cruiser";
+                    break;
+                case 3:
+                    shipName = "BattleShip";
+                    break;
+                default:
+                    shipName = "error";
+                    break;
+            }
+        }
+        else if (classe == 2) //alien
+        {
+            switch (shipId % 4)
+            {
+                case 0:
+                    shipName = "pathfinder";
+                    break;
+                case 1:
+                    shipName = "patroller";
+                    break;
+                case 2:
+                    shipName = "fighter";
+                    break;
+                case 3:
+                    shipName = "invasion ship";
+                    break;
+                default:
+                    shipName = "error";
+                    break;
+            }
+        }
+        else if (classe == 3) //cyborg
+        {
+            switch (shipId % 4)
+            {
+                case 0:
+                    shipName = "transporter";
+                    break;
+                case 1:
+                    shipName = "fighter";
+                    break;
+                case 2:
+                    shipName = "cruisader";
+                    break;
+                case 3:
+                    shipName = "elite ship";
+                    break;
+                default:
+                    shipName = "error";
+                    break;
+            }
+        }
+        else if (classe == 4) //asgard
+        {
+            switch (shipId % 4)
+            {
+                case 0:
+                    shipName = "explorer";
+                    break;
+                case 1:
+                    shipName = "protector";
+                    break;
+                case 2:
+                    shipName = "corvette";
+                    break;
+                case 3:
+                    shipName = "dreadnought";
+                    break;
+                default:
+                    shipName = "error";
+                    break;
+            }
+        }
+        else if (classe == 5) //pirate
+        {
+            switch (shipId % 4)
+            {
+                case 0:
+                    shipName = "shuttle";
+                    break;
+                case 1:
+                    shipName = "blocker";
+                    break;
+                case 2:
+                    shipName = "assault ship";
+                    break;
+                case 3:
+                    shipName = "inavder";
+                    break;
+                default:
+                    shipName = "error";
+                    break;
+            }
+        }
+        else { shipName = "error"; }
+
+        switch (classe)
+        {
+            case 1:
+                bulletName = "BulletOrange";
+                bulletDispersion = 10;
+                bulletSpeed = 3;
+                fireAngleTolerance = 80;
+                shipName = "Human " + shipName;
+                break;
+            case 2:
+                bulletName = "BulletOrange";
+                bulletDispersion = 10;
+                bulletSpeed = 3;
+                fireAngleTolerance = 80;
+                shipName = "Alien " + shipName;
+                break;
+            case 3:
+                bulletName = "BulletOrange";
+                bulletDispersion = 10;
+                bulletSpeed = 3;
+                fireAngleTolerance = 80;
+                shipName = "Cyborg " + shipName;
+                break;
+            case 4:
+                bulletName = "BulletOrange";
+                bulletDispersion = 10;
+                bulletSpeed = 3;
+                fireAngleTolerance = 80;
+                shipName = "Asgard " + shipName;
+                break;
+            case 5:
+                bulletName = "BulletOrange";
+                bulletDispersion = 10;
+                bulletSpeed = 3;
+                fireAngleTolerance = 80;
+                shipName = "Pirate " + shipName;
+                break;
+            default:
+                bulletName = "";
+                bulletDispersion = 0;
+                bulletSpeed = 0;
+                fireAngleTolerance = 0;
+                break;
+        }
         if (shipId <= 50)
         {
             switch (shipId % 4)
             {
                 case 0:
-                    shipName = "Destroyer";
                     speedFactor = 7f;
                     turnRate = 65;
                     armor = 2;
@@ -54,7 +205,6 @@ public static class ShipProperties
                     minSpeed = 0.1f;
                     break;
                 case 1:
-                    shipName = "Frigate";
                     speedFactor = 5.5f;
                     turnRate = 40f;
                     armor = 3;
@@ -65,7 +215,6 @@ public static class ShipProperties
                     minSpeed = 0.3f;
                     break;
                 case 2:
-                    shipName = "Cruiser";
                     speedFactor = 3f;
                     turnRate = 32f;
                     armor = 5;
@@ -76,7 +225,6 @@ public static class ShipProperties
                     minSpeed = 0.2f;
                     break;
                 case 3:
-                    shipName = "BattleShip";
                     speedFactor = 2f;
                     turnRate = 25;
                     armor = 10;
@@ -87,7 +235,6 @@ public static class ShipProperties
                     minSpeed = 0.1f;
                     break;
                 default:
-                    shipName = "Error";
                     speedFactor = 0f;
                     turnRate = 0;
                     armor = 0;
@@ -99,8 +246,6 @@ public static class ShipProperties
                     break;
             }
 
-            var classe = GetClass(shipId);
-
             speedFactor *= classe * 0.5f;
             turnRate *= classe * 0.5f;
             armor *= classe * 0.5f;
@@ -110,36 +255,38 @@ public static class ShipProperties
             price *= classe * 2;
             minSpeed /= classe * 0.5f;
 
-            switch (classe)
-            {
-                case 1:
-                    bulletName = "BulletOrange";
-                    bulletDispersion = 10;
-                    bulletSpeed = 3;
-                    fireAngleTolerance = 80;
-                    break;
-                default:
-                    bulletName = "";
-                    bulletDispersion = 0;
-                    bulletSpeed = 0;
-                    fireAngleTolerance = 0;
-                    break;
-            }
+
         }
         else if (shipId == 51)
         {
             shipName = "Ragnarok";
-            speedFactor = 1f;
-            turnRate = 15;
-            armor = 25;
-            damage = 30;
+            speedFactor = 0.5f;
+            turnRate = 10;
+            armor = 18;
+            damage = 40;
             reloadTime = 5;
             viewDistance = 15;
             price = 15000;
             minSpeed = -1f;
             bulletName = "BulletOrange";
             bulletDispersion = 0;
-            bulletSpeed = 3;
+            bulletSpeed = 5;
+            fireAngleTolerance = 30;
+        }
+        else if (shipId == 52)
+        {
+            shipName = "The Hunter";
+            speedFactor = 0.5f;
+            turnRate = 10;
+            armor = 18;
+            damage = 40;
+            reloadTime = 5;
+            viewDistance = 15;
+            price = 15000;
+            minSpeed = -1f;
+            bulletName = "BulletOrange";
+            bulletDispersion = 0;
+            bulletSpeed = 5;
             fireAngleTolerance = 30;
         }
         else
