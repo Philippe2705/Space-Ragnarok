@@ -18,6 +18,8 @@ public static class ShipProperties
         float bulletDispersion;
         float bulletSpeed;
         float fireAngleTolerance;
+        float classeDomageFactor = 1;
+        float classeViewDistanceFactor = 1;
         int price = 0;
 
         var classe = GetClass(shipId);
@@ -26,7 +28,10 @@ public static class ShipProperties
         {
             switch (classe)
             {
+                
                 case 1:
+                    classeDomageFactor = 1;
+                    classeViewDistanceFactor = 1;
                     switch (shipId % 4) //human
                     {
                         case 0:
@@ -35,15 +40,15 @@ public static class ShipProperties
                             break;
                         case 1:
                             shipName = "Frigate";
-                            price = 1250;
+                            price = 1500;
                             break;
                         case 2:
                             shipName = "Cruiser";
-                            price = 2500;
+                            price = 5000;
                             break;
                         case 3:
                             shipName = "BattleShip";
-                            price = 5000;
+                            price = 10000;
                             break;
                     }
                     bulletName = "BulletOrange";
@@ -53,6 +58,8 @@ public static class ShipProperties
                     shipName = "Human " + shipName;
                     break;
                 case 2:
+                    classeDomageFactor = 1.2f;
+                    classeViewDistanceFactor = 0.5f;
                     switch (shipId % 4)
                     {
                         case 0:
@@ -131,6 +138,8 @@ public static class ShipProperties
                     shipName = "Asgard " + shipName;
                     break;
                 case 5:
+                    classeDomageFactor = 0.6f;
+                    classeViewDistanceFactor = 1;
                     switch (shipId % 4)
                     {
                         case 0:
@@ -151,10 +160,10 @@ public static class ShipProperties
                             break;
                     }
                     bulletName = "BulletOrange";
-                    bulletDispersion = 10;
-                    bulletSpeed = 3;
+                    bulletDispersion = 20;
+                    bulletSpeed = 2;
                     fireAngleTolerance = 80;
-                    shipName = "Pirate " + shipName;
+                    shipName = "Daleks " + shipName;
                     break;
                 default:
                     bulletName = "";
@@ -232,16 +241,16 @@ public static class ShipProperties
         {
             shipName = "The Hunter";
             speedFactor = 0.5f;
-            turnRate = 10;
-            armor = 18;
-            damage = 40;
-            reloadTime = 5;
+            turnRate = 15;
+            armor = 20;
+            damage = 50;
+            reloadTime = 3;
             viewDistance = 15;
             price = 15000;
             minSpeed = -1f;
             bulletName = "BulletOrange";
             bulletDispersion = 0;
-            bulletSpeed = 5;
+            bulletSpeed = 6;
             fireAngleTolerance = 30;
         }
         else
@@ -260,6 +269,9 @@ public static class ShipProperties
             bulletSpeed = 0;
             fireAngleTolerance = 0;
         }
+        price *= 2;
+        viewDistance *= classeViewDistanceFactor;
+        damage *= classeDomageFactor;
         return new ShipProperty(shipId, shipName, speedFactor, minSpeed, turnRate, armor, damage, reloadTime, viewDistance, bulletName, bulletDispersion, bulletSpeed, fireAngleTolerance, price);
     }
 

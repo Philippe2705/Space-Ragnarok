@@ -81,3 +81,17 @@ Special Thanks to Phyronnaz= Remerciment special a Phyronnaz
 Contact Email: 
 maquingames@gmail.com=Email de contact : 
 maquingames@gmail.com
+
+Disconnect=Deconnecter
+
+Xp=Xp
+
+Kills=Abbatus
+
+Hits=Hits
+
+Pseudo=Pseudo
+
+Killed by=tue par
+
+Quit=Quitter

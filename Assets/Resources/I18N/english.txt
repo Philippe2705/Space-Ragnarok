@@ -83,3 +83,15 @@ Special Thanks to Phyronnaz=Special Thanks to Phyronnaz
 Contact Email: 
 maquingames@gmail.com=Contact Email: 
 maquingames@gmail.com
+
+Disconnect=Disconnect
+
+Xp=Xp
+
+Kills=Kills
+
+Hits=Hits
+
+Pseudo=Pseudo
+
+Killed by=Killed by

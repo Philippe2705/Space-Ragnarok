@@ -103,6 +103,6 @@ public class EffectsHandler : MonoBehaviour
 
     public void HitByBullet(Vector3 position, Quaternion rotation, string bulletName, int shipId)
     {
-        Instantiate(Resources.Load<GameObject>("Prefabs/Explosions/" + "Class" + ShipProperties.GetClass(shipId).ToString()));
+        Instantiate(Resources.Load<GameObject>("Prefabs/Explosions/" + "Class" + ShipProperties.GetClass(shipId).ToString()), position, rotation);
     }
 }
