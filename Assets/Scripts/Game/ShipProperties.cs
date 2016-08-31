@@ -41,6 +41,7 @@ public static class ShipProperties
         var classe = GetClass(shipId);
         if (classe == 1)
         {
+            bulletName = "BulletOrange";
             switch (shipId % 4) //human
             {
                 case 0:
@@ -67,6 +68,7 @@ public static class ShipProperties
         }
         else if (classe == 2) //alien
         {
+            bulletName = "BulletOrange";
             switch (shipId % 4)
             {
                 case 0:
@@ -93,6 +95,7 @@ public static class ShipProperties
         }
         else if (classe == 3) //cyborg
         {
+            bulletName = "BulletOrange";
             switch (shipId % 4)
             {
                 case 0:
@@ -119,6 +122,7 @@ public static class ShipProperties
         }
         else if (classe == 4) //asgard
         {
+            bulletName = "BulletOrange";
             switch (shipId % 4)
             {
                 case 0:
@@ -145,6 +149,7 @@ public static class ShipProperties
         }
         else if (classe == 5) //pirate
         {
+            bulletName = "BulletOrange";
             switch (shipId % 4)
             {
                 case 0:
@@ -360,13 +365,13 @@ public static class ShipProperties
             case 4:
                 return new BotProperties(3, 3, 3, 3, "Advanced");
             case 5:
-                return new BotProperties(4.5f, 4.5f, 4.5f, 4.5f, "Hard");
+                return new BotProperties(4f, 4f, 4f, 4f, "Hard");
             case 6:
-                return new BotProperties(6, 6, 6, 6, "Very hard");
+                return new BotProperties(5, 5, 5, 5, "Very hard");
             case 7:
-                return new BotProperties(9, 9, 9, 9, "Hardcore");
+                return new BotProperties(8, 8, 8, 8, "Hardcore");
             case 8:
-                return new BotProperties(12, 12, 12, 12, "Incredible");
+                return new BotProperties(10, 10, 10, 10, "Incredible");
             case 9:
                 return new BotProperties(20, 20, 20, 20, "Chuck Norris");
             default:
