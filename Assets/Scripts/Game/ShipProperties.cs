@@ -72,7 +72,7 @@ public static class ShipProperties
             switch (shipId % 4)
             {
                 case 0:
-                    shipName = "pathfinder";
+                    shipName = "Pathfinder";
                     price = 250;
                     break;
                 case 1:
