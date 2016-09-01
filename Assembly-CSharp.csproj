@@ -337,6 +337,7 @@
      <Compile Include="Assets\Scripts\LoadSceneScript.cs" />
      <Compile Include="Assets\Scripts\MainMenu\AvailableShip.cs" />
      <Compile Include="Assets\Scripts\MainMenu\EraseData.cs" />
+     <Compile Include="Assets\Scripts\MainMenu\MusicScript.cs" />
      <Compile Include="Assets\Scripts\MainMenu\ReturnKeyManager.cs" />
      <Compile Include="Assets\Scripts\ParticleSystemExtension.cs" />
      <Compile Include="Assets\Scripts\TextI18N.cs" />
