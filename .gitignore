@@ -245,3 +245,8 @@ Temp
 *.keystore
 Assets/Standard Assets/KeysStore/user.keystore.meta
 /Assets/Plugins/Android
+BuildPC.exe
+BuildPC_Data/globalgamemanagers
+BuildPC_Data/level0
+BuildPC_Data/level2
+BuildPC_Data/Managed/Assembly-CSharp-firstpass.dll

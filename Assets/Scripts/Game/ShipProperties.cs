@@ -60,7 +60,6 @@ public static class ShipProperties
                     break;
                 case 2:
                     classeDomageFactor = 1.2f;
-                    classeViewDistanceFactor = 0.5f;
                     switch (shipId % 4)
                     {
                         case 0:

@@ -130,8 +130,8 @@ public class GooglePlayServices : MonoBehaviour
         }
         else if (!Application.isEditor)
         {
-            errorText.text += "Not Connected to Google Play\n";
-            userInfosUI.GetComponentInChildren<Text>().text = "Not connected";
+            //errorText.text += "Not Connected to Google Play\n";
+            userInfosUI.GetComponentInChildren<Text>().text = "";
             userInfosUI.GetComponentInChildren<Image>().sprite = defaultGoogleAvatar;
         }
     }
