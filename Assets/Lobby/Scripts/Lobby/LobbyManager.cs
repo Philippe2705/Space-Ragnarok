@@ -73,7 +73,7 @@ namespace Prototype.NetworkLobby
         {
             if (Input.GetKeyDown(KeyCode.Escape)) // Return key on Android
             {
-                if(shipChoice.transform.GetChild(0).gameObject.activeSelf)
+                if (shipChoice.transform.GetChild(0).gameObject.activeSelf)
                 {
                     shipChoice.transform.GetChild(0).gameObject.SetActive(false);
                     shipChoice.transform.GetChild(1).gameObject.SetActive(false);
@@ -441,17 +441,7 @@ namespace Prototype.NetworkLobby
 
         public string GetLocalIp()
         {
-            IPAddress[] localIPs = Dns.GetHostAddresses(Dns.GetHostName());
-            foreach (IPAddress addr in localIPs)
-            {
-                if (addr.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-                {
-                    return addr.ToString();
-
-                }
-
-            }
-            return "error";
+            return Network.player.ipAddress;
         }
 
 
