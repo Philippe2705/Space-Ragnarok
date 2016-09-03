@@ -98,7 +98,7 @@ public class GooglePlayServices : MonoBehaviour
             }
             else
             {
-                errorText.text += "Error Connecting to Google Play" + "\n";
+                errorText.text += "";
             }
 
         }
@@ -130,7 +130,7 @@ public class GooglePlayServices : MonoBehaviour
         }
         else if (!Application.isEditor)
         {
-            //errorText.text += "Not Connected to Google Play\n";
+            //errorText.text += "";
             userInfosUI.GetComponentInChildren<Text>().text = "";
             userInfosUI.GetComponentInChildren<Image>().sprite = defaultGoogleAvatar;
         }
