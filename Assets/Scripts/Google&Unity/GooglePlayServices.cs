@@ -98,7 +98,7 @@ public class GooglePlayServices : MonoBehaviour
             }
             else
             {
-                errorText.text += "Error Connecting to Google Play" + "\n";
+                errorText.text = "";
             }
 
         }

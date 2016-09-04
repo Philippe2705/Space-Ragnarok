@@ -451,23 +451,26 @@
  <Reference Include="UnityEngine.Purchasing">
  <HintPath>C:/Program Files/Unity5/Editor/Data/UnityExtensions/Unity/UnityPurchasing/UnityEngine.Purchasing.dll</HintPath>
  </Reference>
- <Reference Include="Common">
- <HintPath>C:/Users/X-Gaming/Documents/Unity Projects/Project - Space Ragnarok/Assets/Plugins/UnityPurchasing/Bin/Common.dll</HintPath>
- </Reference>
- <Reference Include="Editor">
- <HintPath>C:/Users/X-Gaming/Documents/Unity Projects/Project - Space Ragnarok/Assets/Plugins/UnityPurchasing/Bin/Editor.dll</HintPath>
+ <Reference Include="winrt">
+ <HintPath>C:/Users/X-Gaming/Documents/Unity Projects/Project - Space Ragnarok/Assets/Plugins/UnityPurchasing/winrt/winrt.dll</HintPath>
  </Reference>
  <Reference Include="Security">
  <HintPath>C:/Users/X-Gaming/Documents/Unity Projects/Project - Space Ragnarok/Assets/Plugins/UnityPurchasing/Bin/Security.dll</HintPath>
  </Reference>
- <Reference Include="Stores">
- <HintPath>C:/Users/X-Gaming/Documents/Unity Projects/Project - Space Ragnarok/Assets/Plugins/UnityPurchasing/Bin/Stores.dll</HintPath>
- </Reference>
  <Reference Include="Apple">
  <HintPath>C:/Users/X-Gaming/Documents/Unity Projects/Project - Space Ragnarok/Assets/Plugins/UnityPurchasing/Bin/Apple/Apple.dll</HintPath>
  </Reference>
- <Reference Include="winrt">
- <HintPath>C:/Users/X-Gaming/Documents/Unity Projects/Project - Space Ragnarok/Assets/Plugins/UnityPurchasing/winrt/winrt.dll</HintPath>
+ <Reference Include="Common">
+ <HintPath>C:/Users/X-Gaming/Documents/Unity Projects/Project - Space Ragnarok/Assets/Plugins/UnityPurchasing/Bin/Common.dll</HintPath>
+ </Reference>
+ <Reference Include="Stores">
+ <HintPath>C:/Users/X-Gaming/Documents/Unity Projects/Project - Space Ragnarok/Assets/Plugins/UnityPurchasing/Bin/Stores.dll</HintPath>
+ </Reference>
+ <Reference Include="Tizen">
+ <HintPath>C:/Users/X-Gaming/Documents/Unity Projects/Project - Space Ragnarok/Assets/Plugins/UnityPurchasing/Bin/Tizen/Tizen.dll</HintPath>
+ </Reference>
+ <Reference Include="Editor">
+ <HintPath>C:/Users/X-Gaming/Documents/Unity Projects/Project - Space Ragnarok/Assets/Plugins/UnityPurchasing/Bin/Editor.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

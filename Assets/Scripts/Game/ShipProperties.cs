@@ -29,7 +29,7 @@ public static class ShipProperties
         {
             switch (classe)
             {
-                
+
                 case 1:
                     classeDomageFactor = 1.3f;
                     classeViewDistanceFactor = 1;
@@ -81,7 +81,7 @@ public static class ShipProperties
                     }
                     bulletName = "BulletPuple";
                     bulletDispersion = 10;
-                    bulletSpeed = 3;
+                    bulletSpeed = 5;
                     fireAngleTolerance = 80;
                     shipName = "Alien " + shipName;
                     break;
@@ -184,7 +184,7 @@ public static class ShipProperties
                     damage = 10;
                     reloadTime = 6;
                     viewDistance = 8;
-                    minSpeed = 0.1f;
+                    minSpeed = 0.5f;
                     break;
                 case 1:
                     speedFactor = 5.5f;
@@ -228,10 +228,10 @@ public static class ShipProperties
         {
             shipName = "Ragnarok";
             speedFactor = 0.5f;
-            turnRate = 10;
-            armor = 18;
-            damage = 40;
-            reloadTime = 5;
+            turnRate = 14;
+            armor = 22;
+            damage = 55;
+            reloadTime = 3;
             viewDistance = 15;
             price = 15000;
             minSpeed = -1f;
@@ -244,10 +244,10 @@ public static class ShipProperties
         {
             shipName = "The Hunter";
             speedFactor = 0.5f;
-            turnRate = 15;
-            armor = 20;
-            damage = 50;
-            reloadTime = 3;
+            turnRate = 10;
+            armor = 10;
+            damage = 30;
+            reloadTime = 5;
             viewDistance = 15;
             price = 15000;
             minSpeed = -1f;

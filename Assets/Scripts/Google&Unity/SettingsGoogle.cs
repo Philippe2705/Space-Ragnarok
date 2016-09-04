@@ -39,7 +39,7 @@ public class SettingsGoogle : MonoBehaviour
             }
             else
             {
-                GameObject.Find("ErrorCatcher").GetComponent<Text>().text += "Error Connecting to Google Play" + "\n";
+                GameObject.Find("ErrorCatcher").GetComponent<Text>().text = "";
             }
 
         }
@@ -71,7 +71,7 @@ public class SettingsGoogle : MonoBehaviour
         }
         else
         {
-            GameObject.Find("ErrorCatcher").GetComponent<Text>().text += "Not Connected to Google Play\n";
+            GameObject.Find("ErrorCatcher").GetComponent<Text>().text = "";
             userInfosUI.GetComponentInChildren<Text>().text = "Not connected";
         }
     }
