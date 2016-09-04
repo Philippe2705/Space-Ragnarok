@@ -315,6 +315,7 @@
      <Compile Include="Assets\Scripts\Game\NetworkShield.cs" />
      <Compile Include="Assets\Scripts\Game\PlayerScoreDisplayer.cs" />
      <Compile Include="Assets\Scripts\Game\PlayerShip.cs" />
+     <Compile Include="Assets\Scripts\Game\ReloadGui.cs" />
      <Compile Include="Assets\Scripts\Game\ScoreBoard.cs" />
      <Compile Include="Assets\Scripts\Game\Shield.cs" />
      <Compile Include="Assets\Scripts\Game\Ship.cs" />

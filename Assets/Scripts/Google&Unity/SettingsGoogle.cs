@@ -71,8 +71,13 @@ public class SettingsGoogle : MonoBehaviour
         }
         else
         {
+<<<<<<< HEAD
             GameObject.Find("ErrorCatcher").GetComponent<Text>().text = "";
             userInfosUI.GetComponentInChildren<Text>().text = "Not connected";
+=======
+            GameObject.Find("ErrorCatcher").GetComponent<Text>().text += "";
+            userInfosUI.GetComponentInChildren<Text>().text = "";
+>>>>>>> origin/master
         }
     }
 #endif
