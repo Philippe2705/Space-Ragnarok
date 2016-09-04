@@ -98,11 +98,8 @@ public class GooglePlayServices : MonoBehaviour
             }
             else
             {
-<<<<<<< HEAD
                 errorText.text = "";
-=======
                 errorText.text += "";
->>>>>>> origin/master
             }
 
         }

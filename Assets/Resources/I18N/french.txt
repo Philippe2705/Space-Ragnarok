@@ -84,20 +84,6 @@ maquingames@gmail.com
 
 Disconnect=Deconnecter
 
-Public Game (Internet)=Partie Public (Internet)
-
-Local Game (lan)=Partie local (Lan)
-
-Create Game= Creer une partie
-
-List Servers=Liste des parties
-
-Join=Se connecter
-
-Game name ...=Nom de la partie...
-
-Host Adress...=Adresse de l'hote...
-
 Xp=Xp
 
 Kills=Abbatus
@@ -117,6 +103,8 @@ Quit=Quitter
  Create Game=Creer une partie
  
  List Servers=Liste des parties
+
+Game name ...=Nom de la partie
  
  Join=Se connecter
  
