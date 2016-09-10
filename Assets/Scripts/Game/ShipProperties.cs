@@ -82,7 +82,7 @@ public static class ShipProperties
                     bulletName = "BulletPuple";
                     bulletDispersion = 10;
                     bulletSpeed = 5;
-                    fireAngleTolerance = 30;
+                    fireAngleTolerance = 10;
                     shipName = "Alien " + shipName;
                     break;
                 case 3:
@@ -108,7 +108,7 @@ public static class ShipProperties
                     bulletName = "BulletOrange";
                     bulletDispersion = 10;
                     bulletSpeed = 3;
-                    fireAngleTolerance = 30;
+                    fireAngleTolerance = 10;
                     shipName = "Cyborg " + shipName;
                     break;
                 case 4:
@@ -136,7 +136,7 @@ public static class ShipProperties
                     bulletName = "BulletOrange";
                     bulletDispersion = 10;
                     bulletSpeed = 4;
-                    fireAngleTolerance = 40;
+                    fireAngleTolerance = 10;
                     shipName = "Asgard " + shipName;
                     break;
                 case 5:
@@ -163,9 +163,9 @@ public static class ShipProperties
                             break;
                     }
                     bulletName = "BulletRed";
-                    bulletDispersion = 30;
-                    bulletSpeed = 2;
-                    fireAngleTolerance = 30;
+                    bulletDispersion = 10;
+                    bulletSpeed = 4;
+                    fireAngleTolerance = 10;
                     shipName = "Daleks " + shipName;
                     break;
                 default:
@@ -238,7 +238,7 @@ public static class ShipProperties
             bulletName = "BulletRed";
             bulletDispersion = 0;
             bulletSpeed = 5;
-            fireAngleTolerance = 30;
+            fireAngleTolerance = 10;
         }
         else if (shipId == 52)
         {
@@ -254,7 +254,7 @@ public static class ShipProperties
             bulletName = "BulletOrange";
             bulletDispersion = 0;
             bulletSpeed = 6;
-            fireAngleTolerance = 30;
+            fireAngleTolerance = 10;
         }
         else
         {

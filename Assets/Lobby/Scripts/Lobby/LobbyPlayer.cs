@@ -293,6 +293,21 @@ namespace Prototype.NetworkLobby
                         s.GetComponent<Button>().onClick.AddListener(() => OnShipId(x));
                         s.GetComponent<Button>().interactable = true;
                         s.transform.Find("Image").GetComponent<Image>().sprite = ShipProperties.GetShip(i).ShipSprite;
+                        if (i == 3 || i == 7 || i == 11)
+                        {
+                            s = Instantiate(shipChoicePrefab) as GameObject;
+                            s.transform.SetParent(shipChoice.transform.GetChild(3));
+                            s.transform.localScale = Vector3.one;
+                            s.transform.localRotation = Quaternion.identity;
+                            s.transform.localPosition = Vector3.zero;
+                            s.transform.Find("Image").GetComponent<Image>().enabled = false;
+                            s.GetComponentInChildren<Text>().text = "";
+                            s.transform.SetAsLastSibling();
+                        }
+                        if (i == 52)
+                        {
+                            s.transform.SetSiblingIndex(19);
+                        }
                     }
                 }
             }

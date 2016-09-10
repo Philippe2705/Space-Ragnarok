@@ -24,10 +24,9 @@ public class Ship : NetworkBehaviour
     [SyncVar(hook = "OnHealth")]
     float health = 100;
 
+    protected float[] reloadTimes;
+
     bool hasUpdatedMinimap;
-
-
-    float[] reloadTimes;
     Transform[] guns;
     EffectsHandler effectsHandler;
 
@@ -105,14 +104,6 @@ public class Ship : NetworkBehaviour
     protected virtual void UpdateServer()
     {
         /*
-         * Reload times
-         */
-        for (var i = 0; i < reloadTimes.Length; i++)
-        {
-            reloadTimes[i] -= Time.deltaTime;
-        }
-
-        /*
          * Death
          */
         if (health <= 0 && !IsDead)
@@ -130,6 +121,13 @@ public class Ship : NetworkBehaviour
         {
             CmdUpdateMinimap();
         }
+        /*
+         * Reload times
+         */
+        for (var i = 0; i < reloadTimes.Length; i++)
+        {
+            reloadTimes[i] -= Time.deltaTime;
+        }
     }
 
 
@@ -139,14 +137,17 @@ public class Ship : NetworkBehaviour
     [Command]
     private void CmdRespawnPlayer()
     {
-        var player = Instantiate(NetworkManager.singleton.playerPrefab) as GameObject;
-        player.GetComponent<SpawnPlayer>().Pseudo = Pseudo;
-        player.GetComponent<SpawnPlayer>().ShipId = ShipId;
-        player.GetComponent<SpawnPlayer>().BotLevel = BotLevel;
-        NetworkServer.ReplacePlayerForConnection(connectionToClient, player, playerControllerId);
-        if (!IsDead)
+        if (playerControllerId != -1)
         {
-            NetworkServer.Destroy(gameObject);
+            var player = Instantiate(NetworkManager.singleton.playerPrefab) as GameObject;
+            player.GetComponent<SpawnPlayer>().Pseudo = Pseudo;
+            player.GetComponent<SpawnPlayer>().ShipId = ShipId;
+            player.GetComponent<SpawnPlayer>().BotLevel = BotLevel;
+            NetworkServer.ReplacePlayerForConnection(connectionToClient, player, playerControllerId);
+            if (!IsDead)
+            {
+                NetworkServer.Destroy(gameObject);
+            }
         }
     }
 
@@ -173,35 +174,20 @@ public class Ship : NetworkBehaviour
     }
 
     [Command]
-    protected void CmdFire(Vector2 fireVector)
+    void CmdFire(List<int> gunsToFire)
     {
-        if (IsDead)
+        foreach (var i in gunsToFire)
         {
-            return;
-        }
-
-        if (fireVector.magnitude > Constants.FireTrigger)
-        {
-            var direction = transform.TransformVector(fireVector);
-
-            for (int i = 0; i < guns.Length; i++)
+            var gun = guns[i];
             {
-                var gun = guns[i];
-                if (reloadTimes[i] < 0)
-                {
-                    if (Vector2.Angle(direction, gun.right) < ShipProperty.FireAngleTolerance)
-                    {
-                        reloadTimes[i] = ShipProperty.ReloadTime;
-                        //Create bullet
-                        var bullet = Instantiate(ShipProperty.BulletPrefab, gun.transform.position, Quaternion.identity) as GameObject;
-                        bullet.GetComponent<Bullet>().speed = ShipProperty.BulletSpeed * Random.Range(1 - Constants.BulletSpeedDispersion, 1 + Constants.BulletSpeedDispersion);
-                        bullet.GetComponent<Bullet>().direction = gun.transform.rotation * Quaternion.Euler(0, 0, Random.Range(-ShipProperty.BulletDispersion, ShipProperty.BulletDispersion));
-                        bullet.GetComponent<Bullet>().damage = ShipProperty.Damage * ShipProperties.GetBotProperties(BotLevel).DamageMultiplier;
-                        bullet.GetComponent<Bullet>().playerName = Pseudo;
-                        bullet.GetComponent<Bullet>().bulletName = ShipProperties.GetShip(ShipId).BulletPrefab.name;
-                        NetworkServer.Spawn(bullet);
-                    }
-                }
+                //Create bullet
+                var bullet = Instantiate(ShipProperty.BulletPrefab, gun.transform.position, Quaternion.identity) as GameObject;
+                bullet.GetComponent<Bullet>().speed = ShipProperty.BulletSpeed * Random.Range(1 - Constants.BulletSpeedDispersion, 1 + Constants.BulletSpeedDispersion);
+                bullet.GetComponent<Bullet>().direction = gun.transform.rotation * Quaternion.Euler(0, 0, Random.Range(-ShipProperty.BulletDispersion, ShipProperty.BulletDispersion));
+                bullet.GetComponent<Bullet>().damage = ShipProperty.Damage * ShipProperties.GetBotProperties(BotLevel).DamageMultiplier;
+                bullet.GetComponent<Bullet>().playerName = Pseudo;
+                bullet.GetComponent<Bullet>().bulletName = ShipProperties.GetShip(ShipId).BulletPrefab.name;
+                NetworkServer.Spawn(bullet);
             }
         }
     }
@@ -372,6 +358,34 @@ public class Ship : NetworkBehaviour
         if (shipsLeft <= 1)
         {
             FindObjectOfType<ScoreBoard>().InvokeShowScoreBoardOnAll(Constants.TimeBeforeScoreBoardShows);
+        }
+    }
+
+    public void Fire(Vector2 fireVector)
+    {
+        if (IsDead)
+        {
+            return;
+        }
+
+        if (fireVector.magnitude > Constants.FireTrigger)
+        {
+            var gunsList = new List<int>();
+            var direction = transform.TransformVector(fireVector);
+
+            for (int i = 0; i < guns.Length; i++)
+            {
+                var gun = guns[i];
+                if (reloadTimes[i] < 0)
+                {
+                    if (Vector2.Angle(direction, gun.right) < ShipProperty.FireAngleTolerance)
+                    {
+                        reloadTimes[i] = ShipProperty.ReloadTime;
+                        gunsList.Add(i);
+                    }
+                }
+            }
+            CmdFire(gunsList);
         }
     }
 }

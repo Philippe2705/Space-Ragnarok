@@ -30,7 +30,7 @@ public class BotShip : Ship
             IA();
         }
         CmdMove(vertical, horizontal);
-        CmdFire(fireSide * Vector2.right);
+        Fire(fireSide * Vector2.right);
     }
 
     void IA()

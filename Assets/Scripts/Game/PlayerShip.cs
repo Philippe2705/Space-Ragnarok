@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Networking;
-using CnControls;
+using System.Collections.Generic;
 
 public class PlayerShip : Ship
 {
@@ -9,6 +8,8 @@ public class PlayerShip : Ship
     new GameObject camera;
     GameObject background;
     Vector2 backgroundSize;
+    Transform reloads;
+    List<Image> images;
 
     protected override void Start()
     {
@@ -33,6 +34,12 @@ public class PlayerShip : Ship
             var s = camera.GetComponent<Camera>().orthographicSize / background.GetComponent<SpriteRenderer>().bounds.extents.x;
             background.transform.localScale *= s * 6;
             backgroundSize *= s / 2;
+            reloads = GameObject.Find("Reloads").transform;
+            images = new List<Image>();
+            for (int i = 0; i < reloads.childCount; i++)
+            {
+                images.Add(reloads.GetChild(i).GetComponent<Image>());
+            }
             rigidbody2D.interpolation = RigidbodyInterpolation2D.Interpolate;
         }
     }
@@ -71,7 +78,27 @@ public class PlayerShip : Ship
             var fireVector = ETCInput.GetAxis("HorizontalFire") * Vector2.right + ETCInput.GetAxis("VerticalFire") * Vector2.up;
             if (fireVector.magnitude > Constants.FireTrigger)
             {
-                CmdFire(fireVector);
+                Fire(fireVector);
+            }
+            /*
+             * Update reloads times
+             */
+            for (int i = 0; i < reloadTimes.Length; i++)
+            {
+                while (reloads.childCount <= i)
+                {
+                    var go = Instantiate(reloads.GetChild(0).gameObject) as GameObject;
+                    go.transform.SetParent(reloads);
+                    go.transform.SetAsLastSibling();
+                    go.transform.localScale = Vector3.one;
+                    images.Add(go.GetComponent<Image>());
+                }
+                var c = Color.Lerp(Color.green, Color.red, reloadTimes[i] / ShipProperty.ReloadTime);
+                if (reloadTimes[i] <= 0)
+                {
+                    c = Color.blue;
+                }
+                images[i].color = c;
             }
         }
     }
