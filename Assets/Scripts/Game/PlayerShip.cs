@@ -7,6 +7,8 @@ public class PlayerShip : Ship
 {
     HealthBar healthBar;
     new GameObject camera;
+    GameObject background;
+    Vector2 backgroundSize;
 
     protected override void Start()
     {
@@ -21,9 +23,15 @@ public class PlayerShip : Ship
                 camera.name = "PlayerCamera";
                 camera.AddComponent<AudioListener>();
                 camera.AddComponent<Camera>();
+                camera.GetComponent<Camera>().clearFlags = CameraClearFlags.Depth;
                 camera.GetComponent<Camera>().orthographic = true;
                 camera.GetComponent<Camera>().orthographicSize = ShipProperties.GetShip(ShipId).ViewDistance;
                 camera.tag = "MainCamera";
+                background = GameObject.Find("Background");
+                backgroundSize = background.GetComponent<SpriteRenderer>().bounds.extents;
+                var s = camera.GetComponent<Camera>().orthographicSize / background.GetComponent<SpriteRenderer>().bounds.extents.x;
+                background.transform.localScale *= s * 6;
+                backgroundSize *= s / 2;
             }
             rigidbody2D.interpolation = RigidbodyInterpolation2D.Interpolate;
         }
@@ -51,11 +59,12 @@ public class PlayerShip : Ship
             /*
              * Camera position
              */
-            var camPos = camera.transform.position;
-            camPos.x = Mathf.Lerp(camPos.x, transform.position.x, Constants.CameraStabilization);
-            camPos.y = Mathf.Lerp(camPos.y, transform.position.y, Constants.CameraStabilization);
-            camera.transform.position = camPos;
-            camera.transform.rotation = Quaternion.Lerp(camera.transform.rotation, transform.rotation, Constants.CameraStabilization);
+            camera.transform.position = new Vector3(transform.position.x, transform.position.y, camera.transform.position.z);
+            camera.transform.rotation = transform.rotation;
+            /*
+             * Background position
+             */
+            background.transform.position = -new Vector3(backgroundSize.x * transform.position.x / MaxPosX, backgroundSize.y * transform.position.y / MaxPosY, -100) + transform.position;
             /*
              * Fire
              */

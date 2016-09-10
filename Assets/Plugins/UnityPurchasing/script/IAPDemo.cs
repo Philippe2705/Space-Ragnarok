@@ -197,31 +197,31 @@ public class IAPDemo : MonoBehaviour, IStoreListener
 		// iOS stores.
 		// So on the Mac App store our products have different identifiers,
 		// and we tell Unity IAP this by using the IDs class.
-		builder.AddProduct("100.gold.coins", ProductType.Consumable, new IDs
-		{
-			{"100.gold.coins.mac", MacAppStore.Name},
-			{"000000596586", TizenStore.Name},
+		//builder.AddProduct("100.gold.coins", ProductType.Consumable, new IDs
+		//{
+		//	{"100.gold.coins.mac", MacAppStore.Name},
+		//	{"000000596586", TizenStore.Name},
 
-		});
+		//});
 
-		builder.AddProduct("500.gold.coins", ProductType.Consumable, new IDs
-		{
-			{"500.gold.coins.mac", MacAppStore.Name},
-			{"000000596581", TizenStore.Name},
+		//builder.AddProduct("500.gold.coins", ProductType.Consumable, new IDs
+		//{
+		//	{"500.gold.coins.mac", MacAppStore.Name},
+		//	{"000000596581", TizenStore.Name},
 
-		});
+		//});
 
-		builder.AddProduct("sword", ProductType.NonConsumable, new IDs
-		{
-			{"sword.mac", MacAppStore.Name},
-			{"000000596583", TizenStore.Name},
+		//builder.AddProduct("sword", ProductType.NonConsumable, new IDs
+		//{
+		//	{"sword.mac", MacAppStore.Name},
+		//	{"000000596583", TizenStore.Name},
 
-		});
+		//});
 
-		builder.AddProduct("subscription", ProductType.Subscription, new IDs
-		{
-			{"subscription.mac", MacAppStore.Name}
-		});
+		//builder.AddProduct("subscription", ProductType.Subscription, new IDs
+		//{
+		//	{"subscription.mac", MacAppStore.Name}
+		//});
 
 		// Write Amazon's JSON description of our products to storage when using Amazon's local sandbox.
 		// This should be removed from a production build.
@@ -239,7 +239,7 @@ public class IAPDemo : MonoBehaviour, IStoreListener
 
 		// This selects the GroupId that was created in the Tizen Store for this set of products
 		// An empty or non-matching GroupId here will result in no products available for purchase
-		builder.Configure<ITizenStoreConfiguration>().SetGroupId("100000085616");
+		//builder.Configure<ITizenStoreConfiguration>().SetGroupId("100000085616");
 
 
 		#if RECEIPT_VALIDATION

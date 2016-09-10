@@ -14,12 +14,12 @@ public class MinimapSync : MonoBehaviour
 
     public void SearchForPlayers()
     {
-        playerIcon.GetComponent<_2dxFX_Hologram3>()._ColorX = Color.green;
+        playerIcon.GetComponent<Image>().color = Color.green;
         parent = playerIcon.parent;
         enemies = new List<Ship>();
         foreach (var enemyIcon in enemiesIcons)
         {
-            enemyIcon.GetComponent<_2dxFX_Hologram3>()._ColorX = Color.red;
+            enemyIcon.GetComponent<Image>().color = Color.red;
         }
 
         foreach (var playerShip in FindObjectsOfType<PlayerShip>())
@@ -47,7 +47,7 @@ public class MinimapSync : MonoBehaviour
         {
             var go = Instantiate(playerIcon);
             go.transform.SetParent(parent);
-            go.GetComponent<_2dxFX_Hologram3>()._ColorX = Color.red;
+            go.GetComponent<Image>().color = Color.red;
             enemiesIcons.Add(go.GetComponent<RectTransform>());
         }
         for (var i = 0; i < enemies.Count; i++)
@@ -68,7 +68,7 @@ public class MinimapSync : MonoBehaviour
             playerIcon.localScale = player.transform.localScale * 0.15f;
             if (player.IsDead)
             {
-                playerIcon.GetComponent<_2dxFX_Hologram3>()._ColorX = Color.gray;
+                playerIcon.GetComponent<Image>().color = Color.gray;
             }
         }
         if (enemies != null)
@@ -81,7 +81,7 @@ public class MinimapSync : MonoBehaviour
                     var enemyIcon = enemiesIcons[i];
                     if (enemy.IsDead)
                     {
-                        enemyIcon.GetComponent<_2dxFX_Hologram3>()._ColorX = Color.gray;
+                        enemyIcon.GetComponent<Image>().color = Color.gray;
                     }
                     enemyIcon.localPosition = enemy.transform.position * 2;
                     enemyIcon.localRotation = enemy.transform.rotation;

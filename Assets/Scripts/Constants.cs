@@ -13,8 +13,6 @@
 
     public const float TimeBeforeButtonsScoreBoard = 10;
 
-    public const float CameraStabilization = 1;
-
     public const float SmokeDensity = 0.2f;
 
     public const float FireTrigger = 0.1f;

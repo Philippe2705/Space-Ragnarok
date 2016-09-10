@@ -74,7 +74,6 @@ public class Ship : NetworkBehaviour
         {
             FixedUpdateClient();
         }
-        transform.position = new Vector3(Mathf.Clamp(transform.position.x, MinPosX, MaxPosX), Mathf.Clamp(transform.position.y, MinPosY, MaxPosY), transform.position.z);
     }
     [Server]
     protected virtual void FixedUpdateServer()
@@ -92,6 +91,7 @@ public class Ship : NetworkBehaviour
      */
     private void Update()
     {
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, MinPosX, MaxPosX), Mathf.Clamp(transform.position.y, MinPosY, MaxPosY), transform.position.z);
         if (isServer)
         {
             UpdateServer();
@@ -169,6 +169,7 @@ public class Ship : NetworkBehaviour
          * Move ship
          */
         rigidbody2D.velocity = transform.up * Mathf.Max(vertical, ShipProperty.MinSpeed) * ShipProperty.SpeedFactor * ShipProperties.GetBotProperties(BotLevel).SpeedMultiplier;
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, MinPosX, MaxPosX), Mathf.Clamp(transform.position.y, MinPosY, MaxPosY), transform.position.z);
     }
 
     [Command]

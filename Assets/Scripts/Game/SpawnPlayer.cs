@@ -32,5 +32,6 @@ public class SpawnPlayer : NetworkBehaviour
             player.GetComponent<PlayerShip>().Pseudo = Pseudo;
             player.GetComponent<PlayerShip>().ShipId = ShipId;
         }
+        NetworkServer.Destroy(gameObject);
     }
 }
