@@ -50,5 +50,5 @@ Local Game (lan)=Local Game (lan)
 Create Game=Create Game
 List Servers=List Servers
 Game name ...=Game name ...
-Join=Joindre
+Join=Join
 Host Adress...=Host Adress...

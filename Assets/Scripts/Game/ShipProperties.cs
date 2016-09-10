@@ -82,7 +82,7 @@ public static class ShipProperties
                     bulletName = "BulletPuple";
                     bulletDispersion = 10;
                     bulletSpeed = 5;
-                    fireAngleTolerance = 80;
+                    fireAngleTolerance = 30;
                     shipName = "Alien " + shipName;
                     break;
                 case 3:
@@ -108,7 +108,7 @@ public static class ShipProperties
                     bulletName = "BulletOrange";
                     bulletDispersion = 10;
                     bulletSpeed = 3;
-                    fireAngleTolerance = 80;
+                    fireAngleTolerance = 30;
                     shipName = "Cyborg " + shipName;
                     break;
                 case 4:
@@ -140,7 +140,7 @@ public static class ShipProperties
                     shipName = "Asgard " + shipName;
                     break;
                 case 5:
-                    classeArmorFactor *= 0.6f;
+                    classeArmorFactor = 0.6f;
                     classeDomageFactor = 0.4f;
                     classeViewDistanceFactor = 1;
                     switch (shipId % 4)
@@ -165,7 +165,7 @@ public static class ShipProperties
                     bulletName = "BulletRed";
                     bulletDispersion = 30;
                     bulletSpeed = 2;
-                    fireAngleTolerance = 80;
+                    fireAngleTolerance = 30;
                     shipName = "Daleks " + shipName;
                     break;
                 default:
@@ -196,7 +196,7 @@ public static class ShipProperties
                     minSpeed = 0.3f;
                     break;
                 case 2:
-                    speedFactor = 3f;
+                    speedFactor = 4.5f;
                     turnRate = 32f;
                     armor = 5;
                     damage = 14;
@@ -205,7 +205,7 @@ public static class ShipProperties
                     minSpeed = 0.2f;
                     break;
                 case 3:
-                    speedFactor = 2f;
+                    speedFactor = 3.5f;
                     turnRate = 25;
                     armor = 10;
                     damage = 17;

@@ -15,7 +15,7 @@
 
     public const float SmokeDensity = 0.2f;
 
-    public const float FireTrigger = 0.1f;
+    public const float FireTrigger = 0.01f;
 
     public const float TimeBeforeScoreBoardShows = 5f;
 

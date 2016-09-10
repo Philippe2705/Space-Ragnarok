@@ -27,12 +27,12 @@ public class PlayerShip : Ship
                 camera.GetComponent<Camera>().orthographic = true;
                 camera.GetComponent<Camera>().orthographicSize = ShipProperties.GetShip(ShipId).ViewDistance;
                 camera.tag = "MainCamera";
-                background = GameObject.Find("Background");
-                backgroundSize = background.GetComponent<SpriteRenderer>().bounds.extents;
-                var s = camera.GetComponent<Camera>().orthographicSize / background.GetComponent<SpriteRenderer>().bounds.extents.x;
-                background.transform.localScale *= s * 6;
-                backgroundSize *= s / 2;
             }
+            background = GameObject.Find("Background");
+            backgroundSize = background.GetComponent<SpriteRenderer>().bounds.extents;
+            var s = camera.GetComponent<Camera>().orthographicSize / background.GetComponent<SpriteRenderer>().bounds.extents.x;
+            background.transform.localScale *= s * 6;
+            backgroundSize *= s / 2;
             rigidbody2D.interpolation = RigidbodyInterpolation2D.Interpolate;
         }
     }
@@ -45,8 +45,8 @@ public class PlayerShip : Ship
             /*
              * Move
              */
-            float horizontal = -CnInputManager.GetAxis("Horizontal");
-            float vertical = CnInputManager.GetAxis("Vertical");
+            float horizontal = -ETCInput.GetAxis("Horizontal");
+            float vertical = ETCInput.GetAxis("Vertical");
             CmdMove(vertical, horizontal);
         }
     }
@@ -68,7 +68,7 @@ public class PlayerShip : Ship
             /*
              * Fire
              */
-            var fireVector = CnInputManager.GetAxisRaw("HorizontalFire") * Vector2.right + CnInputManager.GetAxisRaw("VerticalFire") * Vector2.up;
+            var fireVector = ETCInput.GetAxis("HorizontalFire") * Vector2.right + ETCInput.GetAxis("VerticalFire") * Vector2.up;
             if (fireVector.magnitude > Constants.FireTrigger)
             {
                 CmdFire(fireVector);
